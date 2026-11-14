@@ -191,7 +191,9 @@ export default function App() {
                 </ul>
               </section>
 
-              <EventSchedule now={now} />
+              <div className="mt-10">
+                <EventSchedule now={now} />
+              </div>
 
               {/* On desktop the map lives in the sidebar. */}
               <section aria-labelledby="map-title" className="mt-10 lg:hidden">
