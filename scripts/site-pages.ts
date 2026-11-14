@@ -129,6 +129,25 @@ export function sitePages(siteUrl: string): Plugin {
         });
       }
 
+      // 404.html: GitHub Pages serves it for any unknown path (old or mistyped spot
+      // ids, links to the previous domain). It loads the normal app at the site
+      // root instead of GitHub's bare 404. <base> keeps the relative asset paths
+      // working from nested paths; the inline script rewrites the address bar to
+      // the home URL before the app reads it. noindex keeps it out of search.
+      const basePath = new URL(base).pathname;
+      this.emitFile({
+        type: 'asset',
+        fileName: '404.html',
+        source: template
+          .replace('<head>', `<head>\n    <base href="${esc(basePath)}" />`)
+          .replace(
+            '</head>',
+            `    <meta name="robots" content="noindex" />\n    <script>history.replaceState(null, '', ${JSON.stringify(
+              basePath,
+            )} + location.search)</script>\n  </head>`,
+          ),
+      });
+
       const urls = [base, ...HOTSPOTS.map((h) => `${base}${h.id}`), `${base}privacy.html`];
       this.emitFile({
         type: 'asset',

@@ -52,7 +52,7 @@ src/
 ├── components/              presentation (BestSpot, RoutePlanner, SpotRow, SpotPage, …)
 ├── types/index.ts           shared domain types
 └── config.ts                env-driven config (GitHub URL, AdSense slots)
-scripts/site-pages.ts        emits <id>.html per spot, sitemap.xml, robots.txt
+scripts/site-pages.ts        emits <id>.html per spot, 404.html, sitemap.xml, robots.txt
 .github/ISSUE_TEMPLATE/      community.yml + hotspot.yml (GitHub issue forms)
 privacy.html                 second Vite entry
 ```
@@ -93,6 +93,9 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   Tests: `lib/favorites.test.ts`.
 - **Share** — `components/ShareSpotButton.tsx`: native Web Share where available, otherwise
   clipboard. Payload = place, coordinates, current local time + UTC offset, URL.
+- **Not-found page** — `scripts/site-pages.ts` emits `404.html` (noindex, `<base>` = site root,
+  rewrites the URL to home) so old ids, typos and redirected links from the previous domain land
+  on the app instead of GitHub's bare 404.
 - **Hotspot suggestions** — `.github/ISSUE_TEMPLATE/hotspot.yml`, linked from the ranking via
   `lib/github.ts`. A maintainer transfers accepted suggestions into `data/hotspots.ts`.
 
