@@ -26,21 +26,25 @@ function readDismissed(): boolean {
  *
  * The close button sits OUTSIDE the ad frame with its own hit area so a tap
  * on "close" can never land on the creative.
+ *
+ * With no publisher id/slot configured, the whole bar is absent — including
+ * the extra bottom padding and the close button.
  */
 export function StickyAnchorAd() {
   const [dismissed, setDismissed] = useState(readDismissed);
   const { t } = useI18n();
   const isDesktop = useMediaQuery(MQ.md);
+  const enabled = Boolean(CONFIG.adsense.client && CONFIG.adsense.slots.anchor);
 
   // Reserve space at the bottom of the page so the anchor never covers content.
   useEffect(() => {
-    if (dismissed || isDesktop) return;
+    if (!enabled || dismissed || isDesktop) return;
     document.body.classList.add('pb-28', 'md:pb-0');
     return () => document.body.classList.remove('pb-28', 'md:pb-0');
-  }, [dismissed, isDesktop]);
+  }, [enabled, dismissed, isDesktop]);
 
-  // Mobile only: on wider screens the sidebar unit is the single sticky ad.
-  if (dismissed || isDesktop) return null;
+  // No ad configured, dismissed, or desktop → nothing at all.
+  if (!enabled || dismissed || isDesktop) return null;
 
   const close = () => {
     setDismissed(true);

@@ -95,7 +95,7 @@ AdSense needs the site on its own domain (ads.txt must be served from the domain
 4. **Apply in AdSense** with the custom domain. `privacy.html` covers the required cookie/ads disclosures.
 5. **Consent** — before serving ads, turn on a Google-certified consent message (AdSense → Privacy & messaging) for EEA/UK/Swiss visitors.
 
-Without `VITE_ADSENSE_CLIENT`, no ad code is loaded and slots render as dashed placeholders.
+Without `VITE_ADSENSE_CLIENT` (or without a slot id), no ad code is loaded and no ad container is rendered at all — dev builds and forks stay ad-free.
 
 Notes:
 - Exactly one sticky unit is ever mounted: the **300×50** bottom anchor below 768px, the **300×250** sidebar unit from 1024px. Breakpoint-specific units are mounted only when visible (AdSense errors on hidden slots).
