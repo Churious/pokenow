@@ -116,6 +116,7 @@ export const en: Messages = {
     source: 'Source on GitHub (MIT)',
     privacy: 'Privacy policy',
     sponsor: 'Sponsor PokeNow',
+    translation: 'Report a translation problem',
   },
   ads: { label: 'Advertisement', short: 'Ad', close: 'Close advertisement' },
   city: {

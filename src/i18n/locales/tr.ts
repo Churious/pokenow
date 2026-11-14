@@ -115,6 +115,7 @@ export const tr: Messages = {
     source: 'GitHub’da kaynak kod (MIT)',
     privacy: 'Gizlilik politikası',
     sponsor: 'PokeNow’a destek ol',
+    translation: 'Çeviri hatası bildir',
   },
   ads: { label: 'Reklam', short: 'Reklam', close: 'Reklamı kapat' },
   city: {

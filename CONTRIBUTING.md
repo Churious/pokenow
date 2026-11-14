@@ -48,6 +48,7 @@ UI text lives in `src/i18n/locales/<code>.ts`, one file per language Pokémon GO
 
 - Use the **official in-game names** for events (Raid Hour, Spotlight Hour) where they exist. Turkish, Thai, Indonesian and Hindi currently keep the English event names; corrections from native speakers are very welcome.
 - Hotspot names (city, spot) stay in English on purpose.
+- Not a coder? Use the **Report a translation problem** link in the site footer — it opens an issue form with your language and page filled in.
 - `npm test` checks that every locale has exactly the same keys as English.
 - Each language is loaded only when it's used. A new language needs a line in `LOADERS` and `LANGUAGE_NAMES` in `src/i18n/index.tsx`.
 

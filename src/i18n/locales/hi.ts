@@ -115,6 +115,7 @@ export const hi: Messages = {
     source: 'GitHub पर सोर्स कोड (MIT)',
     privacy: 'गोपनीयता नीति',
     sponsor: 'PokeNow को सपोर्ट करें',
+    translation: 'अनुवाद की गलती बताएँ',
   },
   ads: { label: 'विज्ञापन', short: 'विज्ञापन', close: 'विज्ञापन बंद करें' },
   city: {
