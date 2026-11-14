@@ -1,22 +1,16 @@
 import { CONFIG } from '../config';
-import { EN, useI18n } from '../i18n';
+import { useI18n } from '../i18n';
 import { Logo } from './Logo';
 import { GitHubMark } from './GitHubMark';
 
 export function Footer() {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   return (
     <footer className="mt-12 border-t border-rule pt-8 pb-10 text-sm text-dim">
       <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
         <div className="max-w-xl space-y-2">
           <Logo />
           <p className="leading-relaxed">{t.footer.disclaimer}</p>
-          {/* The project's required disclaimer is always present in English as well. */}
-          {locale !== 'en' && (
-            <p lang="en" className="text-xs leading-relaxed text-faint">
-              {EN.footer.disclaimer}
-            </p>
-          )}
           <p className="text-xs leading-relaxed text-faint">{t.footer.extra}</p>
         </div>
 
