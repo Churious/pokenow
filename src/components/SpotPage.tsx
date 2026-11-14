@@ -5,6 +5,7 @@ import { formatCoords } from '../lib/geo';
 import { nextGoldenWindow, type EventTiming } from '../lib/events';
 import { homeHref, spotHref } from '../lib/routes';
 import { useI18n } from '../i18n';
+import { CONFIG } from '../config';
 import { CopyCoordsButton } from './CopyCoordsButton';
 import { CrowdGrade, StatusMark } from './StatusBadge';
 import { LazyMap } from './LazyMap';
@@ -106,7 +107,7 @@ export function SpotPage({ spot, ranked, now }: { spot: Hotspot; ranked: ScoredH
           </a>
           {/* Official raid/gym map. Plain text link, no Campfire branding, to avoid implying endorsement. */}
           <a
-            href="https://campfire.nianticlabs.com/"
+            href={CONFIG.campfireUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-ink underline underline-offset-4"
