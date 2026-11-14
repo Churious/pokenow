@@ -28,6 +28,8 @@ Thanks for helping! The most common contribution is **adding or fixing a hotspot
    npm run build   # type-check + production build
    ```
 
+   Optional: `npm run og` renders the link-preview image for the new page into `public/og/` (run `npx playwright install chromium` once first). Without it the page just uses the app icon as its preview.
+
 3. In the PR description, include:
    - the source you used to verify the coordinates (OpenStreetMap / Google Maps link),
    - a short justification for the `popularity` value.
@@ -39,6 +41,7 @@ UI text lives in `src/i18n/locales/<code>.ts`, one file per language Pokémon GO
 - Use the **official in-game names** for events (Raid Hour, Spotlight Hour) where they exist. Turkish, Thai, Indonesian and Hindi currently keep the English event names; corrections from native speakers are very welcome.
 - Hotspot names (city, spot) stay in English on purpose.
 - `npm test` checks that every locale has exactly the same keys as English.
+- Each language is loaded only when it's used. A new language needs a line in `LOADERS` and `LANGUAGE_NAMES` in `src/i18n/index.tsx`.
 
 ## Code changes
 

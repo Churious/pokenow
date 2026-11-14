@@ -1,5 +1,5 @@
 import { CONFIG } from '../config';
-import { LOCALES, useI18n } from '../i18n';
+import { EN, useI18n } from '../i18n';
 import { Logo } from './Logo';
 import { GitHubMark } from './GitHubMark';
 
@@ -14,7 +14,7 @@ export function Footer() {
           {/* The project's required disclaimer is always present in English as well. */}
           {locale !== 'en' && (
             <p lang="en" className="text-xs leading-relaxed text-faint">
-              {LOCALES.en.footer.disclaimer}
+              {EN.footer.disclaimer}
             </p>
           )}
           <p className="text-xs leading-relaxed text-faint">{t.footer.extra}</p>

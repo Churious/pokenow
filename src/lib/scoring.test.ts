@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { HOTSPOTS } from '../data/hotspots';
 import { suggestedCooldownMinutes } from '../data/cooldowns';
 import type { Hotspot } from '../types';
@@ -209,7 +209,8 @@ describe('cooldown / soft-ban aware planning', () => {
 });
 
 import { nextGoldenWindow } from './events';
-import { matchLocale, formatDurationWith, LOCALES } from '../i18n';
+import { matchLocale, formatDurationWith, loadMessages, LOCALE_CODES, LANGUAGE_NAMES, type Locale } from '../i18n';
+import type { Messages } from '../i18n/types';
 import { currentSpot } from './routes';
 
 describe('event countdowns', () => {
@@ -240,6 +241,12 @@ describe('i18n', () => {
     expect(matchLocale('ru')).toBeNull();
   });
 
+  const all = {} as Record<Locale, Messages>;
+  beforeAll(async () => {
+    for (const c of LOCALE_CODES) all[c] = await loadMessages(c);
+  });
+  const LOCALES = all;
+
   it('formats durations per locale', () => {
     expect(formatDurationWith(LOCALES.en, 3 * 3600 + 7 * 60)).toBe('3h 07m');
     expect(formatDurationWith(LOCALES.ko, 3 * 3600 + 7 * 60)).toBe('3시간 07분');
@@ -256,6 +263,13 @@ describe('i18n', () => {
       );
     const en = keys(LOCALES.en).sort();
     for (const [code, msgs] of Object.entries(LOCALES)) expect(keys(msgs).sort(), code).toEqual(en);
+  });
+
+  it('every locale loads its own file, and the picker names match', () => {
+    for (const c of LOCALE_CODES) {
+      if (c !== 'en') expect(all[c], c).not.toBe(all.en);
+      expect(all[c].languageName, c).toBe(LANGUAGE_NAMES[c]);
+    }
   });
 });
 
