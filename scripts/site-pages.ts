@@ -57,11 +57,13 @@ function applyMeta(html: string, m: PageMeta, siteUrl: string): string {
     `<meta property="og:description" content="${esc(m.description)}" />`,
     `<meta property="og:url" content="${esc(m.url)}" />`,
     ...ogImageTags(m, siteUrl),
-    // The summary in #root is for crawlers and no-JS visitors. With JavaScript on,
-    // hide it while the app loads instead of flashing unstyled text; if the app
-    // still hasn't replaced it after 4s (script blocked or failed), show it.
-    `<script>document.documentElement.classList.add('js')</script>`,
-    `<style>.js .prerender{visibility:hidden;animation:prerender-show 0s 4s forwards}@keyframes prerender-show{to{visibility:visible}}</style>`,
+    // The summary in #root is for crawlers and no-JS visitors. It is hidden by CSS
+    // alone while the app loads — no inline script, because CDN optimisers such as
+    // Cloudflare Rocket Loader defer inline scripts and the text then flashed on a
+    // hard refresh. <noscript> shows it at once when JavaScript is off; if the app
+    // still hasn't replaced it after 6s (bundle blocked or failed), it appears.
+    `<style>.prerender{visibility:hidden;animation:prerender-show 0s 6s forwards}@keyframes prerender-show{to{visibility:visible}}</style>`,
+    `<noscript><style>.prerender{visibility:visible;animation:none}</style></noscript>`,
   ].join('\n    ');
 
   return html
