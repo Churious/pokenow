@@ -5,7 +5,7 @@ import { formatCoords } from '../lib/geo';
 import { nextGoldenWindow, type EventTiming } from '../lib/events';
 import { homeHref, spotHref } from '../lib/routes';
 import { useI18n } from '../i18n';
-import { CONFIG } from '../config';
+import { campfireHref } from '../lib/platform';
 import { CopyCoordsButton } from './CopyCoordsButton';
 import { CrowdGrade, StatusMark } from './StatusBadge';
 import { LazyMap } from './LazyMap';
@@ -105,9 +105,9 @@ export function SpotPage({ spot, ranked, now }: { spot: Hotspot; ranked: ScoredH
             {t.city.openOsm}
             <ExternalLink className="size-3.5" aria-hidden />
           </a>
-          {/* Official raid/gym map. Plain text link, no Campfire branding, to avoid implying endorsement. */}
+          {/* Official app: App Store on iOS, Google Play on Android, website elsewhere. Plain text, no branding. */}
           <a
-            href={CONFIG.campfireUrl}
+            href={campfireHref()}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 text-ink underline underline-offset-4"
