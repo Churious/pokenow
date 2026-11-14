@@ -10,8 +10,8 @@ import { useI18n } from '../i18n';
  *    so it can never be mistaken for app content or sit flush against a button.
  *  - Height is reserved up front to avoid layout shift (CLS) pushing buttons under
  *    the user's thumb while an ad loads.
- *  - Without VITE_ADSENSE_CLIENT, nothing is requested from Google; a dashed
- *    placeholder is shown instead so layout can be reviewed in development.
+ *  - Without VITE_ADSENSE_CLIENT (or a slot id), nothing is rendered at all:
+ *    dev builds and forks stay completely ad-free.
  */
 
 const SCRIPT_ID = 'adsbygoogle-js';
@@ -70,6 +70,9 @@ export function AdBanner({ slot, variant = 'display', layoutKey, className = '',
     }
   }, [enabled, client]);
 
+  // No publisher id / slot id → render nothing, not a placeholder.
+  if (!enabled) return null;
+
   const insProps: Record<string, string> =
     variant === 'in-feed'
       ? { 'data-ad-format': 'fluid', ...(layoutKey ? { 'data-ad-layout-key': layoutKey } : {}) }
@@ -83,33 +86,19 @@ export function AdBanner({ slot, variant = 'display', layoutKey, className = '',
         <p className="mb-1 text-xs text-faint">{t.ads.label}</p>
       )}
       <div className={`flex w-full items-center justify-center overflow-hidden ${RESERVED_HEIGHT[variant]}`}>
-        {enabled ? (
-          <ins
-            className="adsbygoogle"
-            style={
-              variant === 'anchor'
-                ? { display: 'inline-block', width: 300, height: 50 }
-                : variant === 'sidebar'
-                  ? { display: 'inline-block', width: 300, height: 250 }
-                  : { display: 'block', width: '100%' }
-            }
-            data-ad-client={client}
-            data-ad-slot={slot}
-            {...insProps}
-          />
-        ) : (
-          <div
-            className={`flex w-full items-center justify-center rounded-md border border-dashed border-rule text-xs text-faint ${
-              variant === 'anchor'
-                ? 'h-[50px] max-w-[300px]'
-                : variant === 'sidebar'
-                  ? 'h-[250px] max-w-[300px]'
-                  : 'h-full min-h-[inherit]'
-            }`}
-          >
-            Ad slot ({variant})
-          </div>
-        )}
+        <ins
+          className="adsbygoogle"
+          style={
+            variant === 'anchor'
+              ? { display: 'inline-block', width: 300, height: 50 }
+              : variant === 'sidebar'
+                ? { display: 'inline-block', width: 300, height: 250 }
+                : { display: 'block', width: '100%' }
+          }
+          data-ad-client={client}
+          data-ad-slot={slot}
+          {...insProps}
+        />
       </div>
     </aside>
   );
