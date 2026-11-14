@@ -110,7 +110,7 @@ export const ja: Messages = {
       'PokeNowは世界のレイド時間帯を確認し、リモートレイドを調整するためのファンメイドツールです。Scopely、任天堂およびThe Pokémon Companyとは関係ありません。',
     extra:
       'Pokémon GOは現在Scopelyが運営しています。Pokémonおよび関連する名称は各権利者の商標です。PokeNowは位置情報を変更するツールを提供・推奨しません。ゲームの利用規約を守ってプレイしてください。イベント時間は現地時刻の慣例で、変更される場合があります。公式のお知らせを確認してください。',
-    source: 'GitHubのソース(MIT)',
+    source: 'GitHubのソース',
     privacy: 'プライバシーポリシー',
     sponsor: 'PokeNowを支援する',
     translation: '翻訳の誤りを報告',

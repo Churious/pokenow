@@ -110,7 +110,7 @@ export const es: Messages = {
       'PokeNow es una herramienta hecha por fans para seguir los horarios de incursiones en el mundo y coordinar incursiones a distancia. No está afiliada a Scopely, Nintendo ni The Pokémon Company.',
     extra:
       'Pokémon GO está operado actualmente por Scopely. Pokémon y los nombres relacionados son marcas de sus respectivos titulares. PokeNow no ofrece ni recomienda herramientas para cambiar de ubicación; juega respetando los Términos de servicio. Los horarios de eventos siguen la hora local y pueden cambiar, así que consulta los anuncios oficiales.',
-    source: 'Código fuente en GitHub (MIT)',
+    source: 'Código fuente en GitHub',
     privacy: 'Política de privacidad',
     sponsor: 'Apoya a PokeNow',
     translation: 'Informar de un problema de traducción',

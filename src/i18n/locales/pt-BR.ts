@@ -110,7 +110,7 @@ export const ptBR: Messages = {
       'O PokeNow é uma ferramenta feita por fãs para acompanhar os horários de reides no mundo e coordenar reides remotas. Não é afiliado à Scopely, à Nintendo nem à The Pokémon Company.',
     extra:
       'O Pokémon GO é atualmente operado pela Scopely. Pokémon e os nomes relacionados são marcas de seus respectivos donos. O PokeNow não oferece nem recomenda ferramentas de mudança de localização; jogue respeitando os Termos de Serviço. Os horários de eventos seguem o horário local e podem mudar, então confira os anúncios oficiais.',
-    source: 'Código-fonte no GitHub (MIT)',
+    source: 'Código-fonte no GitHub',
     privacy: 'Política de privacidade',
     sponsor: 'Apoie o PokeNow',
     translation: 'Relatar um problema de tradução',

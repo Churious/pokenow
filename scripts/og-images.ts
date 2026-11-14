@@ -68,7 +68,7 @@ const jobs: { file: string; html: string }[] = [
     html: page(
       'Best raid spot,\nright now',
       `Live local times and Raid Hour countdowns for ${HOTSPOTS.length} hotspots worldwide`,
-      'Free and open source. Not affiliated with Scopely, Nintendo or The Pokémon Company.',
+      'Free, fan-made. Not affiliated with Scopely, Nintendo or The Pokémon Company.',
     ),
   },
   ...HOTSPOTS.map((h) => ({
