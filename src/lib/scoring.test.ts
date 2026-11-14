@@ -207,3 +207,61 @@ describe('cooldown / soft-ban aware planning', () => {
     expect(s.plan.arrivalTier).toBe('upcoming');
   });
 });
+
+import { nextGoldenWindow } from './events';
+import { matchLocale, formatDurationWith, LOCALES } from '../i18n';
+import { currentSpot } from './routes';
+
+describe('event countdowns', () => {
+  const clock = (weekday: number, h: number, m = 0) => ({ hour: h, minute: m, second: 0, weekday, secondsOfDay: h * 3600 + m * 60 });
+
+  it('golden hour: later today, tomorrow, or live', () => {
+    expect(nextGoldenWindow(clock(1, 17), null)).toEqual({ live: false, secondsUntil: 3600 });
+    expect(nextGoldenWindow(clock(1, 18, 30), null)).toEqual({ live: true, secondsLeft: 1800 });
+    expect(nextGoldenWindow(clock(1, 19), null)).toEqual({ live: false, secondsUntil: 23 * 3600 });
+  });
+
+  it('Raid Hour (Wednesday): this week, next week, or live', () => {
+    expect(nextGoldenWindow(clock(1, 18), 3)).toEqual({ live: false, secondsUntil: 2 * 86400 });
+    expect(nextGoldenWindow(clock(3, 18, 15), 3)).toEqual({ live: true, secondsLeft: 45 * 60 });
+    expect(nextGoldenWindow(clock(3, 20), 3)).toEqual({ live: false, secondsUntil: 7 * 86400 - 2 * 3600 });
+  });
+});
+
+describe('i18n', () => {
+  it('matches browser languages to supported locales', () => {
+    expect(matchLocale('ko-KR')).toBe('ko');
+    expect(matchLocale('pt-PT')).toBe('pt-BR');
+    expect(matchLocale('zh-HK')).toBe('zh-TW');
+    expect(matchLocale('zh-CN')).toBeNull();
+    expect(matchLocale('es-419')).toBe('es');
+    expect(matchLocale('ru')).toBeNull();
+  });
+
+  it('formats durations per locale', () => {
+    expect(formatDurationWith(LOCALES.en, 3 * 3600 + 7 * 60)).toBe('3h 07m');
+    expect(formatDurationWith(LOCALES.ko, 3 * 3600 + 7 * 60)).toBe('3시간 07분');
+    expect(formatDurationWith(LOCALES.ja, 3 * 3600 + 7 * 60)).toBe('3時間07分');
+    expect(formatDurationWith(LOCALES.de, 125)).toBe('2 Min. 05 Sek.');
+    expect(formatDurationWith(LOCALES.en, 103 * 3600 + 22 * 60)).toBe('4d 07h');
+    expect(formatDurationWith(LOCALES.ko, 30 * 3600)).toBe('1일 06시간');
+  });
+
+  it('every locale has the same keys as English', () => {
+    const keys = (o: object, p = ''): string[] =>
+      Object.entries(o).flatMap(([k, v]) =>
+        v && typeof v === 'object' && !Array.isArray(v) ? keys(v, `${p}${k}.`) : [`${p}${k}`],
+      );
+    const en = keys(LOCALES.en).sort();
+    for (const [code, msgs] of Object.entries(LOCALES)) expect(keys(msgs).sort(), code).toEqual(en);
+  });
+});
+
+describe('routes', () => {
+  it('finds the spot from the path, with or without .html', () => {
+    expect(currentSpot('/pokespot/tokyo-shinjuku')?.city).toBe('Tokyo');
+    expect(currentSpot('/tokyo-shinjuku.html')?.city).toBe('Tokyo');
+    expect(currentSpot('/pokespot/')).toBeNull();
+    expect(currentSpot('/pokespot/privacy.html')).toBeNull();
+  });
+});

@@ -32,6 +32,14 @@ Thanks for helping! The most common contribution is **adding or fixing a hotspot
    - the source you used to verify the coordinates (OpenStreetMap / Google Maps link),
    - a short justification for the `popularity` value.
 
+## Translations
+
+UI text lives in `src/i18n/locales/<code>.ts`, one file per language Pokémon GO supports. English (`en.ts`) is the source; TypeScript fails the build if any key is missing.
+
+- Use the **official in-game names** for events (Raid Hour, Spotlight Hour) where they exist. Turkish, Thai, Indonesian and Hindi currently keep the English event names; corrections from native speakers are very welcome.
+- Hotspot names (city, spot) stay in English on purpose.
+- `npm test` checks that every locale has exactly the same keys as English.
+
 ## Code changes
 
 - Keep business logic pure and in `src/lib/` (no React imports) so it stays testable.

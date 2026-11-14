@@ -15,6 +15,10 @@ PokeSpot checks the live local time of 15+ community-curated hotspots worldwide 
 - **Cooldown & soft-ban aware ranking**: tell PokeSpot where and when you last caught/spun/raided, and every spot shows its distance and remaining wait. Spots are ranked by the raid window they'll be in *when you can safely play there*. After 2 hours without an action, everything is free again.
 - 24-hour dial: every hotspot plotted at its local time, golden hour and peak window highlighted
 - Cooldown reference table (unofficial community values, rounded up to the safer side)
+- **13 languages**, the ones Pokémon GO itself supports: English, French, German, Italian, Spanish, Portuguese (Brazil), Turkish, Indonesian, Korean, Japanese, Traditional Chinese, Thai, Hindi. Auto-detected from the browser, switchable in the header.
+- **A page per hotspot** (`/<id>`): live clock, next golden hour / Raid Hour / Spotlight Hour countdowns, map, Google Maps & OpenStreetMap links. Each page has its own title, description and Open Graph tags, plus a sitemap.
+- **Installable app (PWA)** with an offline app shell
+- **Maps** (Leaflet + OpenStreetMap, lazy-loaded). PokéStop / Gym locations are intentionally not shown: there's no official public data for them.
 - Mobile-first dark UI, AdSense-ready slots with policy-minded spacing
 
 ## Recommendation algorithm
@@ -52,6 +56,10 @@ src/
 │   ├── scoring.ts       ← pure ranking engine
 │   ├── geo.ts           ← haversine + coordinate formatting
 │   └── scoring.test.ts
+├── i18n/
+│   ├── types.ts         ← translation contract (every key typed)
+│   ├── index.tsx        ← provider, detection, duration/number formatting
+│   └── locales/*.ts     ← one file per language
 ├── hooks/
 │   ├── useNow.ts        ← 1s ticker aligned to the second
 │   └── useTravelState.ts← last action location/time (localStorage)
@@ -60,12 +68,14 @@ src/
 ├── config.ts            ← env-driven config
 └── App.tsx
 privacy.html             ← privacy policy (second Vite entry)
+scripts/site-pages.ts    ← build plugin: per-hotspot HTML pages, sitemap.xml, robots.txt
 ```
 
 ## AdSense setup
 
 AdSense needs the site on its own domain (ads.txt must be served from the domain root), so connect a custom domain first.
 
+0. **Site URL** — set the repository variable `VITE_SITE_URL` (e.g. `https://pokespot.example.com/`) so canonical links and the sitemap use your domain.
 1. **Custom domain** — Settings → Pages → Custom domain, then add the DNS records GitHub shows. The build uses relative paths, so no code change is needed.
 2. **Repository variables** — Settings → Secrets and variables → Actions → *Variables*:
    - `VITE_ADSENSE_CLIENT` = `ca-pub-…` (your publisher id)

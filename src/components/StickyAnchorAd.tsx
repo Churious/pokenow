@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { AdBanner } from './AdBanner';
 import { CONFIG } from '../config';
+import { useI18n } from '../i18n';
 
 const STORAGE_KEY = 'pokespot:anchor-dismissed';
 
@@ -27,6 +28,7 @@ function readDismissed(): boolean {
  */
 export function StickyAnchorAd() {
   const [dismissed, setDismissed] = useState(readDismissed);
+  const { t } = useI18n();
 
   // Reserve space at the bottom of the page so the anchor never covers content.
   useEffect(() => {
@@ -53,12 +55,12 @@ export function StickyAnchorAd() {
         <button
           type="button"
           onClick={close}
-          aria-label="Close advertisement"
+          aria-label={t.ads.close}
           className="absolute top-1/2 right-1 grid size-10 -translate-y-1/2 place-items-center rounded-full text-dim hover:text-ink"
         >
           <X className="size-4" aria-hidden />
         </button>
-        <span className="absolute top-1/2 left-3 -translate-y-1/2 text-xs text-faint">Ad</span>
+        <span className="absolute top-1/2 left-3 -translate-y-1/2 text-xs text-faint">{t.ads.short}</span>
       </div>
     </div>
   );

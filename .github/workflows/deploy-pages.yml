@@ -29,7 +29,8 @@ jobs:
       - run: npm test
       - run: npm run build
         env:
-          # Optional: set these as repository variables to turn on real ads.
+          # Optional repository variables.
+          VITE_SITE_URL: ${{ vars.VITE_SITE_URL }}
           VITE_ADSENSE_CLIENT: ${{ vars.VITE_ADSENSE_CLIENT }}
           VITE_AD_SLOT_TOP: ${{ vars.VITE_AD_SLOT_TOP }}
           VITE_AD_SLOT_INFEED: ${{ vars.VITE_AD_SLOT_INFEED }}

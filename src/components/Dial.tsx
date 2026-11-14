@@ -26,11 +26,13 @@ function arc(startSec: number, endSec: number, r: number): string {
 
 interface Props {
   ranked: ScoredHotspot[];
+  /** Accessible description (translated). */
+  label: string;
   /** id of the recommended spot (highlighted). */
   bestId: string;
 }
 
-export function Dial({ ranked, bestId }: Props) {
+export function Dial({ ranked, bestId, label }: Props) {
   // Stack spots that share (nearly) the same local time inward so none overlap.
   const stacks = new Map<number, number>();
   const dots = ranked.map((s) => {
@@ -48,7 +50,7 @@ export function Dial({ ranked, bestId }: Props) {
       viewBox={`0 0 ${SIZE} ${SIZE}`}
       className="h-auto w-full max-w-[340px]"
       role="img"
-      aria-label="24-hour dial showing the local time of every hotspot"
+      aria-label={label}
     >
       {/* track */}
       <circle cx={C} cy={C} r={R} fill="none" stroke="var(--color-rule)" strokeWidth={1} />
