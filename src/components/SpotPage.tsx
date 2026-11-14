@@ -9,6 +9,7 @@ import { useI18n } from '../i18n';
 import { campfireHref } from '../lib/platform';
 import { CopyCoordsButton } from './CopyCoordsButton';
 import { FavoriteButton } from './FavoriteButton';
+import { ShareSpotButton } from './ShareSpotButton';
 import { StatusMark } from './StatusBadge';
 import { LazyMap } from './LazyMap';
 import { CommunityList } from './CommunityList';
@@ -77,6 +78,7 @@ export function SpotPage({
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <code className="font-sans text-lg font-semibold text-ink select-all">{formatCoords(spot)}</code>
             <CopyCoordsButton hotspot={spot} tone="primary" />
+            <ShareSpotButton hotspot={spot} clock={clock} now={now} />
             <FavoriteButton
               hotspotId={spot.id}
               pinned={favorites.has(spot.id)}

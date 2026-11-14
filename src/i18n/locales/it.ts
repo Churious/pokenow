@@ -83,6 +83,12 @@ export const it: Messages = {
     pinned: 'Fissata',
     hint: 'Le tappe fissate restano in cima all’elenco.',
   },
+  share: {
+    button: 'Condividi',
+    copied: 'Coordinate, ora locale e link copiati',
+    failed: 'Condivisione o copia non riuscite. Tieni premuto sulle coordinate per copiarle.',
+    text: (place, coords, time, url) => `${place}\n${coords}\nOra locale: ${time}\n${url}`,
+  },
   how: {
     title: 'Come PokeSpot sceglie un posto',
     p1: 'I raid sono più affollati quando i giocatori locali sono liberi. PokeSpot legge l’ora locale di ogni posto dai dati dei fusi orari integrati nel browser, quindi il cambio dell’ora legale è gestito automaticamente.',

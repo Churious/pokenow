@@ -83,6 +83,12 @@ export const ja: Messages = {
     pinned: 'ピン留め済み',
     hint: 'ピン留めしたスポットはリストの先頭に表示されます。',
   },
+  share: {
+    button: '共有',
+    copied: '座標・現地時刻・リンクをコピーしました',
+    failed: '共有またはコピーできませんでした。座標を長押ししてコピーしてください。',
+    text: (place, coords, time, url) => `${place}\n${coords}\n現地時刻: ${time}\n${url}`,
+  },
   how: {
     title: 'PokeSpotのスポットの選び方',
     p1: 'レイドは地元のプレイヤーに時間があるときに最も混み合います。PokeSpotはブラウザ内蔵のタイムゾーンデータから各スポットの現地時刻を読み取るため、サマータイムも自動で反映されます。',

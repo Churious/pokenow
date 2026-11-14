@@ -83,6 +83,12 @@ export const de: Messages = {
     pinned: 'Angeheftet',
     hint: 'Angeheftete Spots bleiben oben in der Liste.',
   },
+  share: {
+    button: 'Teilen',
+    copied: 'Koordinaten, Ortszeit und Link kopiert',
+    failed: 'Teilen oder Kopieren fehlgeschlagen. Koordinaten lange drücken zum Kopieren.',
+    text: (place, coords, time, url) => `${place}\n${coords}\nOrtszeit: ${time}\n${url}`,
+  },
   how: {
     title: 'Wie PokeSpot einen Spot auswählt',
     p1: 'Raids sind am vollsten, wenn die Spieler vor Ort Zeit haben. PokeSpot liest die Ortszeit jedes Spots aus den Zeitzonendaten deines Browsers, Sommer- und Winterzeit werden also automatisch berücksichtigt.',
