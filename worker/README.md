@@ -1,7 +1,8 @@
 # Report Worker
 
-Lets visitors **without a GitHub account** report a translation problem or suggest a hotspot from the
-site. Each report becomes a public GitHub issue (labels `translation` / `hotspot-suggestion`).
+Lets visitors **without a GitHub account** report a translation problem, suggest a hotspot or list a raid
+community from the site. Each report becomes a public GitHub issue (labels `translation` / `hotspot-suggestion` /
+`community-listing`).
 
 ```
 site form ──▶ Cloudflare Turnstile (spam check) ──▶ this Worker ──▶ GitHub issue

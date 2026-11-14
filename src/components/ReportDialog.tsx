@@ -1,10 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
-import { Plus, X } from 'lucide-react';
+import { ChevronDown, Plus, X } from 'lucide-react';
 import { CONFIG, REPORTS_ENABLED } from '../config';
 import { issueTemplateUrl } from '../lib/github';
 import { LANGUAGE_NAMES, useI18n } from '../i18n';
 
-export type ReportKind = 'translation' | 'hotspot';
+export type ReportKind = 'translation' | 'hotspot' | 'community';
+
+/** Same options as .github/ISSUE_TEMPLATE/community.yml and PLATFORMS in worker/report-worker.js. */
+const PLATFORMS = ['Discord', 'KakaoTalk Open Chat', 'LINE', 'Telegram', 'WhatsApp', 'Other'] as const;
 
 type TurnstileApi = {
   render: (el: HTMLElement, opts: Record<string, unknown>) => string;
@@ -47,9 +50,10 @@ const ReportContext = createContext<(kind: ReportKind) => void>(() => {});
 
 /** GitHub issue form for the same report (people with an account, or reports not configured). */
 function githubFormUrl(kind: ReportKind, locale: string): string {
-  return kind === 'translation'
-    ? issueTemplateUrl('translation.yml', { language: locale, page: window.location.href.split('#')[0] })
-    : issueTemplateUrl('hotspot.yml');
+  if (kind === 'translation') {
+    return issueTemplateUrl('translation.yml', { language: locale, page: window.location.href.split('#')[0] });
+  }
+  return issueTemplateUrl(kind === 'community' ? 'community.yml' : 'hotspot.yml');
 }
 
 /**
@@ -160,7 +164,7 @@ export function ReportProvider({ children }: { children: ReactNode }) {
     const body =
       kind === 'translation'
         ? { ...data, type: 'translation', language: locale, page: window.location.href.split('#')[0] }
-        : { ...data, type: 'hotspot' };
+        : { ...data, type: kind };
     try {
       const r = await fetch(`${CONFIG.report.url.replace(/\/$/, '')}/report`, {
         method: 'POST',
@@ -181,7 +185,9 @@ export function ReportProvider({ children }: { children: ReactNode }) {
               ? t.report.errors.coords
               : err === 'too_long'
                 ? t.report.errors.tooLong
-                : t.report.errors.generic;
+                : err === 'bad_url'
+                  ? t.report.errors.url
+                  : t.report.errors.generic;
       setStatus({ phase: 'error', message: msg });
     } catch {
       setStatus({ phase: 'error', message: t.report.errors.network });
@@ -206,7 +212,11 @@ export function ReportProvider({ children }: { children: ReactNode }) {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 id="report-title" className="condensed text-3xl leading-none font-bold">
-                    {kind === 'translation' ? t.report.translationTitle : t.report.hotspotTitle}
+                    {kind === 'translation'
+                      ? t.report.translationTitle
+                      : kind === 'community'
+                        ? t.report.communityTitle
+                        : t.report.hotspotTitle}
                   </h2>
                   {kind === 'translation' && <p className="mt-1.5 text-sm text-dim">{LANGUAGE_NAMES[locale]}</p>}
                 </div>
@@ -248,6 +258,73 @@ export function ReportProvider({ children }: { children: ReactNode }) {
                         <textarea name="suggestion" required maxLength={1000} rows={2} className={input} />
                       </label>
                     </>
+                  ) : kind === 'community' ? (
+                    <>
+                      <label className={fieldLabel}>
+                        {t.report.communityName}
+                        <input name="name" required maxLength={120} className={input} />
+                      </label>
+                      <div className="grid grid-cols-[3fr_2fr] gap-4">
+                        <label className={fieldLabel}>
+                          {t.report.platform}
+                          <span className="relative block">
+                            <select
+                              name="platform"
+                              required
+                              defaultValue="Discord"
+                              className={`${input} cursor-pointer appearance-none truncate pr-6`}
+                            >
+                              {PLATFORMS.map((p) => (
+                                <option key={p} value={p} className="bg-night">
+                                  {p === 'Other' ? t.community.other : p}
+                                </option>
+                              ))}
+                            </select>
+                            <ChevronDown
+                              className="pointer-events-none absolute top-1/2 right-0 size-4 -translate-y-1/2 text-faint"
+                              aria-hidden
+                            />
+                          </span>
+                        </label>
+                        <label className={fieldLabel}>
+                          {t.report.languages}
+                          <input name="languages" required maxLength={120} placeholder={t.report.languagesHint} className={input} />
+                        </label>
+                      </div>
+                      <label className={fieldLabel}>
+                        {t.report.inviteUrl}
+                        <input
+                          name="url"
+                          type="url"
+                          required
+                          maxLength={300}
+                          inputMode="url"
+                          placeholder="https://discord.gg/…"
+                          className={input}
+                        />
+                        <span className="mt-1 block text-xs text-faint">{t.report.inviteHint}</span>
+                      </label>
+                      <label className={fieldLabel}>
+                        {t.report.communityHotspots}
+                        <input
+                          name="hotspots"
+                          required
+                          maxLength={120}
+                          placeholder={t.report.communityHotspotsHint}
+                          className={input}
+                        />
+                      </label>
+                      <div className="space-y-2 pt-1">
+                        <label className="flex items-start gap-2.5 text-sm text-dim">
+                          <input type="checkbox" name="ruleNoCheat" required className="mt-0.5 size-4 shrink-0 accent-gold" />
+                          {t.report.ruleNoCheat}
+                        </label>
+                        <label className="flex items-start gap-2.5 text-sm text-dim">
+                          <input type="checkbox" name="ruleAdmin" required className="mt-0.5 size-4 shrink-0 accent-gold" />
+                          {t.report.ruleAdmin}
+                        </label>
+                      </div>
+                    </>
                   ) : (
                     <>
                       <div className="grid grid-cols-[2fr_3fr] gap-4">
@@ -280,10 +357,14 @@ export function ReportProvider({ children }: { children: ReactNode }) {
 
                   {noteOpen ? (
                     <label className={fieldLabel}>
-                      {kind === 'translation' ? t.report.notes : t.report.note}
+                      {kind === 'translation'
+                        ? t.report.notes
+                        : kind === 'community'
+                          ? t.report.description
+                          : t.report.note}
                       <textarea
-                        name={kind === 'translation' ? 'notes' : 'note'}
-                        maxLength={1000}
+                        name={kind === 'translation' ? 'notes' : kind === 'community' ? 'description' : 'note'}
+                        maxLength={kind === 'community' ? 300 : 1000}
                         rows={2}
                         autoFocus
                         className={input}

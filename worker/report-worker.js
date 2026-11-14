@@ -1,8 +1,8 @@
 /**
  * PokeNow report Worker (Cloudflare Workers, module syntax, no build step).
  *
- * Lets visitors without a GitHub account send a translation problem or a
- * hotspot suggestion from the site. Each report becomes a GitHub issue in the
+ * Lets visitors without a GitHub account send a translation problem, a
+ * hotspot suggestion or a community listing request from the site. Each report becomes a GitHub issue in the
  * PokeNow repository, so the maintainer reviews everything in one place.
  *
  *   browser form ──POST /report──▶ this Worker ──▶ Turnstile check ──▶ GitHub issue
@@ -23,6 +23,8 @@ export const LIMITS = { short: 120, long: 1000 };
 
 const LOCALES = ['en', 'fr', 'de', 'it', 'es', 'es-419', 'pt-BR', 'tr', 'id', 'ko', 'ja', 'zh-TW', 'th', 'hi'];
 const REGIONS = ['Asia-Pacific', 'Europe & Middle East', 'Americas'];
+/** Same options as .github/ISSUE_TEMPLATE/community.yml. */
+export const PLATFORMS = ['Discord', 'KakaoTalk Open Chat', 'LINE', 'Telegram', 'WhatsApp', 'Other'];
 
 const str = (v) => (typeof v === 'string' ? v.trim() : '');
 
@@ -119,6 +121,69 @@ export function buildIssue(input) {
         ...(note ? ['**Note**', fence(note)] : []),
         '',
         '_Maintainer: check the coordinates and source before adding it to `src/data/hotspots.ts`._',
+      ].join('\n'),
+    };
+  }
+
+  if (input.type === 'community') {
+    const name = str(input.name);
+    const platform = str(input.platform);
+    const url = str(input.url);
+    const hotspots = str(input.hotspots);
+    const languages = str(input.languages);
+    const description = str(input.description);
+    if (!name || !platform || !url || !hotspots || !languages) return { error: 'missing_fields' };
+    // Both rule checkboxes must be ticked ("on" from a form, or true).
+    const ticked = (v) => v === true || v === 'on';
+    if (!ticked(input.ruleNoCheat) || !ticked(input.ruleAdmin)) return { error: 'missing_fields' };
+    if (!PLATFORMS.includes(platform)) return { error: 'bad_request' };
+    if ([name, hotspots, languages].some((v) => tooLong(v, LIMITS.short)) || tooLong(url, 300) || tooLong(description, 300)) {
+      return { error: 'too_long' };
+    }
+    let parsed;
+    try {
+      parsed = new URL(url);
+    } catch {
+      return { error: 'bad_url' };
+    }
+    if (parsed.protocol !== 'https:' || /\s/.test(url)) return { error: 'bad_url' };
+    // Headings match the GitHub issue form, so scripts/review-issue.mjs reads both the same way.
+    return {
+      title: `[Community] ${titleSafe(name, 60)}`,
+      labels: ['community-listing'],
+      body: [
+        '_Sent from the PokeNow site form (no GitHub account)._',
+        '',
+        '### Community name',
+        '',
+        fence(name),
+        '',
+        '### Platform',
+        '',
+        platform,
+        '',
+        '### Public invite link',
+        '',
+        fence(url),
+        '',
+        '### Which PokeNow hotspot(s)?',
+        '',
+        fence(hotspots),
+        '',
+        '### Main language(s)',
+        '',
+        fence(languages),
+        '',
+        '### One-line description (optional)',
+        '',
+        description ? fence(description) : '_No response_',
+        '',
+        '### Community rules',
+        '',
+        '- [x] Our community does not allow spoofing, account trading, bots or cheat tools.',
+        "- [x] I'm an admin of this community or have its admins' permission to list it.",
+        '',
+        '_Maintainer: open the link and check the community before adding it to `src/data/communities.ts`._',
       ].join('\n'),
     };
   }

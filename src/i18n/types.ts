@@ -249,13 +249,25 @@ export interface Messages {
     note: string;
     /** Reveals the optional note field. */
     addNote: string;
+    communityTitle: string;
+    communityName: string;
+    platform: string;
+    inviteUrl: string;
+    inviteHint: string;
+    communityHotspots: string;
+    communityHotspotsHint: string;
+    languages: string;
+    languagesHint: string;
+    description: string;
+    ruleNoCheat: string;
+    ruleAdmin: string;
     send: string;
     sending: string;
     sentTitle: string;
     sentBody: string;
     close: string;
     githubAlt: string;
-    errors: { captcha: string; missing: string; coords: string; tooLong: string; network: string; generic: string };
+    errors: { captcha: string; missing: string; coords: string; tooLong: string; network: string; generic: string; url: string };
   };
   /** Polite request shown to visitors with an ad blocker (components/SupportNote.tsx). */
   support: {

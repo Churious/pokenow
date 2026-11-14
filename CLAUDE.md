@@ -124,11 +124,12 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   rewrites the URL to home) so old ids, typos and redirected links from the previous domain land
   on the app instead of GitHub's bare 404.
 - **Reports without a GitHub account** — `components/ReportDialog.tsx` (`ReportProvider` + `ReportLink`)
-  opens an in-site form for translation problems and hotspot suggestions; Turnstile is loaded only
+  opens an in-site form for translation problems, hotspot suggestions and community listings; Turnstile is loaded only
   when a form opens. It posts to `worker/report-worker.js`, which checks origin + Turnstile + limits
   and opens a GitHub issue (visitor text fenced so it can't @mention or inject markup). Enabled only
   when `VITE_REPORT_URL` and `VITE_TURNSTILE_SITEKEY` are set; otherwise `ReportLink` falls back to the
-  GitHub issue forms (`hotspot.yml`, `translation.yml`). Worker tests: `worker/report-worker.test.js`.
+  GitHub issue forms (`hotspot.yml`, `translation.yml`, `community.yml`). Community issues use the same `### Heading`
+  layout as the GitHub form (values fenced) so `scripts/review-issue.mjs` reads both. Worker tests: `worker/report-worker.test.js`.
 - **Hotspot suggestions** — accepted suggestions are copied by a maintainer into `data/hotspots.ts`.
 - **Ad-blocker note** — `components/SupportNote.tsx` + `hooks/useAdBlocked.ts` + `lib/adblock.ts`. Only with AdSense
   configured: the loader tag's onload/onerror (set in vite.config.ts), a failed request for the loader, or a hidden

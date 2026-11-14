@@ -28,7 +28,10 @@ export function parseLanguage(body) {
 /** GitHub issue-form answer for a heading ("### Public invite link\n\nhttps://…"). */
 export function formField(body, label) {
   const re = new RegExp(`###\\s*${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*\\n+([\\s\\S]*?)(?=\\n###\\s|$)`);
-  const v = String(body).match(re)?.[1].trim() ?? '';
+  let v = String(body).match(re)?.[1].trim() ?? '';
+  // Site-form issues fence visitor text: ```text\n…\n```
+  const fenced = v.match(/^```[a-z]*\n([\s\S]*?)\n```/);
+  if (fenced) v = fenced[1].trim();
   return v === '_No response_' ? '' : v;
 }
 

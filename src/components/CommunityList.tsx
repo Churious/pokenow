@@ -1,9 +1,8 @@
 import { ExternalLink, Plus } from 'lucide-react';
 import { communitiesFor, type Community } from '../data/communities';
-import { issueTemplateUrl } from '../lib/github';
+import { ReportLink } from './ReportDialog';
 import { useI18n } from '../i18n';
 
-const ISSUE_URL = issueTemplateUrl('community.yml');
 
 function platformLabel(c: Community, kakao: string, other: string): string {
   switch (c.platform) {
@@ -75,15 +74,13 @@ export function CommunityList({ hotspotId, compact = false }: { hotspotId: strin
         <p className="mt-3 text-sm text-dim">{t.community.empty}</p>
       )}
 
-      <a
-        href={ISSUE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
+      <ReportLink
+        kind="community"
         className="mt-3 inline-flex h-10 items-center gap-1.5 rounded-md bg-ink px-3 text-sm font-semibold text-night hover:bg-white"
       >
         <Plus className="size-4" aria-hidden />
         {t.community.add}
-      </a>
+      </ReportLink>
       <p className="mt-2 text-xs text-faint">{t.community.rules}</p>
     </section>
   );
