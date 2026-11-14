@@ -138,7 +138,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <ul className="md:grid md:grid-cols-2 md:gap-x-10 lg:grid-cols-[2rem_minmax(9rem,1fr)_auto_minmax(14rem,1.4fr)_auto] lg:gap-x-5">
+                <ul className="md:grid md:grid-cols-2 md:gap-x-10 xl:grid-cols-[1.25rem_minmax(8rem,1fr)_auto_minmax(11rem,1.2fr)_auto] xl:gap-x-5">
                   {visible.map(({ scored, rank }) => (
                     <SpotRow key={scored.hotspot.id} scored={scored} rank={rank} now={now} />
                   ))}
