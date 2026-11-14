@@ -35,6 +35,17 @@ export const ko: Messages = {
     opensIn: (d) => `${d} 후 시작`,
     details: (c) => `${c} 페이지 열기`,
   },
+  route: {
+    title: '쿨다운 순회 경로',
+    intro: '앞으로 몇 곳을 어떤 순서로 돌지 쿨다운까지 계산해 보여 줍니다. A, 대기, B, 대기, C 순서로요.',
+    empty: '지금은 짤 수 있는 경로가 없습니다. 도착할 수 있는 시점에 레이드 시간대가 열려 있는 성지가 없습니다. 위의 추천 성지부터 시작하세요.',
+    arrive: (time) => `현지 시각 ${time} 도착`,
+    leg: (from, distance, wait) => `${from} → ${distance}, ${wait} 대기`,
+    noWait: '대기 없음',
+    summary: (stops, total, distance) => `${stops}곳 · 총 ${total} · ${distance}`,
+    note: (dwell) =>
+      `대기 시간은 커뮤니티 쿨다운 표를 더 안전한 쪽으로 올림한 값이며, 각 성지에서 약 ${dwell} 플레이한다고 가정합니다. 이동 전에 각 성지의 현지 시각을 확인하세요.`,
+  },
   travel: {
     title: '내 쿨다운',
     intro: '마지막으로 포획·스핀·레이드를 한 장소를 알려 주세요. 아직 쿨다운이 남은 성지는 목록 아래로 내려갑니다.',

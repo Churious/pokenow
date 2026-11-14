@@ -27,6 +27,7 @@ import { ToastProvider } from './components/Toast';
 import { Logo } from './components/Logo';
 import { LanguagePicker } from './components/LanguagePicker';
 import { BestSpot } from './components/BestSpot';
+import { RoutePlanner } from './components/RoutePlanner';
 import { TravelPanel } from './components/TravelPanel';
 import { SpotRow } from './components/SpotRow';
 import { SpotPage } from './components/SpotPage';
@@ -105,6 +106,8 @@ export default function App() {
 
               {/* On desktop the cooldown panel lives in the sidebar. */}
               <TravelPanel hotspots={HOTSPOTS} travel={travel} onChange={setTravel} now={now} className="lg:hidden" />
+
+              <RoutePlanner ranked={ranked} now={now} travel={travel} />
 
               <AdBanner
                 slot={CONFIG.adsense.slots.inFeed}

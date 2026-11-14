@@ -35,6 +35,17 @@ export const de: Messages = {
     opensIn: (d) => `Beginnt in ${d}`,
     details: (c) => `Seite für ${c} öffnen`,
   },
+  route: {
+    title: 'Cooldown-Route',
+    intro: 'Die nächsten Stopps in Spielreihenfolge, samt Cooldown für jede Etappe: A → warten → B → warten → C.',
+    empty: 'Gerade passt keine Route: Wenn du ankommen könntest, ist bei keinem Spot das Raid-Fenster offen. Beginne mit der Empfehlung oben.',
+    arrive: (time) => `Ankunft ${time} Ortszeit`,
+    leg: (from, distance, wait) => `${from} → ${distance}, ${wait} warten`,
+    noWait: 'keine Wartezeit',
+    summary: (stops, total, distance) => `${stops} Stopps · ${total} · ${distance} insgesamt`,
+    note: (dwell) =>
+      `Wartezeiten stammen aus der Community-Cooldown-Tabelle und sind aufgerundet; pro Stopp sind etwa ${dwell} Spielzeit angenommen. Prüfe vor dem Weiterziehen die Uhr am Stopp.`,
+  },
   travel: {
     title: 'Deine Abklingzeit',
     intro: 'Gib an, wo du zuletzt gefangen, einen PokéStop gedreht oder geraidet hast. Spots, für die deine Abklingzeit noch läuft, rutschen nach unten.',

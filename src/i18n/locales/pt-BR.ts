@@ -35,6 +35,17 @@ export const ptBR: Messages = {
     opensIn: (d) => `Começa em ${d}`,
     details: (c) => `Abrir a página de ${c}`,
   },
+  route: {
+    title: 'Rota de cooldown',
+    intro: 'As próximas paradas na ordem de jogo, com o cooldown de cada trecho: A → espera → B → espera → C.',
+    empty: 'Nenhuma rota utilizável agora: na hora em que você poderia chegar, nenhuma parada está com a janela de raids aberta. Comece pela recomendação acima.',
+    arrive: (time) => `Chegada ${time} no horário local`,
+    leg: (from, distance, wait) => `${from} → ${distance}, ${wait} de espera`,
+    noWait: 'sem espera',
+    summary: (stops, total, distance) => `${stops} paradas · ${total} · ${distance} no total`,
+    note: (dwell) =>
+      `As esperas vêm da tabela de cooldown da comunidade e são arredondadas para cima; considere cerca de ${dwell} de jogo em cada parada. Confira o relógio local antes de se mover.`,
+  },
   travel: {
     title: 'Seu tempo de recarga',
     intro: 'Informe onde você capturou, girou uma Poképarada ou fez uma reide pela última vez. Os pontos em que você ainda está em recarga descem na lista.',

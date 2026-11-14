@@ -64,6 +64,18 @@ export interface Messages {
     details: (city: string) => string;
   };
 
+  route: {
+    title: string;
+    intro: string;
+    empty: string;
+    arrive: (time: string) => string;
+    /** "From Busan → 325 km, wait 1h 04m" */
+    leg: (from: string, distance: string, wait: string) => string;
+    noWait: string;
+    summary: (stops: number, total: string, distance: string) => string;
+    note: (dwell: string) => string;
+  };
+
   travel: {
     title: string;
     intro: string;

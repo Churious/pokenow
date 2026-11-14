@@ -37,6 +37,17 @@ export const id: Messages = {
     opensIn: (d) => `Dimulai dalam ${d}`,
     details: (c) => `Buka halaman ${c}`,
   },
+  route: {
+    title: 'Rute cooldown',
+    intro: 'Urutan beberapa tempat berikutnya lengkap dengan cooldown tiap bagian: A → tunggu → B → tunggu → C.',
+    empty: 'Belum ada rute yang bisa dipakai: saat kamu bisa tiba, tidak ada tempat yang jendela raidnya masih terbuka. Mulai dari rekomendasi di atas.',
+    arrive: (time) => `Tiba ${time} waktu setempat`,
+    leg: (from, distance, wait) => `${from} → ${distance}, tunggu ${wait}`,
+    noWait: 'tanpa tunggu',
+    summary: (stops, total, distance) => `${stops} tempat · total ${total} · ${distance}`,
+    note: (dwell) =>
+      `Waktu tunggu diambil dari tabel cooldown komunitas dan dibulatkan ke sisi aman, dengan asumsi sekitar ${dwell} bermain di tiap tempat. Periksa jam setempat sebelum berpindah.`,
+  },
   travel: {
     title: 'Cooldown kamu',
     intro: 'Beri tahu PokeSpot di mana terakhir kali kamu menangkap, memutar PokéStop, atau ikut raid. Tempat yang masih dalam cooldown untukmu akan turun di daftar.',

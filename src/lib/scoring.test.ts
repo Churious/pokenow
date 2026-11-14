@@ -3,7 +3,7 @@ import { HOTSPOTS } from '../data/hotspots';
 import { suggestedCooldownMinutes } from '../data/cooldowns';
 import type { Hotspot } from '../types';
 import { classify, compareScored, rankHotspots, scoreHotspot, secondsUntil } from './scoring';
-import { getLocalClock, isValidTimeZone } from './time';
+import { formatClockShort, getLocalClock, isValidTimeZone } from './time';
 import { distanceKm, formatCoords } from './geo';
 
 const spot = (over: Partial<Hotspot>): Hotspot => ({
@@ -55,6 +55,11 @@ describe('time utils', () => {
     const c = getLocalClock(new Date('2026-11-18T09:00:00Z'), 'Asia/Tokyo');
     expect(c.weekday).toBe(3);
     expect(c.hour).toBe(18);
+  });
+
+  it('formats scheduled clock times without seconds', () => {
+    const clock = { hour: 9, minute: 5, second: 42, weekday: 1, secondsOfDay: 9 * 3600 + 5 * 60 + 42 };
+    expect(formatClockShort(clock)).toBe('09:05');
   });
 });
 

@@ -13,6 +13,7 @@ PokeSpot checks the live local time of 15+ community-curated hotspots worldwide 
 - Status badges: 🔥 Raid Hour / Spotlight Hour / Golden Time · 🟢 Active · 💤 Quiet
 - `[Copy Coords]` with toast feedback (`40.7536, -73.9832` format)
 - **Cooldown & soft-ban aware ranking**: tell PokeSpot where and when you last caught/spun/raided, and every spot shows its distance and remaining wait. Spots are ranked by the raid window they'll be in *when you can safely play there*. After 2 hours without an action, everything is free again.
+- **Cooldown route**: the next few stops as an A → wait → B → wait → C plan. Each leg waits out the community cooldown for its distance, measured from the previous stop; the first stop always matches the recommendation.
 - 24-hour dial: every hotspot plotted at its local time, golden hour and peak window highlighted
 - Cooldown reference table (unofficial community values, rounded up to the safer side)
 - **14 languages**, the ones Pokémon GO itself supports: English, French, German, Italian, Spanish (Spain), Spanish (Latin America), Portuguese (Brazil), Turkish, Indonesian, Korean, Japanese, Traditional Chinese, Thai, Hindi. Auto-detected from the browser, switchable in the header.
@@ -32,6 +33,8 @@ PokeSpot checks the live local time of 15+ community-curated hotspots worldwide 
 Tier 3 uses the soonest opening first. Spots that are still tied (several cities share a clock) are ordered by distance from your last action when you've set one, otherwise by id. There is no popularity weight, because there is no measured data for it. See [`src/lib/scoring.ts`](src/lib/scoring.ts).
 
 **Cooldown / soft-ban mode.** With a last action location and time set, each spot gets `wait = max(0, cooldown(distance) − time since last action)` (capped at 2 h). The tier is evaluated at `now + wait`; a window with under 15 minutes left on arrival doesn't count. Within a tier, shorter waits win (10-minute buckets), then the nearer spot. The state is stored only in the browser's localStorage.
+
+**Cooldown route.** The planner in [`src/lib/planner.ts`](src/lib/planner.ts) turns the ranked list into the next 1–3 stops. The first stop is the current recommendation (wait included). A stop is assumed to last 30 minutes, or until its window closes; the following leg then waits out `cooldown(distance)` from that stop, so waits chain instead of being measured from one fixed origin. Later stops are only added when they arrive inside a golden/peak window with at least 15 minutes left, within a 6-hour horizon; spots never repeat. Shorter waits win (10-minute buckets), then golden before peak, then earlier arrival.
 
 ## Quick start
 
@@ -54,6 +57,7 @@ src/
 ├── lib/
 │   ├── time.ts          ← Intl-based tz helpers
 │   ├── scoring.ts       ← pure ranking engine
+│   ├── planner.ts       ← pure cooldown route (A → wait → B → C)
 │   ├── geo.ts           ← haversine + coordinate formatting
 │   └── scoring.test.ts
 ├── i18n/

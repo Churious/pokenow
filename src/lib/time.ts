@@ -89,6 +89,11 @@ export function formatClock(clock: LocalClock): string {
   return `${pad(clock.hour)}:${pad(clock.minute)}:${pad(clock.second)}`;
 }
 
+/** "18:04" — scheduled times where seconds are noise (routes, shared text). */
+export function formatClockShort(clock: LocalClock): string {
+  return `${pad(clock.hour)}:${pad(clock.minute)}`;
+}
+
 /** "Wed" */
 export function formatWeekday(clock: LocalClock): string {
   return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][clock.weekday];

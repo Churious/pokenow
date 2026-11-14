@@ -35,6 +35,20 @@ export const en: Messages = {
     opensIn: (d) => `Opens in ${d}`,
     details: (c) => `Open the ${c} page`,
   },
+  route: {
+    title: 'Cooldown route',
+    intro:
+      'The next few stops in the order to play them, with the cooldown for every leg: A, wait, B, wait, C.',
+    empty:
+      'No usable route right now: no spot has a raid window open when you could arrive. The recommendation above is still the best place to start.',
+    arrive: (time) => `Arrive ${time} local`,
+    leg: (from, distance, wait) => `${from} → ${distance}, wait ${wait}`,
+    noWait: 'no wait',
+    summary: (stops, total, distance) =>
+      `${stops} ${stops === 1 ? 'stop' : 'stops'} · ${total} · ${distance} total`,
+    note: (dwell) =>
+      `Waits come from the community cooldown table and assume about ${dwell} at each stop. Check the clock at each stop before moving.`,
+  },
   travel: {
     title: 'Your cooldown',
     intro: 'Tell PokeSpot where you last caught, spun or raided. Spots that are still on cooldown for you move down the list.',
