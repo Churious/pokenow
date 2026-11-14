@@ -107,7 +107,7 @@ export const de: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeNow ist ein Fan-Tool, um weltweite Raid-Zeiten zu verfolgen und Fern-Raids zu koordinieren. Nicht verbunden mit Scopely oder The Pokémon Company.',
+      'PokeNow ist ein Fan-Tool, um weltweite Raid-Zeiten zu verfolgen und Fern-Raids zu koordinieren. Nicht verbunden mit Scopely, Nintendo oder The Pokémon Company.',
     extra:
       'Pokémon GO wird derzeit von Scopely betrieben. Pokémon und alle zugehörigen Namen sind Marken ihrer jeweiligen Inhaber. PokeNow bietet keine Tools zur Standortänderung an und empfiehlt sie nicht; bitte halte dich an die Nutzungsbedingungen des Spiels. Event-Zeiten richten sich nach der Ortszeit und können sich ändern, prüfe daher die offiziellen Ankündigungen.',
     source: 'Quellcode auf GitHub (MIT)',
