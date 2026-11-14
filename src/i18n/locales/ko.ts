@@ -201,4 +201,15 @@ export const ko: Messages = {
     githubAlt: 'GitHub 계정이 있다면 GitHub 양식으로 제보',
     errors: { captcha: '스팸 확인에 실패했습니다. 다시 시도해 주세요.', missing: '필수 항목을 채워 주세요.', coords: '“위도, 경도” 형식으로 적어 주세요. 예: 37.5720, 126.9769', tooLong: '너무 깁니다. 조금 줄여 주세요.', network: '보내지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.', generic: '제보를 보내지 못했습니다. 잠시 후 다시 시도해 주세요.' },
   },
+  support: {
+    title: '광고 차단을 잠깐 꺼 주실 수 있나요? 🥺',
+    body: 'PokeNow는 혼자 만드는 무료 사이트예요. 작은 광고 하나가 도메인과 운영비를 버티게 해 줘요. 화면을 가리는 광고는 넣지 않을게요, 약속해요.',
+    how: '허용하는 방법',
+    later: '다음에요',
+    steps: {
+      ublock: 'uBlock Origin: 아이콘 클릭 → 큰 전원 버튼 → 새로고침',
+      adguard: 'AdGuard: 아이콘 클릭 → 이 사이트 보호 끄기',
+      other: '그 밖의 차단기: 허용 목록에 pokenow.cc 추가',
+    },
+  },
 };

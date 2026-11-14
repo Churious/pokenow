@@ -205,4 +205,15 @@ export const en: Messages = {
     githubAlt: 'Have a GitHub account? Use the GitHub form',
     errors: { captcha: 'The spam check failed. Please try again.', missing: 'Please fill in the required fields.', coords: 'Use “latitude, longitude”, for example 37.5720, 126.9769.', tooLong: 'That’s too long. Please shorten it.', network: 'Couldn’t send. Check your connection and try again.', generic: 'Couldn’t send the report. Please try again later.' },
   },
+  support: {
+    title: 'Mind switching off your ad blocker here?',
+    body: 'PokeNow is a free site made by one person. One small ad keeps the domain and the lights on. No ads that cover the page, promise.',
+    how: 'How to allow it',
+    later: 'Maybe later',
+    steps: {
+      ublock: 'uBlock Origin: click its icon → the big power button → reload',
+      adguard: 'AdGuard: click its icon → turn off protection for this site',
+      other: 'Others: add pokenow.cc to the allowlist',
+    },
+  },
 };

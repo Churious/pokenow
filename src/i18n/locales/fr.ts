@@ -202,4 +202,15 @@ export const fr: Messages = {
     githubAlt: 'Vous avez un compte GitHub ? Utilisez le formulaire GitHub',
     errors: { captcha: 'La vérification anti-spam a échoué. Réessayez.', missing: 'Remplissez les champs obligatoires.', coords: 'Utilisez « latitude, longitude », par exemple 37.5720, 126.9769.', tooLong: 'C’est trop long. Raccourcissez, s’il vous plaît.', network: 'Envoi impossible. Vérifiez votre connexion et réessayez.', generic: 'Le signalement n’a pas pu être envoyé. Réessayez plus tard.' },
   },
+  support: {
+    title: 'Vous voulez bien désactiver votre bloqueur de pub ici ?',
+    body: 'PokeNow est un site gratuit fait par une seule personne. Une petite pub suffit à payer le domaine et à faire tourner le site. Aucune pub qui cache la page, promis.',
+    how: 'Comment l’autoriser',
+    later: 'Plus tard',
+    steps: {
+      ublock: 'uBlock Origin : cliquez sur l’icône → le grand bouton marche/arrêt → rechargez',
+      adguard: 'AdGuard : cliquez sur l’icône → désactivez la protection pour ce site',
+      other: 'Autres : ajoutez pokenow.cc à la liste autorisée',
+    },
+  },
 };

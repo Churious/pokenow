@@ -42,6 +42,7 @@ import { SpotPage } from './components/SpotPage';
 import { LazyMap } from './components/LazyMap';
 import { AdBanner } from './components/AdBanner';
 import { StickyAnchorAd } from './components/StickyAnchorAd';
+import { SupportNote } from './components/SupportNote';
 import { CooldownGuide } from './components/CooldownGuide';
 import { HowItWorks } from './components/HowItWorks';
 import { Footer } from './components/Footer';
@@ -296,6 +297,7 @@ export default function App() {
       </main>
 
       <StickyAnchorAd />
+      <SupportNote />
       </ReportProvider>
     </ToastProvider>
   );
