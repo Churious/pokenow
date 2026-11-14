@@ -14,6 +14,7 @@ export const CONFIG = {
       top: env.VITE_AD_SLOT_TOP || '',
       inFeed: env.VITE_AD_SLOT_INFEED || '',
       anchor: env.VITE_AD_SLOT_ANCHOR || '',
+      sidebar: env.VITE_AD_SLOT_SIDEBAR || '',
     },
     /** In-feed units need the layout key generated in the AdSense UI. */
     inFeedLayoutKey: env.VITE_AD_INFEED_LAYOUT_KEY || '',

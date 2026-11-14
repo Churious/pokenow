@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import type { Hotspot, TravelState } from '../types';
 import { secondsUntilFullyFree } from '../lib/scoring';
 import { useI18n } from '../i18n';
@@ -8,6 +8,7 @@ interface Props {
   travel: TravelState;
   onChange: (next: TravelState) => void;
   now: Date;
+  className?: string;
 }
 
 const MODES = ['free', 'cooldown', 'softban'] as const satisfies readonly TravelState['mode'][];
@@ -30,8 +31,9 @@ function parseCoords(text: string): { lat: number; lng: number } | null {
  * The rule players rely on: after 2 hours with no cooldown-triggering action
  * (catch, spin, raid, gym…) every spot is ready again, so the panel shows that clock too.
  */
-export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
+export function TravelPanel({ hotspots, travel, onChange, now, className = '' }: Props) {
   const { t, dur } = useI18n();
+  const uid = useId();
   const firstSpot = hotspots[0];
   const [customText, setCustomText] = useState('');
   const [customError, setCustomError] = useState<string | null>(null);
@@ -58,8 +60,8 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
   const field = 'h-11 w-full rounded-md bg-deck px-3 text-ink ring-1 ring-rule focus:ring-gold focus:outline-none';
 
   return (
-    <section aria-labelledby="travel-title" className="border-y border-rule py-5">
-      <h2 id="travel-title" className="semi-condensed text-lg font-bold text-ink">
+    <section aria-labelledby={`${uid}-title`} className={`@container border-y border-rule py-5 ${className}`}>
+      <h2 id={`${uid}-title`} className="semi-condensed text-lg font-bold text-ink">
         {t.travel.title}
       </h2>
       <p className="mt-1 max-w-prose text-sm text-dim">{t.travel.intro}</p>
@@ -85,7 +87,7 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
       </div>
 
       {active && (
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <div className="mt-4 grid gap-4 @lg:grid-cols-2">
           <label className="block text-sm text-dim">
             {t.travel.lastActionAt}
             <select
@@ -107,8 +109,8 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
           </label>
 
           <div className="text-sm text-dim">
-            <span id="ago-label">{t.travel.howLongAgo}</span>
-            <div role="group" aria-labelledby="ago-label" className="mt-1 flex flex-wrap gap-1.5">
+            <span id={`${uid}-ago`}>{t.travel.howLongAgo}</span>
+            <div role="group" aria-labelledby={`${uid}-ago`} className="mt-1 flex flex-wrap gap-1.5">
               {AGO_PRESETS.map((m) => (
                 <button
                   key={m}
@@ -122,7 +124,7 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
           </div>
 
           {!selectedSpot && (
-            <label className="block text-sm text-dim sm:col-span-2">
+            <label className="block text-sm text-dim @lg:col-span-2">
               {t.travel.coordsLabel}
               <div className="mt-1 flex gap-2">
                 <input
@@ -150,7 +152,7 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
             </label>
           )}
 
-          <p className="text-sm text-ink sm:col-span-2">
+          <p className="text-sm text-ink @lg:col-span-2">
             {freeIn > 0
               ? t.travel.summary(
                   t.travel.minAgo(minutesAgo),
@@ -161,7 +163,7 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
           </p>
 
           {travel.mode === 'softban' && (
-            <div className="rounded-md bg-hot/10 p-3 text-sm text-ink ring-1 ring-hot/40 sm:col-span-2">
+            <div className="rounded-md bg-hot/10 p-3 text-sm text-ink ring-1 ring-hot/40 @lg:col-span-2">
               <p className="font-semibold text-hot">{t.travel.softbanTitle}</p>
               <ul className="mt-1 list-disc space-y-1 pl-5 text-ink/90">
                 <li>{t.travel.softban1}</li>

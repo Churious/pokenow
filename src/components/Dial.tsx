@@ -48,7 +48,7 @@ export function Dial({ ranked, bestId, label }: Props) {
   return (
     <svg
       viewBox={`0 0 ${SIZE} ${SIZE}`}
-      className="h-auto w-full max-w-[340px]"
+      className="h-auto w-full"
       role="img"
       aria-label={label}
     >

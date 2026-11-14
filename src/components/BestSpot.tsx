@@ -38,14 +38,14 @@ export function BestSpot({ ranked, now, travel }: { ranked: ScoredHotspot[]; now
         : travel.origin.label;
 
   return (
-    <section aria-labelledby="best-title" className="grid items-center gap-6 py-6 md:grid-cols-[340px_1fr] md:gap-10">
-      <div className="mx-auto w-full max-w-[340px] rounded-full bg-deck p-2">
+    <section aria-labelledby="best-title" className="grid items-center gap-6 py-6 md:grid-cols-[340px_1fr] md:gap-10 xl:grid-cols-[380px_1fr] xl:py-10">
+      <div className="mx-auto w-full max-w-[340px] rounded-full bg-deck p-2 xl:max-w-[380px]">
         <Dial ranked={ranked} bestId={hotspot.id} label={t.best.dialLabel} />
       </div>
 
       <div>
         <p className="text-sm text-dim">{origin ? t.best.from(origin) : t.best.now}</p>
-        <h1 id="best-title" className="condensed mt-1 text-6xl leading-[0.9] font-black text-ink sm:text-7xl">
+        <h1 id="best-title" className="condensed mt-1 text-6xl leading-[0.9] font-black text-ink sm:text-7xl xl:text-8xl">
           <a href={spotHref(hotspot.id)} className="hover:underline hover:decoration-2 hover:underline-offset-8">
             {hotspot.city}
           </a>

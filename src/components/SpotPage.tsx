@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import type { Hotspot, ScoredHotspot } from '../types';
 import { formatClock, getUtcOffsetLabel } from '../lib/time';
@@ -11,7 +12,18 @@ import { CrowdGrade, StatusMark } from './StatusBadge';
 import { LazyMap } from './LazyMap';
 
 /** Dedicated page for one hotspot: live clock, upcoming events, coordinates, map. */
-export function SpotPage({ spot, ranked, now }: { spot: Hotspot; ranked: ScoredHotspot[]; now: Date }) {
+export function SpotPage({
+  spot,
+  ranked,
+  now,
+  sidebarAd,
+}: {
+  spot: Hotspot;
+  ranked: ScoredHotspot[];
+  now: Date;
+  /** Desktop-only sticky ad, rendered at the bottom of the sidebar. */
+  sidebarAd?: ReactNode;
+}) {
   const { t, dur, weekday } = useI18n();
   const scored = ranked.find((s) => s.hotspot.id === spot.id);
   if (!scored) return null;
@@ -27,7 +39,8 @@ export function SpotPage({ spot, ranked, now }: { spot: Hotspot; ranked: ScoredH
   const coords = `${spot.lat},${spot.lng}`;
 
   return (
-    <article className="py-6">
+    <article className="py-6 lg:grid lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_28rem]">
+      <div className="min-w-0">
       <a href={homeHref} className="inline-flex h-10 items-center gap-1.5 text-sm text-dim hover:text-ink">
         <ArrowLeft className="size-4" aria-hidden />
         {t.city.back}
@@ -39,7 +52,7 @@ export function SpotPage({ spot, ranked, now }: { spot: Hotspot; ranked: ScoredH
         <p className="mt-3 max-w-prose text-sm text-dim">{t.city.seoIntro(spot.city, spot.spot)}</p>
       </header>
 
-      <section className="mt-6 grid gap-6 md:grid-cols-2">
+      <section className="mt-6 grid gap-6 md:grid-cols-2 lg:gap-10">
         <div>
           <p className="text-sm text-dim">{t.city.localTime}</p>
           <div className="flex flex-wrap items-baseline gap-x-3">
@@ -78,45 +91,6 @@ export function SpotPage({ spot, ranked, now }: { spot: Hotspot; ranked: ScoredH
         </dl>
       </section>
 
-      <section aria-labelledby="map-title" className="mt-10">
-        <h2 id="map-title" className="semi-condensed text-lg font-bold text-ink">
-          {t.city.mapTitle}
-        </h2>
-        <div className="mt-3">
-          <LazyMap spots={ranked} focusId={spot.id} heightClass="h-72 md:h-96" />
-        </div>
-        <p className="mt-2 text-xs text-faint">{t.city.mapNote}</p>
-        <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-          <a
-            href={`https://www.google.com/maps/search/?api=1&query=${coords}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-ink underline underline-offset-4"
-          >
-            {t.city.openGoogle}
-            <ExternalLink className="size-3.5" aria-hidden />
-          </a>
-          <a
-            href={`https://www.openstreetmap.org/?mlat=${spot.lat}&mlon=${spot.lng}#map=17/${spot.lat}/${spot.lng}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-ink underline underline-offset-4"
-          >
-            {t.city.openOsm}
-            <ExternalLink className="size-3.5" aria-hidden />
-          </a>
-          {/* Official app: App Store on iOS, Google Play on Android, website elsewhere. Plain text, no branding. */}
-          <a
-            href={campfireHref()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-ink underline underline-offset-4"
-          >
-            {t.city.openCampfire}
-            <ExternalLink className="size-3.5" aria-hidden />
-          </a>
-        </div>
-      </section>
 
       <section aria-labelledby="others-title" className="mt-10">
         <h2 id="others-title" className="semi-condensed text-lg font-bold text-ink">
@@ -137,6 +111,50 @@ export function SpotPage({ spot, ranked, now }: { spot: Hotspot; ranked: ScoredH
           ))}
         </ul>
       </section>
+      </div>
+
+      <aside className="flex flex-col gap-8 lg:pt-14">
+        <section aria-labelledby="map-title" className="mt-10 lg:mt-0">
+          <h2 id="map-title" className="semi-condensed text-lg font-bold text-ink">
+            {t.city.mapTitle}
+          </h2>
+          <div className="mt-3">
+            <LazyMap spots={ranked} focusId={spot.id} heightClass="h-72 md:h-96 lg:h-[28rem]" />
+          </div>
+          <p className="mt-2 text-xs text-faint">{t.city.mapNote}</p>
+          <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${coords}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-ink underline underline-offset-4"
+            >
+              {t.city.openGoogle}
+              <ExternalLink className="size-3.5" aria-hidden />
+            </a>
+            <a
+              href={`https://www.openstreetmap.org/?mlat=${spot.lat}&mlon=${spot.lng}#map=17/${spot.lat}/${spot.lng}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-ink underline underline-offset-4"
+            >
+              {t.city.openOsm}
+              <ExternalLink className="size-3.5" aria-hidden />
+            </a>
+            {/* Official app: App Store on iOS, Google Play on Android, website elsewhere. Plain text, no branding. */}
+            <a
+              href={campfireHref()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-ink underline underline-offset-4"
+            >
+              {t.city.openCampfire}
+              <ExternalLink className="size-3.5" aria-hidden />
+            </a>
+          </div>
+        </section>
+        {sidebarAd}
+      </aside>
     </article>
   );
 }

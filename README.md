@@ -79,7 +79,7 @@ AdSense needs the site on its own domain (ads.txt must be served from the domain
 1. **Custom domain** — Settings → Pages → Custom domain, then add the DNS records GitHub shows. The build uses relative paths, so no code change is needed.
 2. **Repository variables** — Settings → Secrets and variables → Actions → *Variables*:
    - `VITE_ADSENSE_CLIENT` = `ca-pub-…` (your publisher id)
-   - after approval, the ad unit ids: `VITE_AD_SLOT_TOP`, `VITE_AD_SLOT_INFEED`, `VITE_AD_SLOT_ANCHOR`, `VITE_AD_INFEED_LAYOUT_KEY`
+   - after approval, the ad unit ids: `VITE_AD_SLOT_TOP`, `VITE_AD_SLOT_INFEED`, `VITE_AD_SLOT_ANCHOR` (mobile 300×50), `VITE_AD_SLOT_SIDEBAR` (desktop 300×250), `VITE_AD_INFEED_LAYOUT_KEY`
 3. **Redeploy** (push to `main` or run the workflow). With `VITE_ADSENSE_CLIENT` set, the build automatically:
    - adds `<meta name="google-adsense-account">` and the AdSense loader to every page,
    - publishes `/ads.txt` with your publisher line.
@@ -89,6 +89,7 @@ AdSense needs the site on its own domain (ads.txt must be served from the domain
 Without `VITE_ADSENSE_CLIENT`, no ad code is loaded and slots render as dashed placeholders.
 
 Notes:
+- Exactly one sticky unit is ever mounted: the **300×50** bottom anchor below 768px, the **300×250** sidebar unit from 1024px. Breakpoint-specific units are mounted only when visible (AdSense errors on hidden slots).
 - The sticky anchor uses a fixed **300×50** unit, pinned to the bottom edge on mobile only. AdSense allows only **one sticky ad visible at a time**, so don't also enable Auto ads → Anchor ads while this component is in use.
 - In-feed units need the `data-ad-layout-key` from your AdSense code snippet.
 - PokeSpot doesn't provide or endorse location-changing tools; keep wording that way to stay within Google Publisher Policies.

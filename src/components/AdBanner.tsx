@@ -32,7 +32,9 @@ type Variant =
   /** Native in-feed unit (between hero and list). */
   | 'in-feed'
   /** Fixed 300×50 unit for the sticky anchor (≤300px wide per AdSense sticky rules). */
-  | 'anchor';
+  | 'anchor'
+  /** Fixed 300×250 unit for the desktop sidebar (≤300px wide, so it may be sticky). */
+  | 'sidebar';
 
 interface Props {
   slot: string;
@@ -48,6 +50,7 @@ const RESERVED_HEIGHT: Record<Variant, string> = {
   display: 'min-h-[100px] md:min-h-[90px]',
   'in-feed': 'min-h-[120px]',
   anchor: 'h-[50px]',
+  sidebar: 'h-[250px]',
 };
 
 export function AdBanner({ slot, variant = 'display', layoutKey, className = '', hideLabel }: Props) {
@@ -70,7 +73,7 @@ export function AdBanner({ slot, variant = 'display', layoutKey, className = '',
   const insProps: Record<string, string> =
     variant === 'in-feed'
       ? { 'data-ad-format': 'fluid', ...(layoutKey ? { 'data-ad-layout-key': layoutKey } : {}) }
-      : variant === 'anchor'
+      : variant === 'anchor' || variant === 'sidebar'
         ? {}
         : { 'data-ad-format': 'auto', 'data-full-width-responsive': 'true' };
 
@@ -86,7 +89,9 @@ export function AdBanner({ slot, variant = 'display', layoutKey, className = '',
             style={
               variant === 'anchor'
                 ? { display: 'inline-block', width: 300, height: 50 }
-                : { display: 'block', width: '100%' }
+                : variant === 'sidebar'
+                  ? { display: 'inline-block', width: 300, height: 250 }
+                  : { display: 'block', width: '100%' }
             }
             data-ad-client={client}
             data-ad-slot={slot}
@@ -95,7 +100,11 @@ export function AdBanner({ slot, variant = 'display', layoutKey, className = '',
         ) : (
           <div
             className={`flex w-full items-center justify-center rounded-md border border-dashed border-rule text-xs text-faint ${
-              variant === 'anchor' ? 'h-[50px] max-w-[300px]' : 'h-full min-h-[inherit]'
+              variant === 'anchor'
+                ? 'h-[50px] max-w-[300px]'
+                : variant === 'sidebar'
+                  ? 'h-[250px] max-w-[300px]'
+                  : 'h-full min-h-[inherit]'
             }`}
           >
             Ad slot ({variant})
