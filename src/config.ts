@@ -9,7 +9,7 @@ export const CONFIG = {
   githubUrl: env.VITE_GITHUB_URL || 'https://github.com/Churious/pokenow',
   adsense: {
     /** "ca-pub-XXXXXXXXXXXXXXXX". When empty, no ad slots are rendered. */
-    client: env.VITE_ADSENSE_CLIENT || '',
+    client: ((c) => (/^pub-/.test(c) ? `ca-${c}` : c))((env.VITE_ADSENSE_CLIENT || '').trim()),
     slots: {
       top: env.VITE_AD_SLOT_TOP || '',
       inFeed: env.VITE_AD_SLOT_INFEED || '',

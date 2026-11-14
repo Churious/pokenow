@@ -83,9 +83,11 @@ function analytics(cfToken: string, goatCode: string): Plugin {
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_');
-  const client = env.VITE_ADSENSE_CLIENT ?? '';
+  // AdSense shows the id as "pub-…" in most places; the ad client is "ca-pub-…". Accept both.
+  const rawClient = (env.VITE_ADSENSE_CLIENT ?? '').trim();
+  const client = /^pub-/.test(rawClient) ? `ca-${rawClient}` : rawClient;
   if (client && !CLIENT_RE.test(client)) {
-    throw new Error(`VITE_ADSENSE_CLIENT must look like "ca-pub-1234567890123456", got "${client}"`);
+    throw new Error(`VITE_ADSENSE_CLIENT must look like "ca-pub-1234567890123456" (or "pub-…"), got "${client}"`);
   }
 
   return {
