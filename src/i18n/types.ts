@@ -231,4 +231,32 @@ export interface Messages {
     map: string;
     guide: string;
   };
+
+  report: {
+    translationTitle: string;
+    hotspotTitle: string;
+    /** Public-issue and privacy notice shown at the top of the form. */
+    publicNote: string;
+    language: string;
+    current: string;
+    suggestion: string;
+    notes: string;
+    city: string;
+    spot: string;
+    country: string;
+    region: string;
+    coords: string;
+    coordsHint: string;
+    source: string;
+    sourceHint: string;
+    note: string;
+    optional: string;
+    send: string;
+    sending: string;
+    sentTitle: string;
+    sentBody: string;
+    close: string;
+    githubAlt: string;
+    errors: { captcha: string; missing: string; coords: string; tooLong: string; network: string; generic: string };
+  };
 }

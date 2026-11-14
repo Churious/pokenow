@@ -12,6 +12,8 @@ interface ImportMetaEnv {
   readonly VITE_AD_SLOT_ANCHOR?: string;
   readonly VITE_AD_SLOT_SIDEBAR?: string;
   readonly VITE_AD_INFEED_LAYOUT_KEY?: string;
+  readonly VITE_REPORT_URL?: string;
+  readonly VITE_TURNSTILE_SITEKEY?: string;
 }
 
 interface ImportMeta {

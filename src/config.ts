@@ -19,4 +19,14 @@ export const CONFIG = {
     /** In-feed units need the layout key generated in the AdSense UI. */
     inFeedLayoutKey: env.VITE_AD_INFEED_LAYOUT_KEY || '',
   },
+  /**
+   * Report forms for visitors without a GitHub account (worker/report-worker.js).
+   * Both values are needed; without them the site links to the GitHub issue forms instead.
+   */
+  report: {
+    url: (env.VITE_REPORT_URL || '').trim(),
+    turnstileSiteKey: (env.VITE_TURNSTILE_SITEKEY || '').trim(),
+  },
 } as const;
+
+export const REPORTS_ENABLED = Boolean(CONFIG.report.url && CONFIG.report.turnstileSiteKey);

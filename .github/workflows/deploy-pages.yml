@@ -39,6 +39,8 @@ jobs:
           VITE_AD_SLOT_ANCHOR: ${{ vars.VITE_AD_SLOT_ANCHOR }}
           VITE_AD_SLOT_SIDEBAR: ${{ vars.VITE_AD_SLOT_SIDEBAR }}
           VITE_AD_INFEED_LAYOUT_KEY: ${{ vars.VITE_AD_INFEED_LAYOUT_KEY }}
+          VITE_REPORT_URL: ${{ vars.VITE_REPORT_URL }}
+          VITE_TURNSTILE_SITEKEY: ${{ vars.VITE_TURNSTILE_SITEKEY }}
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist
