@@ -33,6 +33,7 @@ import { SpotRow } from './components/SpotRow';
 import { AdBanner } from './components/AdBanner';
 import { StickyAnchorAd } from './components/StickyAnchorAd';
 import { CooldownGuide } from './components/CooldownGuide';
+import { HowItWorks } from './components/HowItWorks';
 import { Footer } from './components/Footer';
 
 type RegionFilter = 'All' | Region;
@@ -124,6 +125,7 @@ export default function App() {
         </section>
 
         <div className="mt-8">
+          <HowItWorks />
           <CooldownGuide />
         </div>
 

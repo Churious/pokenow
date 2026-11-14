@@ -55,20 +55,33 @@ src/
 ├── hooks/
 │   ├── useNow.ts        ← 1s ticker aligned to the second
 │   └── useTravelState.ts← last action location/time (localStorage)
-├── components/          ← Dial, BestSpot, TravelPanel, SpotRow, AdBanner, StickyAnchorAd, …
+├── components/          ← Dial, BestSpot, TravelPanel, SpotRow, HowItWorks, AdBanner, StickyAnchorAd, …
 ├── types/index.ts
 ├── config.ts            ← env-driven config
 └── App.tsx
+privacy.html             ← privacy policy (second Vite entry)
 ```
 
 ## AdSense setup
 
-Copy `.env.example` to `.env.local` and fill in your publisher id and slot ids. Without `VITE_ADSENSE_CLIENT` no ad script is loaded and dashed placeholders are shown.
+AdSense needs the site on its own domain (ads.txt must be served from the domain root), so connect a custom domain first.
+
+1. **Custom domain** — Settings → Pages → Custom domain, then add the DNS records GitHub shows. The build uses relative paths, so no code change is needed.
+2. **Repository variables** — Settings → Secrets and variables → Actions → *Variables*:
+   - `VITE_ADSENSE_CLIENT` = `ca-pub-…` (your publisher id)
+   - after approval, the ad unit ids: `VITE_AD_SLOT_TOP`, `VITE_AD_SLOT_INFEED`, `VITE_AD_SLOT_ANCHOR`, `VITE_AD_INFEED_LAYOUT_KEY`
+3. **Redeploy** (push to `main` or run the workflow). With `VITE_ADSENSE_CLIENT` set, the build automatically:
+   - adds `<meta name="google-adsense-account">` and the AdSense loader to every page,
+   - publishes `/ads.txt` with your publisher line.
+4. **Apply in AdSense** with the custom domain. `privacy.html` covers the required cookie/ads disclosures.
+5. **Consent** — before serving ads, turn on a Google-certified consent message (AdSense → Privacy & messaging) for EEA/UK/Swiss visitors.
+
+Without `VITE_ADSENSE_CLIENT`, no ad code is loaded and slots render as dashed placeholders.
 
 Notes:
-- The sticky anchor uses a fixed **300×50** unit, pinned to the bottom edge on mobile only. AdSense allows only **one sticky ad visible at a time**, so do not also turn on Auto ads → Anchor ads while this component is in use (or remove `<StickyAnchorAd />` and use Auto ads instead).
-- In-feed units need the `data-ad-layout-key` from your AdSense code snippet (`VITE_AD_INFEED_LAYOUT_KEY`).
-- Review the AdSense Program Policies for your content before applying.
+- The sticky anchor uses a fixed **300×50** unit, pinned to the bottom edge on mobile only. AdSense allows only **one sticky ad visible at a time**, so don't also enable Auto ads → Anchor ads while this component is in use.
+- In-feed units need the `data-ad-layout-key` from your AdSense code snippet.
+- PokeSpot doesn't provide or endorse location-changing tools; keep wording that way to stay within Google Publisher Policies.
 
 ## Data caveats
 
