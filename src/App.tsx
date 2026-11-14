@@ -32,6 +32,7 @@ import { Logo } from './components/Logo';
 import { LanguagePicker } from './components/LanguagePicker';
 import { BestSpot } from './components/BestSpot';
 import { RoutePlanner } from './components/RoutePlanner';
+import { EventSchedule } from './components/EventSchedule';
 import { TravelPanel } from './components/TravelPanel';
 import { SpotRow } from './components/SpotRow';
 import { SpotPage } from './components/SpotPage';
@@ -189,6 +190,8 @@ export default function App() {
                   ))}
                 </ul>
               </section>
+
+              <EventSchedule now={now} />
 
               {/* On desktop the map lives in the sidebar. */}
               <section aria-labelledby="map-title" className="mt-10 lg:hidden">
