@@ -7,6 +7,8 @@ const env = import.meta.env;
 
 export const CONFIG = {
   githubUrl: env.VITE_GITHUB_URL || 'https://github.com/Churious/pokespot',
+  /** GitHub Sponsors profile (shown as the Sponsor link in the footer). */
+  sponsorUrl: env.VITE_SPONSOR_URL || 'https://github.com/sponsors/Churious',
   adsense: {
     /** "ca-pub-XXXXXXXXXXXXXXXX". When empty, ad slots render dev placeholders only. */
     client: env.VITE_ADSENSE_CLIENT || '',

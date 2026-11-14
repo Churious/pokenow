@@ -1,4 +1,4 @@
-import { GitFork } from 'lucide-react';
+import { GitFork, Heart } from 'lucide-react';
 import { CONFIG } from '../config';
 import { Logo } from './Logo';
 
@@ -22,6 +22,15 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col gap-2 self-start sm:items-end">
+          <a
+            href={CONFIG.sponsorUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-md bg-ink px-4 font-semibold whitespace-nowrap text-night hover:bg-white"
+          >
+            <Heart className="size-4 text-hot" aria-hidden />
+            Sponsor PokeSpot
+          </a>
           <a
             href={CONFIG.githubUrl}
             target="_blank"
