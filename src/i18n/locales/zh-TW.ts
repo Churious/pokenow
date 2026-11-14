@@ -35,6 +35,17 @@ export const zhTW: Messages = {
     opensIn: (d) => `${d}後開始`,
     details: (c) => `開啟${c}頁面`,
   },
+  route: {
+    title: '冷卻巡迴路線',
+    intro: '依冷卻時間排出接下來幾站的順序：A → 等待 → B → 等待 → C。',
+    empty: '目前排不出可用路線：在你能抵達的時間，沒有地點的團體戰時段還開著。請先從上方的推薦地點開始。',
+    arrive: (time) => `當地 ${time} 抵達`,
+    leg: (from, distance, wait) => `${from} → ${distance}，等待 ${wait}`,
+    noWait: '無需等待',
+    summary: (stops, total, distance) => `${stops} 個地點 · 共 ${total} · ${distance}`,
+    note: (dwell) =>
+      `等待時間採社群冷卻表的保守值，並假設每個地點遊玩約 ${dwell}。移動前請確認各當地時間。`,
+  },
   travel: {
     title: '我的冷卻時間',
     intro: '告訴 PokeSpot 你最後一次捕捉、轉補給站或打團體戰的地點。仍在冷卻中的地點會排到後面。',

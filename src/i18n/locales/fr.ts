@@ -35,6 +35,17 @@ export const fr: Messages = {
     opensIn: (d) => `Ouvre dans ${d}`,
     details: (c) => `Ouvrir la page ${c}`,
   },
+  route: {
+    title: 'Itinéraire cooldown',
+    intro: 'Les prochains arrêts dans l’ordre de jeu, temps de recharge compris : A → attente → B → attente → C.',
+    empty: 'Aucun itinéraire utilisable pour l’instant : à l’heure où vous pourriez arriver, aucune fenêtre de raid n’est ouverte. Commencez par la recommandation ci-dessus.',
+    arrive: (time) => `Arrivée ${time} heure locale`,
+    leg: (from, distance, wait) => `${from} → ${distance}, ${wait} d’attente`,
+    noWait: 'sans attente',
+    summary: (stops, total, distance) => `${stops} arrêts · ${total} · ${distance} au total`,
+    note: (dwell) =>
+      `Les attentes viennent du tableau communautaire et sont arrondies à la hausse ; comptez environ ${dwell} de jeu par arrêt. Vérifiez l’heure locale avant de repartir.`,
+  },
   travel: {
     title: 'Votre temps de recharge',
     intro: 'Indiquez où vous avez capturé, tourné un PokéStop ou fait un raid pour la dernière fois. Les spots encore en recharge pour vous descendent dans la liste.',

@@ -35,6 +35,17 @@ export const es: Messages = {
     opensIn: (d) => `Empieza en ${d}`,
     details: (c) => `Abrir la página de ${c}`,
   },
+  route: {
+    title: 'Ruta de cooldown',
+    intro: 'Las próximas paradas en el orden de juego, con el cooldown de cada tramo: A → espera → B → espera → C.',
+    empty: 'No hay una ruta disponible ahora: a la hora a la que podrías llegar, ninguna parada tiene la ventana de incursiones abierta. Empieza por la recomendación de arriba.',
+    arrive: (time) => `Llegada ${time} hora local`,
+    leg: (from, distance, wait) => `${from} → ${distance}, ${wait} de espera`,
+    noWait: 'sin espera',
+    summary: (stops, total, distance) => `${stops} paradas · ${total} · ${distance} en total`,
+    note: (dwell) =>
+      `Las esperas vienen de la tabla de cooldown de la comunidad y se redondean al alza; se suponen unos ${dwell} de juego en cada parada. Comprueba la hora local antes de moverte.`,
+  },
   travel: {
     title: 'Tu tiempo de espera',
     intro: 'Indica dónde atrapaste, giraste una Poképarada o hiciste una incursión por última vez. Los sitios en los que aún estás en espera bajan en la lista.',

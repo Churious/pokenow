@@ -37,6 +37,17 @@ export const tr: Messages = {
     opensIn: (d) => `${d} sonra başlıyor`,
     details: (c) => `${c} sayfasını aç`,
   },
+  route: {
+    title: 'Bekleme rotası',
+    intro: 'Sıradaki durakların bekleme süreleriyle birlikte oynama sırası: A → bekle → B → bekle → C.',
+    empty: 'Şu anda kullanılabilir rota yok: varabileceğin saatte hiçbir durağın raid penceresi açık değil. Yukarıdaki öneriyle başla.',
+    arrive: (time) => `Yerel ${time} varış`,
+    leg: (from, distance, wait) => `${from} → ${distance}, ${wait} bekle`,
+    noWait: 'bekleme yok',
+    summary: (stops, total, distance) => `${stops} durak · toplam ${total} · ${distance}`,
+    note: (dwell) =>
+      `Bekleme süreleri topluluk bekleme tablosundan gelir ve güvenli tarafa yuvarlanır; her durakta yaklaşık ${dwell} oynandığı varsayılır. Yola çıkmadan her durağın yerel saatini kontrol et.`,
+  },
   travel: {
     title: 'Bekleme süren',
     intro: 'En son nerede yakaladığını, PokéStop çevirdiğini ya da baskına katıldığını belirt. Bekleme süren dolmamış noktalar listede aşağı iner.',

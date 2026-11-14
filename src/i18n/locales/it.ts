@@ -35,6 +35,17 @@ export const it: Messages = {
     opensIn: (d) => `Inizia tra ${d}`,
     details: (c) => `Apri la pagina di ${c}`,
   },
+  route: {
+    title: 'Percorso cooldown',
+    intro: 'Le prossime tappe nell’ordine di gioco, cooldown incluso: A → attesa → B → attesa → C.',
+    empty: 'Nessun percorso utilizzabile ora: quando potresti arrivare, nessuna tappa ha la finestra raid aperta. Inizia dal consiglio qui sopra.',
+    arrive: (time) => `Arrivo ${time} ora locale`,
+    leg: (from, distance, wait) => `${from} → ${distance}, ${wait} di attesa`,
+    noWait: 'nessuna attesa',
+    summary: (stops, total, distance) => `${stops} tappe · ${total} · ${distance} in totale`,
+    note: (dwell) =>
+      `Le attese vengono dalla tabella cooldown della community e sono arrotondate per eccesso; si prevedono circa ${dwell} di gioco a ogni tappa. Controlla l’orologio locale prima di spostarti.`,
+  },
   travel: {
     title: 'Il tuo tempo di ricarica',
     intro: 'Indica dove hai catturato, girato un PokéStop o fatto un raid l’ultima volta. I posti per cui sei ancora in ricarica scendono nella lista.',

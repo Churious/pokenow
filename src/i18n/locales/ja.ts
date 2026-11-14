@@ -35,6 +35,17 @@ export const ja: Messages = {
     opensIn: (d) => `${d}後に開始`,
     details: (c) => `${c}のページを開く`,
   },
+  route: {
+    title: 'クールダウン周回ルート',
+    intro: '次に回るスポットの順番をクールダウン込みで組みます。A → 待機 → B → 待機 → C の順です。',
+    empty: '今は組めるルートがありません。到着できる時点でレイド時間帯が開いているスポットがありません。上のおすすめから始めてください。',
+    arrive: (time) => `現地 ${time} 到着`,
+    leg: (from, distance, wait) => `${from} → ${distance}、${wait}待機`,
+    noWait: '待機なし',
+    summary: (stops, total, distance) => `${stops}か所 · 合計${total} · ${distance}`,
+    note: (dwell) =>
+      `待ち時間はコミュニティのクールダウン表を安全側に切り上げた値で、各スポットで約${dwell}プレイする前提です。移動前に各スポットの現地時刻を確認してください。`,
+  },
   travel: {
     title: 'クールダウン',
     intro: '最後に捕獲・スピン・レイドをした場所を入力してください。まだクールダウン中のスポットはリストの下に移動します。',
