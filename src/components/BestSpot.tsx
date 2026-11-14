@@ -5,7 +5,7 @@ import { spotHref } from '../lib/routes';
 import { useI18n } from '../i18n';
 import type { Messages } from '../i18n/types';
 import { CopyCoordsButton } from './CopyCoordsButton';
-import { CrowdGrade, StatusMark, eventName } from './StatusBadge';
+import { StatusMark, eventName } from './StatusBadge';
 import { Dial } from './Dial';
 
 function arrivalSentence(s: ScoredHotspot, t: Messages, dur: (n: number) => string): string {
@@ -63,7 +63,6 @@ export function BestSpot({ ranked, now, travel }: { ranked: ScoredHotspot[]; now
 
         <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
           <StatusMark scored={best} />
-          <CrowdGrade popularity={hotspot.popularity} />
           {best.plan.distanceKm !== null && (
             <span className="text-dim">{t.best.kmAway(num(best.plan.distanceKm))}</span>
           )}

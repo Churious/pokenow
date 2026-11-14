@@ -12,8 +12,6 @@ export const tr: Messages = {
     spotlightHour: 'Spotlight Hour',
     peak: 'Yoğun saatler',
     quiet: 'Sakin',
-    crowd: 'Kalabalık',
-    crowdTitle: (n) => `Topluluk popülerliği ${n}/100`,
   },
   best: {
     now: 'Şu an en iyi baskın noktası',
@@ -73,7 +71,7 @@ export const tr: Messages = {
   how: {
     title: 'PokeSpot bir noktayı nasıl seçer',
     p1: 'Baskınlar, yerel oyuncuların boş olduğu saatlerde en kalabalıktır. PokeSpot her noktanın yerel saatini tarayıcının saat dilimi verilerinden okur, bu yüzden yaz saati değişiklikleri otomatik olarak uygulanır.',
-    p2: 'Yerel saatle {golden} arasındaki noktalar önce gelir: bu saatte çarşamba günleri Raid Hour, salı günleri Spotlight Hour yapılır. Ardından çoğu oyuncunun baskın yaptığı {peak} aralığındaki noktalar gelir. Her yer sakinse en erken açılan nokta kazanır. Eşitlikte daha kalabalık şehir öne geçer.',
+    p2: 'Yerel saatle {golden} arasındaki noktalar önce gelir: bu saatte çarşamba günleri Raid Hour, salı günleri Spotlight Hour yapılır. Ardından çoğu oyuncunun baskın yaptığı {peak} aralığındaki noktalar gelir. Her yer sakinse en erken açılan nokta kazanır.',
     p3: 'Bekleme süreni girersen her nokta son eylemine olan uzaklığı ve daha ne kadar beklemen gerektiğini de gösterir. Noktalar, beklemen bittiğinde içinde olacakları zaman aralığına göre değerlendirilir; böylece lobi dağılırken varmazsın.',
   },
   cooldown: {

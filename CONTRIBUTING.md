@@ -8,6 +8,7 @@ Thanks for helping! The most common contribution is **adding or fixing a hotspot
 
    ```ts
    {
+     // Source: where these coordinates come from (link or list name)
      id: 'seoul-gwanghwamun',          // unique, kebab-case, never renamed later
      city: 'Seoul',
      spot: 'Gwanghwamun Square',
@@ -16,8 +17,7 @@ Thanks for helping! The most common contribution is **adding or fixing a hotspot
      lat: 37.5720,                     // WGS84, 4–6 decimals
      lng: 126.9769,
      timeZone: 'Asia/Seoul',           // IANA zone — never "UTC+9"
-     popularity: 85,                   // 1–100, relative community estimate
-     note: 'Optional one-liner.',
+     note: 'Optional factual one-liner.',
    }
    ```
 
@@ -31,8 +31,7 @@ Thanks for helping! The most common contribution is **adding or fixing a hotspot
    Optional: `npm run og` renders the link-preview image for the new page into `public/og/` (run `npx playwright install chromium` once first). Without it the page just uses the app icon as its preview.
 
 3. In the PR description, include:
-   - the source you used to verify the coordinates (OpenStreetMap / Google Maps link),
-   - a short justification for the `popularity` value.
+   - where the coordinates come from (also as a comment above the entry),
 
 ## Translations
 

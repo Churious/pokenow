@@ -10,8 +10,6 @@ export const de: Messages = {
     spotlightHour: 'Rampenlicht-Stunde',
     peak: 'Stoßzeit',
     quiet: 'Ruhig',
-    crowd: 'Andrang',
-    crowdTitle: (n) => `Community-Beliebtheit ${n}/100`,
   },
   best: {
     now: 'Bester Raid-Spot gerade',
@@ -71,7 +69,7 @@ export const de: Messages = {
   how: {
     title: 'Wie PokeSpot einen Spot auswählt',
     p1: 'Raids sind am vollsten, wenn die Spieler vor Ort Zeit haben. PokeSpot liest die Ortszeit jedes Spots aus den Zeitzonendaten deines Browsers, Sommer- und Winterzeit werden also automatisch berücksichtigt.',
-    p2: 'Spots zwischen {golden} Ortszeit kommen zuerst. In dieser Stunde finden mittwochs die Raid-Stunde und dienstags die Rampenlicht-Stunde statt. Danach folgen Spots im Zeitfenster {peak}, wenn die meisten raiden. Ist alles ruhig, gewinnt der Spot, der am frühesten beginnt. Bei Gleichstand liegt die belebtere Stadt vorn.',
+    p2: 'Spots zwischen {golden} Ortszeit kommen zuerst. In dieser Stunde finden mittwochs die Raid-Stunde und dienstags die Rampenlicht-Stunde statt. Danach folgen Spots im Zeitfenster {peak}, wenn die meisten raiden. Ist alles ruhig, gewinnt der Spot, der am frühesten beginnt.',
     p3: 'Wenn du deine Abklingzeit angibst, zeigt jeder Spot auch die Entfernung zu deiner letzten Aktion und die verbleibende Wartezeit. Bewertet wird dann das Zeitfenster am Ende deiner Wartezeit, damit du nicht ankommst, wenn sich die Lobby leert.',
   },
   cooldown: {

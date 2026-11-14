@@ -1,5 +1,4 @@
 import type { ScoredHotspot } from '../types';
-import { densityGrade } from '../lib/scoring';
 import { useI18n } from '../i18n';
 import type { Messages } from '../i18n/types';
 
@@ -37,14 +36,3 @@ export function StatusMark({ scored }: { scored: ScoredHotspot }) {
   );
 }
 
-/** Crowd grade (S/A/B/C) from the community popularity weight. */
-export function CrowdGrade({ popularity }: { popularity: number }) {
-  const { t } = useI18n();
-  const grade = densityGrade(popularity);
-  return (
-    <span className="text-dim" title={t.status.crowdTitle(popularity)}>
-      {t.status.crowd}{' '}
-      <span className={grade === 'S' || grade === 'A' ? 'font-semibold text-ink' : 'text-ink'}>{grade}</span>
-    </span>
-  );
-}

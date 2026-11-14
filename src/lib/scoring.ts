@@ -9,19 +9,20 @@
  *
  * Ranking (see `compareScored`):
  *   1. Lower tier number wins (golden > peak > upcoming).
- *   2. golden / peak: higher `popularity` wins.
- *   3. upcoming: the spot that reaches its next window (11:00 or 18:00) soonest wins,
- *      then higher `popularity`.
+ *   2. upcoming: the spot that reaches its next window (11:00 or 18:00) soonest wins.
+ *   3. Still tied (e.g. Seoul / Osaka / Tokyo share a clock): the spot closer to the
+ *      player's last action, when one is set.
  *   4. `id` as a final deterministic tie-breaker (stable renders, stable tests).
+ *   There is deliberately no "popularity" weight: we have no measured data for it.
  *
  * Cooldown / soft-ban aware mode (TravelState ≠ free):
  *   For every spot we compute the distance from the player's last action and the
  *   remaining cooldown wait. The spot is then judged by the tier it will be in
  *   *when the player can safely act there* (`plan.arrivalTier`), not right now.
  *   A window that would have less than 15 minutes left on arrival is not counted.
- *   Inside a tier, shorter waits win (in 10-minute buckets so popularity still
- *   matters between similar waits), then popularity. In free mode every wait is
- *   0, so the ranking is exactly the rules above.
+ *   Inside a tier, shorter waits win (in 10-minute buckets, so near-equal waits
+ *   fall through to the rules below). In free mode every wait is 0, so the
+ *   ranking is exactly the rules above.
  *
  * The engine is a pure function of (hotspots, instant) — no React, no globals —
  * so it is trivial to unit test and to reuse in a future API / bot.
@@ -201,8 +202,10 @@ export function compareScored(a: ScoredHotspot, b: ScoredHotspot): number {
     if (waitDiff !== 0) return waitDiff;
   }
 
-  const pop = b.hotspot.popularity - a.hotspot.popularity;
-  if (pop !== 0) return pop;
+  if (a.plan.distanceKm !== null && b.plan.distanceKm !== null) {
+    const nearer = a.plan.distanceKm - b.plan.distanceKm;
+    if (nearer !== 0) return nearer;
+  }
 
   return a.hotspot.id.localeCompare(b.hotspot.id);
 }
@@ -214,12 +217,4 @@ export function rankHotspots(
   travel: TravelState = { mode: 'free' },
 ): ScoredHotspot[] {
   return hotspots.map((h) => scoreHotspot(h, now, travel)).sort(compareScored);
-}
-
-/** Popularity → letter grade used by the "density" chip. */
-export function densityGrade(popularity: number): 'S' | 'A' | 'B' | 'C' {
-  if (popularity >= 90) return 'S';
-  if (popularity >= 75) return 'A';
-  if (popularity >= 60) return 'B';
-  return 'C';
 }

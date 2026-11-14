@@ -5,7 +5,7 @@ import { spotHref } from '../lib/routes';
 import { useI18n } from '../i18n';
 import type { Messages } from '../i18n/types';
 import { CopyCoordsButton } from './CopyCoordsButton';
-import { CrowdGrade, StatusMark } from './StatusBadge';
+import { StatusMark } from './StatusBadge';
 
 function timingNote(s: ScoredHotspot, t: Messages, dur: (n: number) => string): string {
   if (s.plan.waitSeconds > 0) return t.list.wait(dur(s.plan.waitSeconds));
@@ -54,12 +54,11 @@ export function SpotRow({ scored, rank, now }: { scored: ScoredHotspot; rank: nu
         <p className="text-xs text-dim">{getUtcOffsetLabel(now, hotspot.timeZone)}</p>
       </div>
 
-      {/* Phones: one wrapping line. Desktop table: always two lines (status + crowd, then timing),
+      {/* Phones: one wrapping line. Desktop table: always two lines (status, then timing),
           so every row has the same height as the name and clock beside it. */}
       <div className="col-start-2 col-end-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm xl:col-auto xl:flex-col xl:flex-nowrap xl:items-start xl:gap-y-0.5">
-        <span className="flex items-center gap-x-4 whitespace-nowrap xl:gap-x-3">
+        <span className="flex items-center whitespace-nowrap">
           <StatusMark scored={scored} />
-          <CrowdGrade popularity={hotspot.popularity} />
         </span>
         <span className="flex min-w-0 max-w-full items-center gap-x-3 whitespace-nowrap">
           <span className={`truncate ${plan.waitSeconds > 0 ? 'font-medium text-gold' : 'text-dim'}`}>

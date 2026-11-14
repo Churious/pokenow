@@ -12,7 +12,7 @@ import type { Hotspot } from '../types';
 export const spotHref = (id: string): string => `./${id}`;
 export const homeHref = './';
 
-/** The hotspot whose page we're on, from the last path segment ("/pokespot/tokyo-shinjuku(.html)"). */
+/** The hotspot whose page we're on, from the last path segment ("/pokespot/tokyo-harajuku(.html)"). */
 export function currentSpot(pathname: string = window.location.pathname): Hotspot | null {
   const last = pathname.replace(/\/+$/, '').split('/').pop() ?? '';
   const id = decodeURIComponent(last).replace(/\.html$/, '');

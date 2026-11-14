@@ -17,9 +17,13 @@ import { HOTSPOTS } from '../src/data/hotspots.ts';
 const root = resolve(import.meta.dirname, '..');
 const outDir = resolve(root, 'public/og');
 // Inlined: a page opened with setContent can't load file:// fonts.
-const font = `data:font/woff2;base64,${readFileSync(
-  resolve(root, 'node_modules/@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2'),
-).toString('base64')}`;
+// latin-ext covers names like İzmir or São Paulo's neighbours.
+const fontFile = (subset: string) =>
+  `data:font/woff2;base64,${readFileSync(
+    resolve(root, `node_modules/@fontsource-variable/archivo/files/archivo-${subset}-wdth-normal.woff2`),
+  ).toString('base64')}`;
+const font = fontFile('latin');
+const fontExt = fontFile('latin-ext');
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -41,8 +45,9 @@ const rings = `<svg class="rings" viewBox="0 0 640 640" fill="none">
 function page(title: string, subtitle: string, footer: string): string {
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face { font-family: Archivo; src: url('${font}') format('woff2'); font-weight: 100 900; font-stretch: 62% 125%; }
+@font-face { font-family: ArchivoExt; src: url('${fontExt}') format('woff2'); font-weight: 100 900; font-stretch: 62% 125%; }
 * { margin: 0; box-sizing: border-box; }
-body { width: 1200px; height: 630px; background: #0b1120; color: #d7deea; font-family: Archivo, sans-serif;
+body { width: 1200px; height: 630px; background: #0b1120; color: #d7deea; font-family: Archivo, ArchivoExt, sans-serif;
   position: relative; overflow: hidden; padding: 64px 72px; display: flex; flex-direction: column; }
 .rings { position: absolute; width: 640px; height: 640px; right: -150px; top: -5px; }
 .brand { display: flex; align-items: center; gap: 14px; font-size: 40px; font-weight: 800; font-stretch: 68%; position: relative; }

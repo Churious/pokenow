@@ -10,8 +10,6 @@ export const fr: Messages = {
     spotlightHour: 'Heure Vedette',
     peak: 'Créneau de pointe',
     quiet: 'Calme',
-    crowd: 'Affluence',
-    crowdTitle: (n) => `Popularité communautaire ${n}/100`,
   },
   best: {
     now: 'Meilleur spot de raid en ce moment',
@@ -71,7 +69,7 @@ export const fr: Messages = {
   how: {
     title: 'Comment PokeSpot choisit un spot',
     p1: 'Les raids sont les plus fréquentés quand les joueurs locaux sont libres. PokeSpot lit l’heure locale de chaque spot grâce aux données de fuseaux horaires intégrées à votre navigateur ; les changements d’heure sont donc gérés automatiquement.',
-    p2: 'Les spots entre {golden} (heure locale) passent en premier : c’est le créneau de l’Heure de Raids du mercredi et de l’Heure Vedette du mardi. Viennent ensuite les spots dans le créneau {peak}, quand la plupart des joueurs font des raids. Si tout est calme, le spot qui ouvre le plus tôt l’emporte. En cas d’égalité, la ville la plus fréquentée passe devant.',
+    p2: 'Les spots entre {golden} (heure locale) passent en premier : c’est le créneau de l’Heure de Raids du mercredi et de l’Heure Vedette du mardi. Viennent ensuite les spots dans le créneau {peak}, quand la plupart des joueurs font des raids. Si tout est calme, le spot qui ouvre le plus tôt l’emporte.',
     p3: 'Si vous indiquez votre temps de recharge, chaque spot affiche aussi sa distance depuis votre dernière action et l’attente restante. Les spots sont alors jugés selon le créneau où ils seront à la fin de votre attente, pour ne pas arriver quand le lobby se vide.',
   },
   cooldown: {

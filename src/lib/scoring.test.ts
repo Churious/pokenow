@@ -15,7 +15,6 @@ const spot = (over: Partial<Hotspot>): Hotspot => ({
   lat: 0,
   lng: 0,
   timeZone: 'UTC',
-  popularity: 50,
   ...over,
 });
 
@@ -31,8 +30,6 @@ describe('dataset (hotspots.ts)', () => {
     expect(h.lat).toBeLessThanOrEqual(90);
     expect(h.lng).toBeGreaterThanOrEqual(-180);
     expect(h.lng).toBeLessThanOrEqual(180);
-    expect(h.popularity).toBeGreaterThanOrEqual(1);
-    expect(h.popularity).toBeLessThanOrEqual(100);
     expect(h.id).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
     expect(h.countryCode).toMatch(/^[A-Z]{2}$/);
   });
@@ -91,16 +88,25 @@ describe('ranking', () => {
     expect(scoreHotspot(spot({ timeZone: 'Asia/Tokyo' }), tue).eventLabel).toBe('Spotlight Hour');
   });
 
-  it('golden beats peak even with lower popularity', () => {
-    const golden = scoreHotspot(spot({ id: 'g', timeZone: 'Asia/Tokyo', popularity: 1 }), wed); // 18:00
-    const peak = scoreHotspot(spot({ id: 'p', timeZone: 'Asia/Shanghai', popularity: 100 }), wed); // 17:00
+  it('golden beats peak', () => {
+    const golden = scoreHotspot(spot({ id: 'g', timeZone: 'Asia/Tokyo' }), wed); // 18:00
+    const peak = scoreHotspot(spot({ id: 'p', timeZone: 'Asia/Shanghai' }), wed); // 17:00
     expect([peak, golden].sort(compareScored)[0].hotspot.id).toBe('g');
   });
 
-  it('breaks ties inside a tier by popularity', () => {
-    const a = scoreHotspot(spot({ id: 'a', timeZone: 'Asia/Tokyo', popularity: 60 }), wed);
-    const b = scoreHotspot(spot({ id: 'b', timeZone: 'Asia/Seoul', popularity: 90 }), wed);
-    expect([a, b].sort(compareScored)[0].hotspot.id).toBe('b');
+  it('breaks ties between spots on the same clock by distance from the last action', () => {
+    const near = spot({ id: 'z-near', timeZone: 'Asia/Tokyo', lat: 35.0, lng: 135.0 });
+    const far = spot({ id: 'a-far', timeZone: 'Asia/Seoul', lat: 37.5, lng: 127.0 });
+    // Last action 3 hours ago: no cooldown left anywhere, but the distance is known.
+    const travel = {
+      mode: 'cooldown',
+      origin: { lat: 35.0, lng: 135.1, label: 'here' },
+      lastActionAt: wed.getTime() - 3 * 3600 * 1000,
+    } as const;
+    const ranked = rankHotspots([far, near], wed, travel);
+    expect(ranked[0].hotspot.id).toBe('z-near');
+    // Without a location the order falls back to the id.
+    expect(rankHotspots([far, near], wed)[0].hotspot.id).toBe('a-far');
   });
 
   it('when everything is quiet, recommends the spot that opens soonest', () => {
@@ -108,9 +114,9 @@ describe('ranking', () => {
     // Honolulu 03:30 (opens in 7h30), Los Angeles 05:30 (opens in 5h30), Tokyo 22:30 (opens in 12h30)
     const ranked = rankHotspots(
       [
-        spot({ id: 'hnl', timeZone: 'Pacific/Honolulu', popularity: 100 }),
-        spot({ id: 'lax', timeZone: 'America/Los_Angeles', popularity: 1 }),
-        spot({ id: 'tyo', timeZone: 'Asia/Tokyo', popularity: 100 }),
+        spot({ id: 'hnl', timeZone: 'Pacific/Honolulu' }),
+        spot({ id: 'lax', timeZone: 'America/Los_Angeles' }),
+        spot({ id: 'tyo', timeZone: 'Asia/Tokyo' }),
       ],
       t,
     );
@@ -149,16 +155,17 @@ describe('geo & cooldown', () => {
 describe('cooldown / soft-ban aware planning', () => {
   // Wed 2026-11-18 09:00Z → Tokyo & Seoul 18:00 (golden). Taipei 17:00 (peak).
   const wed = new Date('2026-11-18T09:00:00Z');
-  const tokyo = spot({ id: 'tyo', timeZone: 'Asia/Tokyo', lat: 35.6896, lng: 139.7006, popularity: 98 });
-  const busan = spot({ id: 'pus', timeZone: 'Asia/Seoul', lat: 35.1578, lng: 129.0592, popularity: 80 });
+  const tokyo = spot({ id: 'tyo', timeZone: 'Asia/Tokyo', lat: 35.6896, lng: 139.7006 });
+  const busan = spot({ id: 'pus', timeZone: 'Asia/Seoul', lat: 35.1578, lng: 129.0592 });
 
   it('free mode keeps the original ranking (waits are all 0)', () => {
     const r = rankHotspots([busan, tokyo], wed);
-    expect(r[0].hotspot.id).toBe('tyo');
+    // Same clock, no location: the stable id order decides.
+    expect(r.map((s) => s.hotspot.id)).toEqual(['pus', 'tyo']);
     expect(r.every((s) => s.plan.waitSeconds === 0 && s.plan.distanceKm === null)).toBe(true);
   });
 
-  it('prefers the reachable golden spot when the popular one needs a long wait', () => {
+  it('prefers the reachable golden spot when another needs a long wait', () => {
     // Last action in Busan just now: Busan is 0 km away, Tokyo ~970 km (≈100 min wait).
     const travel = {
       mode: 'cooldown' as const,
@@ -275,8 +282,8 @@ describe('i18n', () => {
 
 describe('routes', () => {
   it('finds the spot from the path, with or without .html', () => {
-    expect(currentSpot('/pokespot/tokyo-shinjuku')?.city).toBe('Tokyo');
-    expect(currentSpot('/tokyo-shinjuku.html')?.city).toBe('Tokyo');
+    expect(currentSpot('/pokespot/tokyo-harajuku')?.city).toBe('Tokyo');
+    expect(currentSpot('/tokyo-harajuku.html')?.city).toBe('Tokyo');
     expect(currentSpot('/pokespot/')).toBeNull();
     expect(currentSpot('/pokespot/privacy.html')).toBeNull();
   });
