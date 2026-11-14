@@ -8,6 +8,7 @@ interface ImportMetaEnv {
   readonly VITE_AD_SLOT_TOP?: string;
   readonly VITE_AD_SLOT_INFEED?: string;
   readonly VITE_AD_SLOT_ANCHOR?: string;
+  readonly VITE_AD_SLOT_SIDEBAR?: string;
   readonly VITE_AD_INFEED_LAYOUT_KEY?: string;
 }
 

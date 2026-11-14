@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import { AdBanner } from './AdBanner';
 import { CONFIG } from '../config';
 import { useI18n } from '../i18n';
+import { MQ, useMediaQuery } from '../hooks/useMediaQuery';
 
 const STORAGE_KEY = 'pokespot:anchor-dismissed';
 
@@ -29,15 +30,17 @@ function readDismissed(): boolean {
 export function StickyAnchorAd() {
   const [dismissed, setDismissed] = useState(readDismissed);
   const { t } = useI18n();
+  const isDesktop = useMediaQuery(MQ.md);
 
   // Reserve space at the bottom of the page so the anchor never covers content.
   useEffect(() => {
-    if (dismissed) return;
+    if (dismissed || isDesktop) return;
     document.body.classList.add('pb-28', 'md:pb-0');
     return () => document.body.classList.remove('pb-28', 'md:pb-0');
-  }, [dismissed]);
+  }, [dismissed, isDesktop]);
 
-  if (dismissed) return null;
+  // Mobile only: on wider screens the sidebar unit is the single sticky ad.
+  if (dismissed || isDesktop) return null;
 
   const close = () => {
     setDismissed(true);
