@@ -7,8 +7,6 @@ const env = import.meta.env;
 
 export const CONFIG = {
   githubUrl: env.VITE_GITHUB_URL || 'https://github.com/Churious/pokespot',
-  /** Official Campfire app page (moved from campfire.nianticlabs.com after the Scopely acquisition). */
-  campfireUrl: 'https://campfire.scopely.com/en/',
   adsense: {
     /** "ca-pub-XXXXXXXXXXXXXXXX". When empty, ad slots render dev placeholders only. */
     client: env.VITE_ADSENSE_CLIENT || '',
