@@ -146,7 +146,14 @@ const json = (status, data, headers = {}) =>
   new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json', ...headers } });
 
 async function verifyTurnstile(token, ip, secret) {
-  if (!token || !secret) return false;
+  if (!secret) {
+    console.error('TURNSTILE_SECRET is not set (Worker → Settings → Variables and Secrets, type Secret)');
+    return false;
+  }
+  if (!token) {
+    console.warn('turnstile token missing');
+    return false;
+  }
   const form = new FormData();
   form.append('secret', secret);
   form.append('response', token);
@@ -205,6 +212,7 @@ async function handle(request, env, origin, headers) {
     },
     body: JSON.stringify({ title: issue.title, body: issue.body, labels: issue.labels }),
   });
+  if (!env.ISSUE_TOKEN) console.error('ISSUE_TOKEN is not set (Worker → Settings → Variables and Secrets, type Secret)');
   if (!gh.ok) {
     console.error('github issue failed', gh.status, (await gh.text().catch(() => '')).slice(0, 300));
     return json(502, { error: 'github' }, headers);
