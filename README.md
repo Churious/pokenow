@@ -1,6 +1,32 @@
-# PokeNow
+<p align="center">
+  <img src="docs/media/icon.svg" width="72" height="72" alt="">
+</p>
 
-**[pokenow.cc](https://pokenow.cc)** — which Pokémon GO raid hotspot on Earth is busiest right now.
+<h1 align="center">PokeNow</h1>
+
+<p align="center">
+  <strong><a href="https://pokenow.cc">pokenow.cc</a></strong> — which Pokémon GO raid hotspot on Earth is busiest right now.
+</p>
+
+<p align="center">
+  <a href="https://pokenow.cc"><img src="https://img.shields.io/badge/live-pokenow.cc-f5a524?style=flat-square" alt="Live site: pokenow.cc"></a>
+  <a href="https://github.com/Churious/pokenow/actions/workflows/deploy-pages.yml"><img src="https://github.com/Churious/pokenow/actions/workflows/deploy-pages.yml/badge.svg" alt="Deploy status"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-334155?style=flat-square" alt="License: PolyForm Noncommercial 1.0.0"></a>
+  <img src="https://img.shields.io/badge/languages-14-10b981?style=flat-square" alt="14 languages">
+  <img src="https://img.shields.io/badge/accounts-none-0b1120?style=flat-square" alt="No accounts">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React_19-20232a?style=flat-square&logo=react&logoColor=61dafb" alt="React 19">
+  <img src="https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Vite_8-646cff?style=flat-square&logo=vite&logoColor=white" alt="Vite 8">
+  <img src="https://img.shields.io/badge/Tailwind_4-0b1120?style=flat-square&logo=tailwindcss&logoColor=38bdf8" alt="Tailwind CSS 4">
+  <img src="https://img.shields.io/badge/Leaflet-199900?style=flat-square&logo=leaflet&logoColor=white" alt="Leaflet">
+</p>
+
+<p align="center">
+  <img src="docs/media/desktop.png" alt="PokeNow on desktop: São Paulo recommended during golden hour, a 24-hour dial of every spot, the ranked list and a map" width="900">
+</p>
 
 PokeNow watches the local time at 19 well-known raid spots around the world and points you to the one where lobbies are
 most likely to fill, with the coordinates one tap away. It is a fan-made site: free to use, no accounts, no app.
@@ -21,6 +47,12 @@ browser. It is **source-available, not open source**: see [License](#license).
 - **A page per spot** with a live clock, countdowns, map links and a share button; pinned favourites; 14 languages.
 - **Reports without a GitHub account**: translation fixes and new-spot suggestions go straight from the site to this
   repo's issues.
+
+<p align="center">
+  <img src="docs/media/demo.gif" alt="Phone: clocks ticking, scrolling the ranked list, then the Route and Events tabs" width="300">
+  &nbsp;&nbsp;
+  <img src="docs/media/phones.png" alt="Phone screens: home, cooldown route, event schedule" width="560">
+</p>
 
 ## How the ranking works
 
