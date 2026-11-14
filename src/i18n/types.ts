@@ -200,17 +200,25 @@ export interface Messages {
   schedule: {
     title: string;
     intro: string;
+    bossesTitle: string;
+    /** "until Dec 1" */
+    bossesUntil: (date: string) => string;
+    kinds: { communityDay: string; raidDay: string; event: string };
     /** "14:00–17:00 local time" */
     localTime: (range: string) => string;
-    timeTbd: string;
+    /** Global events: "21:00–23:00 your time" */
+    yourTime: (range: string) => string;
     today: string;
     inDays: (n: number) => string;
     startsIn: (d: string) => string;
     liveHere: (d: string) => string;
-    liveTodayTbd: string;
     elsewhere: string;
-    source: string;
+    details: string;
+    sourceNote: string;
+    officialNews: string;
     weekly: string;
+    loading: string;
+    error: string;
     empty: string;
   };
 }

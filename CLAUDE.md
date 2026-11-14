@@ -32,7 +32,6 @@ src/
 ├── data/
 │   ├── hotspots.ts          the dataset — most data PRs only touch this
 │   ├── communities.ts       free community directory
-│   ├── schedule.ts          announced events (official pokemongo.com sources only)
 │   └── cooldowns.ts         unofficial community cooldown table
 ├── lib/                     pure logic, no React, unit-tested
 │   ├── scoring.ts           ranking engine (tiers, cooldown-aware plan)
@@ -41,14 +40,15 @@ src/
 │   ├── time.ts              Intl time-zone helpers + formatters
 │   ├── geo.ts               haversine distance, coordinate string
 │   ├── events.ts            golden-hour / Raid Hour / Spotlight Hour countdowns
-│   ├── schedule.ts          local-time event state (upcoming / live / further west)
+│   ├── schedule.ts          event feed parsing + local-time state (upcoming / live / further west)
 │   ├── routes.ts            URL → spot, relative hrefs
 │   ├── clipboard.ts         copy fallback for Copy / Share
 │   └── github.ts            issue-form URLs
 ├── hooks/                   browser-only state
 │   ├── useNow.ts            1 s ticker aligned to the second
 │   ├── useTravelState.ts    last action place/time (localStorage)
-│   └── useFavorites.ts      pinned spots (localStorage)
+│   ├── useFavorites.ts      pinned spots (localStorage)
+│   └── useGoEvents.ts       community event feed, fetched + cached (localStorage)
 ├── i18n/
 │   ├── types.ts             Messages contract — every key is typed
 │   ├── load.ts              React-free: locale list, detection, lazy dictionary loading
@@ -80,8 +80,8 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
 - **No copyrighted assets.** No sprites, franchise logos or artwork.
 - **No location-changing tools or endorsement.** The cooldown feature describes a game mechanic;
   keep wording neutral and keep the fan-made disclaimer. Never claim to show Gym/PokéStop locations.
-- **Browser-only state.** `pokenow:travel`, `pokenow:favorites`, `pokenow:lang` live in
-  localStorage and are never sent anywhere. Don't add a backend for a feature that doesn't need one.
+- **Browser-only state.** `pokenow:travel`, `pokenow:favorites`, `pokenow:lang`, `pokenow:events` (feed
+  cache) live in localStorage and are never sent anywhere. Don't add a backend for a feature that doesn't need one.
 - **Static hosting.** `base: './'`, relative hrefs, all pages share one bundle. Don't hard-code the
   domain; `VITE_SITE_URL` drives canonical/OG URLs at build time.
 - **Ads:** only one sticky unit may be mounted at a time (bottom anchor below 768 px, sidebar from
@@ -98,10 +98,13 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   Tests: `lib/favorites.test.ts`.
 - **Share** — `components/ShareSpotButton.tsx`: native Web Share where available, otherwise
   clipboard. Payload = place, coordinates, current local time + UTC offset, URL.
-- **Event schedule** — `data/schedule.ts` (hand-maintained), `lib/schedule.ts`,
-  `components/EventSchedule.tsx`. Only events stated on pokemongo.com, each with its `source`;
-  omit `start`/`end` until officially announced (the UI says "time not announced", never guesses).
-  Times are local wall-clock times in every zone; an event stays listed until it has ended at UTC−12.
+- **Event schedule** — fetched at runtime from ScrapedDuck
+  (`raw.githubusercontent.com/bigfoott/ScrapedDuck/data/events.min.json`), an open JSON mirror of the
+  Leek Duck community calendar. Unofficial: the UI says so and links Leek Duck + official news.
+  `lib/schedule.ts` parses it defensively (unknown types / bad dates dropped) and keeps **names only,
+  never the feed's artwork URLs** (copyright). Feed times without `Z` are local wall-clock times in
+  every zone; with `Z` one global instant. `hooks/useGoEvents.ts` caches the last good copy for 30 min
+  (`pokenow:events`). Tests use a real-data fixture in `lib/__fixtures__/`.
   Weekly Raid Hour (Wed) and Spotlight Hour (Thu, since June 2026) are constants in `lib/scoring.ts`.
 - **Not-found page** — `scripts/site-pages.ts` emits `404.html` (noindex, `<base>` = site root,
   rewrites the URL to home) so old ids, typos and redirected links from the previous domain land
@@ -118,11 +121,10 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
 2. Run `npm test` (validates ids, ranges, zones) and `npm run build`.
 3. Optional: `npm run og` for the preview card.
 
-### Update the event schedule
+### The event schedule
 
-Add or edit entries in `src/data/schedule.ts` from an official pokemongo.com post (link it in
-`source`). Use the official English name. `npm test` checks ids, dates and that sources are
-pokemongo.com URLs.
+Nothing to maintain: it comes from the feed. If the feed format changes, update `parseFeed` and the
+fixture (`npm test` uses it). Never render the feed's image URLs.
 
 ### Change a translation
 
