@@ -10,6 +10,7 @@ import { campfireHref } from '../lib/platform';
 import { CopyCoordsButton } from './CopyCoordsButton';
 import { CrowdGrade, StatusMark } from './StatusBadge';
 import { LazyMap } from './LazyMap';
+import { CommunityList } from './CommunityList';
 
 /** Dedicated page for one hotspot: live clock, upcoming events, coordinates, map. */
 export function SpotPage({
@@ -111,6 +112,9 @@ export function SpotPage({
           ))}
         </ul>
       </section>
+        <div className="mt-10">
+          <CommunityList hotspotId={spot.id} />
+        </div>
       </div>
 
       <aside className="flex flex-col gap-8 lg:pt-14">

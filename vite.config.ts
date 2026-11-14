@@ -46,6 +46,40 @@ function adsense(client: string): Plugin {
   };
 }
 
+/**
+ * Cookie-free page-view analytics, off unless configured:
+ *  - VITE_CF_ANALYTICS_TOKEN → Cloudflare Web Analytics beacon
+ *  - VITE_GOATCOUNTER_CODE   → GoatCounter (hosted free tier is for non-commercial sites)
+ */
+function analytics(cfToken: string, goatCode: string): Plugin {
+  const safe = (v: string) => /^[A-Za-z0-9_-]{1,64}$/.test(v);
+  return {
+    name: 'pokespot-analytics',
+    transformIndexHtml() {
+      const tags = [];
+      if (cfToken && safe(cfToken)) {
+        tags.push({
+          tag: 'script',
+          attrs: {
+            defer: true,
+            src: 'https://static.cloudflareinsights.com/beacon.min.js',
+            'data-cf-beacon': JSON.stringify({ token: cfToken }),
+          },
+          injectTo: 'body' as const,
+        });
+      }
+      if (goatCode && safe(goatCode)) {
+        tags.push({
+          tag: 'script',
+          attrs: { async: true, src: 'https://gc.zgo.at/count.js', 'data-goatcounter': `https://${goatCode}.goatcounter.com/count` },
+          injectTo: 'body' as const,
+        });
+      }
+      return tags;
+    },
+  };
+}
+
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_');
@@ -62,6 +96,7 @@ export default defineConfig(({ mode }) => {
       react(),
       tailwindcss(),
       adsense(client),
+      analytics(env.VITE_CF_ANALYTICS_TOKEN ?? '', env.VITE_GOATCOUNTER_CODE ?? ''),
       sitePages(env.VITE_SITE_URL || 'https://churious.github.io/pokespot/'),
       // Installable app + offline app shell. Map tiles and ads are never cached.
       VitePWA({

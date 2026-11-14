@@ -110,6 +110,17 @@ export const it: Messages = {
     seoIntro: (c, s) =>
       `Ora locale in tempo reale, conto alla rovescia per Ora dei Raid e Ora Riflettori e coordinate da copiare per ${s} a ${c}.`,
   },
+  community: {
+    title: 'Community di raid',
+    intro: 'Gruppi in cui trovare compagni per i raid in questo posto.',
+    empty: 'Ancora nessuna community. Sii la prima.',
+    add: 'Registra la tua community gratis',
+    rules: 'Ogni registrazione viene controllata. Niente gruppi di falsificazione della posizione, vendita di account o strumenti di cheat.',
+    join: 'Unisciti',
+    global: 'Globale',
+    other: 'Altro',
+    kakao: 'KakaoTalk',
+  },
   map: {
     title: 'I posti sulla mappa',
     intro: 'Il colore indica lo stato attuale di ogni posto.',

@@ -110,6 +110,17 @@ export const en: Messages = {
     seoIntro: (c, s) =>
       `Live local time, Raid Hour and Spotlight Hour countdowns, and copyable coordinates for ${s} in ${c}.`,
   },
+  community: {
+    title: 'Raid communities',
+    intro: 'Groups where you can find raid partners for this spot.',
+    empty: 'No community listed here yet. Be the first.',
+    add: 'List your community for free',
+    rules: 'Every listing is reviewed. No spoofing, account trading or cheat-tool groups.',
+    join: 'Join',
+    global: 'Global',
+    other: 'Other',
+    kakao: 'KakaoTalk',
+  },
   map: {
     title: 'Hotspots on the map',
     intro: 'Colour shows each spot’s status right now.',

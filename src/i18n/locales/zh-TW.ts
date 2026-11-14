@@ -109,6 +109,17 @@ export const zhTW: Messages = {
     otherSpots: '現在推薦的其他地點',
     seoIntro: (c, s) => `${c}${s}的即時當地時間、團體戰時間與聚焦時刻倒數，以及可複製的座標。`,
   },
+  community: {
+    title: '團體戰社群',
+    intro: '可在此地點找到團體戰夥伴的社群。',
+    empty: '目前還沒有登記的社群，歡迎成為第一個。',
+    add: '免費登記你的社群',
+    rules: '所有登記都會經過審核。不接受竄改位置、帳號買賣或作弊工具相關的社群。',
+    join: '加入',
+    global: '全球',
+    other: '其他',
+    kakao: 'KakaoTalk',
+  },
   map: {
     title: '地圖上的地點',
     intro: '顏色代表每個地點目前的狀態。',

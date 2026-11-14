@@ -110,6 +110,17 @@ export const ptBR: Messages = {
     seoIntro: (c, s) =>
       `Horário local ao vivo, contagem regressiva para a Hora da Reide e a Hora do Holofote e coordenadas para copiar de ${s} em ${c}.`,
   },
+  community: {
+    title: 'Comunidades de reides',
+    intro: 'Grupos para encontrar parceiros de reide neste ponto.',
+    empty: 'Ainda não há comunidades. Seja a primeira.',
+    add: 'Cadastre sua comunidade de graça',
+    rules: 'Todo cadastro é revisado. Não aceitamos grupos de falsificação de localização, venda de contas ou ferramentas de trapaça.',
+    join: 'Entrar',
+    global: 'Global',
+    other: 'Outra',
+    kakao: 'KakaoTalk',
+  },
   map: {
     title: 'Os pontos no mapa',
     intro: 'A cor mostra o status atual de cada ponto.',

@@ -110,6 +110,17 @@ export const de: Messages = {
     seoIntro: (c, s) =>
       `Ortszeit live, Countdowns für Raid-Stunde und Rampenlicht-Stunde sowie kopierbare Koordinaten für ${s} in ${c}.`,
   },
+  community: {
+    title: 'Raid-Communities',
+    intro: 'Gruppen, in denen du Mitspieler für Raids an diesem Spot findest.',
+    empty: 'Noch keine Community eingetragen. Sei die erste.',
+    add: 'Community kostenlos eintragen',
+    rules: 'Jeder Eintrag wird geprüft. Keine Gruppen für Standort-Spoofing, Account-Handel oder Cheat-Tools.',
+    join: 'Beitreten',
+    global: 'Weltweit',
+    other: 'Sonstige',
+    kakao: 'KakaoTalk',
+  },
   map: {
     title: 'Spots auf der Karte',
     intro: 'Die Farbe zeigt den aktuellen Status jedes Spots.',

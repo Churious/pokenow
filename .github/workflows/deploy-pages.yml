@@ -31,6 +31,8 @@ jobs:
         env:
           # Optional repository variables.
           VITE_SITE_URL: ${{ vars.VITE_SITE_URL }}
+          VITE_CF_ANALYTICS_TOKEN: ${{ vars.VITE_CF_ANALYTICS_TOKEN }}
+          VITE_GOATCOUNTER_CODE: ${{ vars.VITE_GOATCOUNTER_CODE }}
           VITE_ADSENSE_CLIENT: ${{ vars.VITE_ADSENSE_CLIENT }}
           VITE_AD_SLOT_TOP: ${{ vars.VITE_AD_SLOT_TOP }}
           VITE_AD_SLOT_INFEED: ${{ vars.VITE_AD_SLOT_INFEED }}
