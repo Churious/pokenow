@@ -4,7 +4,7 @@
  * For every hotspot it emits `<id>.html` — a copy of the built index.html with
  * its own <title>, description, canonical URL and Open Graph tags, plus a short
  * plain-HTML summary inside #root (replaced by the React app on load, but
- * readable by crawlers and without JavaScript). It also writes sitemap.xml and
+ * readable by crawlers and without JavaScript) Visually hidden while the app loads.. It also writes sitemap.xml and
  * robots.txt.
  *
  * The React app picks the page from the URL (src/lib/routes.ts), so the same
@@ -34,6 +34,11 @@ function applyMeta(html: string, m: PageMeta, siteUrl: string): string {
     `<meta property="og:url" content="${esc(m.url)}" />`,
     `<meta property="og:image" content="${esc(siteUrl)}icons/icon-512.png" />`,
     `<meta name="twitter:card" content="summary" />`,
+    // The summary in #root is for crawlers and no-JS visitors. With JavaScript on,
+    // hide it while the app loads instead of flashing unstyled text; if the app
+    // still hasn't replaced it after 4s (script blocked or failed), show it.
+    `<script>document.documentElement.classList.add('js')</script>`,
+    `<style>.js .prerender{visibility:hidden;animation:prerender-show 0s 4s forwards}@keyframes prerender-show{to{visibility:visible}}</style>`,
   ].join('\n    ');
 
   return html
@@ -63,7 +68,7 @@ export function sitePages(siteUrl: string): Plugin {
           title: 'PokeSpot — Best Raid Spot Now',
           description: homeDescription,
           url: base,
-          body: `<main style="padding:1rem;color:#d7deea;font-family:sans-serif"><h1>PokeSpot</h1><p>${esc(
+          body: `<main class="prerender" style="padding:1rem;color:#d7deea;font-family:sans-serif"><h1>PokeSpot</h1><p>${esc(
             homeDescription,
           )}</p><ul>${HOTSPOTS.map(
             (h) => `<li><a href="./${h.id}" style="color:#d7deea">${esc(h.city)}, ${esc(h.spot)}</a></li>`,
@@ -84,7 +89,7 @@ export function sitePages(siteUrl: string): Plugin {
               title,
               description,
               url: `${base}${h.id}`,
-              body: `<main style="padding:1rem;color:#d7deea;font-family:sans-serif"><p><a href="./" style="color:#d7deea">PokeSpot</a></p><h1>${esc(
+              body: `<main class="prerender" style="padding:1rem;color:#d7deea;font-family:sans-serif"><p><a href="./" style="color:#d7deea">PokeSpot</a></p><h1>${esc(
                 h.city,
               )}</h1><p>${esc(h.spot)}</p><p>${esc(description)}</p><p>Coordinates: ${h.lat.toFixed(
                 4,
