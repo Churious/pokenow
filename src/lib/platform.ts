@@ -16,7 +16,11 @@ export function detectPlatform(
   return 'other';
 }
 
-/** Official Campfire links (from campfire.scopely.com). */
+/**
+ * Official Campfire links (from campfire.scopely.com).
+ * The App Store slug and Android package still use the original Niantic
+ * identifiers; don't "fix" them or the store links break.
+ */
 export const CAMPFIRE_LINKS: Record<Platform, string> = {
   ios: 'https://apps.apple.com/app/niantic-campfire/id1608615554',
   android: 'https://play.google.com/store/apps/details?id=com.nianticlabs.campfire',

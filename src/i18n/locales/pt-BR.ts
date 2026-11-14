@@ -107,9 +107,9 @@ export const ptBR: Messages = {
   },
   footer: {
     disclaimer:
-      'O PokeSpot é uma ferramenta feita por fãs para acompanhar os horários de reides no mundo e coordenar reides remotas. Não é afiliado à Niantic nem à The Pokémon Company.',
+      'O PokeSpot é uma ferramenta feita por fãs para acompanhar os horários de reides no mundo e coordenar reides remotas. Não é afiliado à Scopely nem à The Pokémon Company.',
     extra:
-      'Também não é afiliado à Scopely, atual operadora de Pokémon GO. Pokémon e os nomes relacionados são marcas de seus respectivos donos. O PokeSpot não oferece nem recomenda ferramentas de mudança de localização; jogue respeitando os Termos de Serviço. Os horários de eventos seguem o horário local e podem mudar, então confira os anúncios oficiais.',
+      'O Pokémon GO é atualmente operado pela Scopely. Pokémon e os nomes relacionados são marcas de seus respectivos donos. O PokeSpot não oferece nem recomenda ferramentas de mudança de localização; jogue respeitando os Termos de Serviço. Os horários de eventos seguem o horário local e podem mudar, então confira os anúncios oficiais.',
     source: 'Código-fonte no GitHub (MIT)',
     privacy: 'Política de privacidade',
     sponsor: 'Apoie o PokeSpot',

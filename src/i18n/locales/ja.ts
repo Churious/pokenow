@@ -107,9 +107,9 @@ export const ja: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpotは世界のレイド時間帯を確認し、リモートレイドを調整するためのファンメイドツールです。NianticおよびThe Pokémon Companyとは関係ありません。',
+      'PokeSpotは世界のレイド時間帯を確認し、リモートレイドを調整するためのファンメイドツールです。ScopelyおよびThe Pokémon Companyとは関係ありません。',
     extra:
-      'Pokémon GOの現在の運営会社であるScopelyとも関係ありません。Pokémonおよび関連する名称は各権利者の商標です。PokeSpotは位置情報を変更するツールを提供・推奨しません。ゲームの利用規約を守ってプレイしてください。イベント時間は現地時刻の慣例で、変更される場合があります。公式のお知らせを確認してください。',
+      'Pokémon GOは現在Scopelyが運営しています。Pokémonおよび関連する名称は各権利者の商標です。PokeSpotは位置情報を変更するツールを提供・推奨しません。ゲームの利用規約を守ってプレイしてください。イベント時間は現地時刻の慣例で、変更される場合があります。公式のお知らせを確認してください。',
     source: 'GitHubのソース(MIT)',
     privacy: 'プライバシーポリシー',
     sponsor: 'PokeSpotを支援する',

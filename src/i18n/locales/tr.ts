@@ -109,9 +109,9 @@ export const tr: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot, dünya genelindeki baskın saatlerini takip etmek ve uzaktan baskınları koordine etmek için hayranlar tarafından yapılmış bir araçtır. Niantic veya The Pokémon Company ile bağlantılı değildir.',
+      'PokeSpot, dünya genelindeki baskın saatlerini takip etmek ve uzaktan baskınları koordine etmek için hayranlar tarafından yapılmış bir araçtır. Scopely veya The Pokémon Company ile bağlantılı değildir.',
     extra:
-      'Pokémon GO’nun şu anki işletmecisi Scopely ile de bağlantılı değildir. Pokémon ve ilgili adlar, sahiplerinin ticari markalarıdır. PokeSpot konum değiştirme araçları sağlamaz ve önermez; lütfen oyunun Hizmet Şartları’na uygun oyna. Etkinlik saatleri yerel saate göredir ve değişebilir, resmi duyuruları kontrol et.',
+      'Pokémon GO şu anda Scopely tarafından işletilmektedir. Pokémon ve ilgili adlar, sahiplerinin ticari markalarıdır. PokeSpot konum değiştirme araçları sağlamaz ve önermez; lütfen oyunun Hizmet Şartları’na uygun oyna. Etkinlik saatleri yerel saate göredir ve değişebilir, resmi duyuruları kontrol et.',
     source: 'GitHub’da kaynak kod (MIT)',
     privacy: 'Gizlilik politikası',
     sponsor: 'PokeSpot’a destek ol',
