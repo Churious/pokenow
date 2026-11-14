@@ -103,6 +103,7 @@ export const zhTW: Messages = {
     inDuration: (d) => `${d}後`,
     openGoogle: '在 Google 地圖中開啟',
     openOsm: '在 OpenStreetMap 中開啟',
+    openCampfire: '在 Campfire 尋找團體戰（官方應用程式）',
     mapTitle: '位置',
     mapNote: '不顯示寶可補給站和道館的位置，因為沒有官方公開資料。',
     otherSpots: '現在推薦的其他地點',

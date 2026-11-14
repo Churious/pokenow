@@ -105,6 +105,7 @@ export const id: Messages = {
     inDuration: (d) => `dalam ${d}`,
     openGoogle: 'Buka di Google Maps',
     openOsm: 'Buka di OpenStreetMap',
+    openCampfire: 'Cari raid di Campfire (aplikasi resmi)',
     mapTitle: 'Lokasi',
     mapNote: 'Lokasi PokéStop dan Gym tidak ditampilkan karena tidak ada data publik resmi.',
     otherSpots: 'Tempat bagus lainnya saat ini',

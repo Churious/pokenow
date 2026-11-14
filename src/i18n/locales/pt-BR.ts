@@ -103,6 +103,7 @@ export const ptBR: Messages = {
     inDuration: (d) => `em ${d}`,
     openGoogle: 'Abrir no Google Maps',
     openOsm: 'Abrir no OpenStreetMap',
+    openCampfire: 'Encontrar reides no Campfire (app oficial)',
     mapTitle: 'Onde fica',
     mapNote: 'Poképaradas e Ginásios não são exibidos: não há dados públicos oficiais.',
     otherSpots: 'Outros bons pontos agora',

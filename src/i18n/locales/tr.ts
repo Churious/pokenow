@@ -105,6 +105,7 @@ export const tr: Messages = {
     inDuration: (d) => `${d} sonra`,
     openGoogle: 'Google Haritalar’da aç',
     openOsm: 'OpenStreetMap’te aç',
+    openCampfire: 'Campfire’da baskın bul (resmi uygulama)',
     mapTitle: 'Konum',
     mapNote: 'PokéStop ve Gym konumları gösterilmez: bunlar için resmi açık veri yoktur.',
     otherSpots: 'Şu an diğer iyi noktalar',

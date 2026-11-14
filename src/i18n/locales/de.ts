@@ -103,6 +103,7 @@ export const de: Messages = {
     inDuration: (d) => `in ${d}`,
     openGoogle: 'In Google Maps öffnen',
     openOsm: 'In OpenStreetMap öffnen',
+    openCampfire: 'Raids in Campfire finden (offizielle App)',
     mapTitle: 'Lage',
     mapNote: 'PokéStops und Arenen werden nicht angezeigt, da es dafür keine offiziellen öffentlichen Daten gibt.',
     otherSpots: 'Weitere gute Spots gerade',

@@ -103,6 +103,7 @@ export const it: Messages = {
     inDuration: (d) => `tra ${d}`,
     openGoogle: 'Apri in Google Maps',
     openOsm: 'Apri in OpenStreetMap',
+    openCampfire: 'Trova raid su Campfire (app ufficiale)',
     mapTitle: 'Dove si trova',
     mapNote: 'PokéStop e Palestre non sono mostrati: non esistono dati pubblici ufficiali.',
     otherSpots: 'Altri buoni posti adesso',

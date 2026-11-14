@@ -105,6 +105,7 @@ export const hi: Messages = {
     inDuration: (d) => `${d} में`,
     openGoogle: 'Google Maps में खोलें',
     openOsm: 'OpenStreetMap में खोलें',
+    openCampfire: 'Campfire में रेड खोजें (आधिकारिक ऐप)',
     mapTitle: 'कहाँ है',
     mapNote: 'PokéStop और जिम की जगहें नहीं दिखाई जातीं, क्योंकि उनका कोई आधिकारिक सार्वजनिक डेटा नहीं है।',
     otherSpots: 'अभी की दूसरी अच्छी जगहें',

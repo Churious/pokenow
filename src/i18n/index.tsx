@@ -16,6 +16,7 @@ import { fr } from './locales/fr';
 import { de } from './locales/de';
 import { it } from './locales/it';
 import { es } from './locales/es';
+import { es419 } from './locales/es-419';
 import { ptBR } from './locales/pt-BR';
 import { tr } from './locales/tr';
 import { th } from './locales/th';
@@ -28,6 +29,7 @@ export const LOCALES = {
   de,
   it,
   es,
+  'es-419': es419,
   'pt-BR': ptBR,
   tr,
   id,
@@ -51,6 +53,8 @@ export function matchLocale(tag: string): Locale | null {
   const base = lower.split('-')[0];
   if (base === 'zh') return lower.includes('hans') || lower === 'zh-cn' || lower === 'zh-sg' ? null : 'zh-TW';
   if (base === 'pt') return 'pt-BR';
+  // Spain → es; any other Spanish region (es-MX, es-419, es-AR…) → Latin American Spanish.
+  if (base === 'es') return lower === 'es' || lower === 'es-es' ? 'es' : 'es-419';
   return LOCALE_CODES.find((c) => c.toLowerCase().split('-')[0] === base) ?? null;
 }
 

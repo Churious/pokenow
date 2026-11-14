@@ -104,6 +104,16 @@ export function SpotPage({ spot, ranked, now }: { spot: Hotspot; ranked: ScoredH
             {t.city.openOsm}
             <ExternalLink className="size-3.5" aria-hidden />
           </a>
+          {/* Official raid/gym map. Plain text link, no Campfire branding, to avoid implying endorsement. */}
+          <a
+            href="https://campfire.nianticlabs.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-ink underline underline-offset-4"
+          >
+            {t.city.openCampfire}
+            <ExternalLink className="size-3.5" aria-hidden />
+          </a>
         </div>
       </section>
 
