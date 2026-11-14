@@ -1,0 +1,83 @@
+@import '@fontsource-variable/archivo/wdth.css';
+@import 'tailwindcss';
+
+/*
+ * PokeSpot design tokens.
+ * One family (Archivo, variable width) does all the work: condensed + heavy for
+ * place names and clocks, normal width for reading text. Colour is reserved for
+ * meaning: amber = golden hour, emerald = peak window, everything else is ink.
+ */
+@theme {
+  --color-night: #0b1120; /* page */
+  --color-deck: #121b30; /* the one raised surface: dial panel, inputs */
+  --color-rule: #22304d; /* hairlines */
+  --color-ink: #d7deea; /* primary text */
+  --color-dim: #7d8ba6; /* secondary text */
+  --color-faint: #4a5878; /* tertiary text, disabled */
+  --color-peak: #3cc796; /* emerald: 11–20 peak window */
+  --color-gold: #f5a524; /* amber: 18–19 golden hour */
+  --color-hot: #f06a2b; /* orange: the recommended spot, Raid Hour */
+
+  --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-night font-sans text-ink antialiased;
+  font-variant-numeric: tabular-nums;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Condensed display cut of Archivo. */
+.condensed {
+  font-stretch: 68%;
+}
+.semi-condensed {
+  font-stretch: 84%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* The only ambient motion on the page: the recommended dot on the dial breathes. */
+@keyframes pulse-ring {
+  0% {
+    r: 7;
+    opacity: 0.7;
+  }
+  100% {
+    r: 18;
+    opacity: 0;
+  }
+}
+.dial-pulse {
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+.animate-toast-in {
+  animation: toast-in 140ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
