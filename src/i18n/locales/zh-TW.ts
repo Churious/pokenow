@@ -201,4 +201,15 @@ export const zhTW: Messages = {
     githubAlt: '有 GitHub 帳號？改用 GitHub 表單',
     errors: { captcha: '垃圾訊息檢查失敗，請再試一次。', missing: '請填寫必填欄位。', coords: '請用「緯度, 經度」格式，例如 37.5720, 126.9769。', tooLong: '內容太長，請縮短。', network: '無法送出，請檢查網路後再試。', generic: '無法送出回報，請稍後再試。' },
   },
+  support: {
+    title: '可以在這裡暫時關掉廣告封鎖嗎？🥺',
+    body: 'PokeNow 是一個人製作的免費網站。一則小廣告就能支撐網域和營運費用。我們保證不放遮住畫面的廣告。',
+    how: '如何允許',
+    later: '下次再說',
+    steps: {
+      ublock: 'uBlock Origin：點擊圖示 → 大的電源按鈕 → 重新整理',
+      adguard: 'AdGuard：點擊圖示 → 關閉此網站的保護',
+      other: '其他：把 pokenow.cc 加入允許清單',
+    },
+  },
 };

@@ -203,4 +203,15 @@ export const id: Messages = {
     githubAlt: 'Punya akun GitHub? Pakai formulir GitHub',
     errors: { captcha: 'Pemeriksaan spam gagal. Coba lagi.', missing: 'Isi kolom yang wajib.', coords: 'Gunakan “lintang, bujur”, misalnya 37.5720, 126.9769.', tooLong: 'Terlalu panjang. Tolong persingkat.', network: 'Gagal mengirim. Periksa koneksi lalu coba lagi.', generic: 'Laporan tidak dapat dikirim. Coba lagi nanti.' },
   },
+  support: {
+    title: 'Boleh matikan pemblokir iklan di sini?',
+    body: 'PokeNow adalah situs gratis yang dibuat satu orang. Satu iklan kecil membantu membayar domain dan menjaga situs tetap jalan. Tidak ada iklan yang menutupi halaman, janji.',
+    how: 'Cara mengizinkan',
+    later: 'Nanti saja',
+    steps: {
+      ublock: 'uBlock Origin: klik ikonnya → tombol daya besar → muat ulang',
+      adguard: 'AdGuard: klik ikonnya → matikan perlindungan untuk situs ini',
+      other: 'Lainnya: tambahkan pokenow.cc ke daftar yang diizinkan',
+    },
+  },
 };

@@ -112,3 +112,15 @@ body {
 .leaflet-container.pokenow-map .leaflet-popup-content a {
   color: var(--color-gold);
 }
+
+/* Support note (ad blocker request): one gentle slide-in, skipped with reduced motion. */
+@keyframes support-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

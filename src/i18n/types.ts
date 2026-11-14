@@ -257,4 +257,12 @@ export interface Messages {
     githubAlt: string;
     errors: { captcha: string; missing: string; coords: string; tooLong: string; network: string; generic: string };
   };
+  /** Polite request shown to visitors with an ad blocker (components/SupportNote.tsx). */
+  support: {
+    title: string;
+    body: string;
+    how: string;
+    later: string;
+    steps: { ublock: string; adguard: string; other: string };
+  };
 }

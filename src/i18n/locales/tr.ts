@@ -203,4 +203,15 @@ export const tr: Messages = {
     githubAlt: 'GitHub hesabın var mı? GitHub formunu kullan',
     errors: { captcha: 'Spam kontrolü başarısız oldu. Tekrar dene.', missing: 'Zorunlu alanları doldur.', coords: '“enlem, boylam” biçimini kullan, örneğin 37.5720, 126.9769.', tooLong: 'Çok uzun. Lütfen kısalt.', network: 'Gönderilemedi. Bağlantını kontrol edip tekrar dene.', generic: 'Bildirim gönderilemedi. Daha sonra tekrar dene.' },
   },
+  support: {
+    title: 'Reklam engelleyiciyi burada kapatır mısın?',
+    body: 'PokeNow tek bir kişinin yaptığı ücretsiz bir site. Küçük bir reklam alan adını ve siteyi ayakta tutuyor. Sayfayı kapatan reklam yok, söz.',
+    how: 'Nasıl izin verilir',
+    later: 'Sonra',
+    steps: {
+      ublock: 'uBlock Origin: simgesine tıkla → büyük açma/kapama düğmesi → yenile',
+      adguard: 'AdGuard: simgesine tıkla → bu sitede korumayı kapat',
+      other: 'Diğerleri: pokenow.cc’yi izin listesine ekle',
+    },
+  },
 };

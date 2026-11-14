@@ -85,7 +85,7 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
 - **No location-changing tools or endorsement.** The cooldown feature describes a game mechanic;
   keep wording neutral and keep the fan-made disclaimer. Never claim to show Gym/PokéStop locations.
 - **Browser-only state.** `pokenow:travel`, `pokenow:favorites`, `pokenow:lang`, `pokenow:events` (feed
-  cache) live in localStorage and are never sent anywhere. Don't add a backend for a feature that doesn't need one.
+  cache), `pokenow:support-note` (when the ad-blocker note was closed) live in localStorage and are never sent anywhere. Don't add a backend for a feature that doesn't need one.
 - **Static hosting.** `base: './'`, relative hrefs, all pages share one bundle. Don't hard-code the
   domain; `VITE_SITE_URL` drives canonical/OG URLs at build time.
 - **Source-available, not open source.** License is PolyForm Noncommercial 1.0.0 (`LICENSE`, with a
@@ -130,6 +130,9 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   when `VITE_REPORT_URL` and `VITE_TURNSTILE_SITEKEY` are set; otherwise `ReportLink` falls back to the
   GitHub issue forms (`hotspot.yml`, `translation.yml`). Worker tests: `worker/report-worker.test.js`.
 - **Hotspot suggestions** — accepted suggestions are copied by a maintainer into `data/hotspots.ts`.
+- **Ad-blocker note** — `components/SupportNote.tsx` + `hooks/useAdBlocked.ts` + `lib/adblock.ts`. Only with AdSense
+  configured: a failed request for the AdSense loader or a hidden bait element means a blocker. After ~12 s a small
+  non-modal card asks to allow ads (how-to for uBlock Origin / AdGuard); closing hides it for 7 days. Never a wall.
 - **AI issue review** — `.github/workflows/issue-review.yml` runs `scripts/review-issue.mjs` when a `translation` or
   `community-listing` issue opens (or via Run workflow + issue number). It sends the issue plus the relevant files
   (en + reported locale; or hotspots.ts + communities.ts) to Gemini and posts one Korean comment. The model gets no tools;
