@@ -34,6 +34,7 @@ export const fr: Messages = {
     goldenIn: (d) => `Heure dorée dans ${d}`,
     opensIn: (d) => `Ouvre dans ${d}`,
     details: (c) => `Ouvrir la page ${c}`,
+    suggest: 'Proposer un spot',
   },
   route: {
     title: 'Itinéraire cooldown',

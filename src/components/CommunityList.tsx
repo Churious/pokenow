@@ -1,9 +1,9 @@
 import { ExternalLink, Plus } from 'lucide-react';
 import { communitiesFor, type Community } from '../data/communities';
-import { CONFIG } from '../config';
+import { issueTemplateUrl } from '../lib/github';
 import { useI18n } from '../i18n';
 
-const ISSUE_URL = `${CONFIG.githubUrl}/issues/new?template=community.yml`;
+const ISSUE_URL = issueTemplateUrl('community.yml');
 
 function platformLabel(c: Community, kakao: string, other: string): string {
   switch (c.platform) {

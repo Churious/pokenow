@@ -34,6 +34,7 @@ export const ko: Messages = {
     goldenIn: (d) => `골든 아워까지 ${d}`,
     opensIn: (d) => `${d} 후 시작`,
     details: (c) => `${c} 페이지 열기`,
+    suggest: '성지 제보',
   },
   route: {
     title: '쿨다운 순회 경로',

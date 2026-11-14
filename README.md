@@ -111,6 +111,10 @@ Set one repository variable to count page views without cookies: `VITE_CF_ANALYT
 
 Listings live in `src/data/communities.ts` and are free. People request one through the **Add a raid community** issue form; review it against the rules in that file, then add the entry.
 
+## Suggesting a hotspot
+
+The list grows through the **Suggest a spot** link under the ranking, which opens the [hotspot suggestion form](https://github.com/Churious/pokespot/issues/new?template=hotspot.yml). It collects the city, spot, country code, region, coordinates, IANA time zone and the public source of the coordinates. A maintainer checks the coordinates and appends the entry to `src/data/hotspots.ts`, so adding a spot doesn't require a code PR for every suggestion.
+
 ## Data caveats
 
 - The spot list is what raid players commonly use. Each entry in `src/data/hotspots.ts` cites where its coordinates come from (mostly published community coordinate lists). They are not guarantees of in-game Gym/PokéStop density.

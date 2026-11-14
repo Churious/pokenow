@@ -1,0 +1,96 @@
+name: Suggest a raid hotspot
+description: Suggest a Pokémon GO raid hotspot for PokeSpot. Coordinates must come from a public source.
+title: "[Hotspot] "
+labels: ["hotspot-suggestion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! PokeSpot's list is community-curated and reviewed by a maintainer.
+
+        **Good suggestions:** a public square, station area, park or shopping street that local players actually use for raids, with coordinates you can point to on a map.
+
+        **Not accepted:** private homes, Gym/PokéStop locations (there is no official public data for them), spoofing or cheat-tool pins.
+
+        One spot per issue, please.
+  - type: input
+    id: city
+    attributes:
+      label: City
+      placeholder: Seoul
+    validations:
+      required: true
+  - type: input
+    id: spot
+    attributes:
+      label: Spot name
+      description: The specific place inside the city.
+      placeholder: Gwanghwamun Square
+    validations:
+      required: true
+  - type: input
+    id: country
+    attributes:
+      label: Country code
+      description: ISO 3166-1 alpha-2, two letters.
+      placeholder: KR
+    validations:
+      required: true
+  - type: dropdown
+    id: region
+    attributes:
+      label: Region
+      options:
+        - Asia-Pacific
+        - Europe & Middle East
+        - Americas
+    validations:
+      required: true
+  - type: input
+    id: latitude
+    attributes:
+      label: Latitude
+      description: WGS84 decimal degrees, 4–6 decimals.
+      placeholder: "37.5720"
+    validations:
+      required: true
+  - type: input
+    id: longitude
+    attributes:
+      label: Longitude
+      description: WGS84 decimal degrees, 4–6 decimals.
+      placeholder: "126.9769"
+    validations:
+      required: true
+  - type: input
+    id: timezone
+    attributes:
+      label: IANA time zone
+      description: For example Asia/Seoul — not a fixed offset like UTC+9.
+      placeholder: Asia/Seoul
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source for the coordinates
+      description: A public link or the name of the community list you used. This is required so the coordinates can be checked later.
+      placeholder: https://…
+    validations:
+      required: true
+  - type: input
+    id: note
+    attributes:
+      label: One-line note (optional)
+      description: A factual note such as "Venue of Pokémon GO Tour" — what is there, not how good it is.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked the coordinates on OpenStreetMap or Google Maps.
+          required: true
+        - label: This is a public place, not a private home.
+          required: true
+        - label: I understand PokeSpot lists reference points, not in-game Gym/PokéStop locations.
+          required: true

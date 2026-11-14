@@ -36,6 +36,7 @@ export const id: Messages = {
     goldenIn: (d) => `Jam emas dalam ${d}`,
     opensIn: (d) => `Dimulai dalam ${d}`,
     details: (c) => `Buka halaman ${c}`,
+    suggest: 'Usulkan tempat',
   },
   route: {
     title: 'Rute cooldown',

@@ -34,6 +34,7 @@ export const ptBR: Messages = {
     goldenIn: (d) => `Hora de ouro em ${d}`,
     opensIn: (d) => `Começa em ${d}`,
     details: (c) => `Abrir a página de ${c}`,
+    suggest: 'Sugerir um local',
   },
   route: {
     title: 'Rota de cooldown',

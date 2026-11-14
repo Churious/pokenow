@@ -34,6 +34,7 @@ export const es: Messages = {
     goldenIn: (d) => `Hora dorada en ${d}`,
     opensIn: (d) => `Empieza en ${d}`,
     details: (c) => `Abrir la página de ${c}`,
+    suggest: 'Sugerir una parada',
   },
   route: {
     title: 'Ruta de cooldown',

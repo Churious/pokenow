@@ -12,10 +12,12 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
+import { Plus } from 'lucide-react';
 
 import { HOTSPOTS } from './data/hotspots';
 import { rankHotspots } from './lib/scoring';
 import { pinFirst } from './lib/favorites';
+import { issueTemplateUrl } from './lib/github';
 import { currentSpot, homeHref } from './lib/routes';
 import { useNow } from './hooks/useNow';
 import { useTravelState } from './hooks/useTravelState';
@@ -45,6 +47,7 @@ type RegionFilter = 'All' | Region;
 const FILTERS: RegionFilter[] = ['All', 'Asia-Pacific', 'Europe & Middle East', 'Americas'];
 
 const pad = (n: number) => String(n).padStart(2, '0');
+const SUGGEST_URL = issueTemplateUrl('hotspot.yml');
 
 export default function App() {
   const now = useNow();
@@ -142,23 +145,34 @@ export default function App() {
                     </h2>
                     {favorites.length > 0 && <p className="mt-1 text-xs text-faint">{t.favorites.hint}</p>}
                   </div>
-                  <div role="tablist" aria-label={t.list.regionFilter} className="-mx-1 flex gap-1 overflow-x-auto">
-                    {FILTERS.map((f) => {
-                      const on = region === f;
-                      return (
-                        <button
-                          key={f}
-                          role="tab"
-                          aria-selected={on}
-                          onClick={() => setRegion(f)}
-                          className={`h-9 shrink-0 border-b-2 px-2 text-sm whitespace-nowrap ${
-                            on ? 'border-gold font-semibold text-ink' : 'border-transparent text-dim hover:text-ink'
-                          }`}
-                        >
-                          {f === 'All' ? t.list.all : t.list.regions[f]}
-                        </button>
-                      );
-                    })}
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                    <div role="tablist" aria-label={t.list.regionFilter} className="-mx-1 flex gap-1 overflow-x-auto">
+                      {FILTERS.map((f) => {
+                        const on = region === f;
+                        return (
+                          <button
+                            key={f}
+                            role="tab"
+                            aria-selected={on}
+                            onClick={() => setRegion(f)}
+                            className={`h-9 shrink-0 border-b-2 px-2 text-sm whitespace-nowrap ${
+                              on ? 'border-gold font-semibold text-ink' : 'border-transparent text-dim hover:text-ink'
+                            }`}
+                          >
+                            {f === 'All' ? t.list.all : t.list.regions[f]}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <a
+                      href={SUGGEST_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-9 items-center gap-1.5 text-sm font-medium whitespace-nowrap text-dim underline underline-offset-4 hover:text-ink"
+                    >
+                      <Plus className="size-4" aria-hidden />
+                      {t.list.suggest}
+                    </a>
                   </div>
                 </div>
 
