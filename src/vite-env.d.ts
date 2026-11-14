@@ -21,5 +21,8 @@ interface ImportMeta {
 }
 
 interface Window {
-  adsbygoogle?: unknown[];
+  /** AdSense queue; the real loader sets `loaded: true` once it has run (used by hooks/useAdBlocked.ts). */
+  adsbygoogle?: unknown[] & { loaded?: boolean };
+  /** Set by the AdSense loader tag's onload/onerror (vite.config.ts). */
+  __pokenowAds?: 'loaded' | 'error';
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SNOOZE_MS, shouldShowSupportNote } from './adblock';
+import { SNOOZE_MS, isBlocked, shouldShowSupportNote } from './adblock';
 
 describe('support note snooze', () => {
   const now = 1_800_000_000_000;
@@ -13,5 +13,14 @@ describe('support note snooze', () => {
     expect(shouldShowSupportNote(String(now - 1000), now)).toBe(false);
     expect(shouldShowSupportNote(String(now - SNOOZE_MS + 1), now)).toBe(false);
     expect(shouldShowSupportNote(String(now - SNOOZE_MS), now)).toBe(true);
+  });
+});
+
+describe('ad-block signals', () => {
+  it('needs at least one signal', () => {
+    expect(isBlocked(null)).toBe(false);
+    expect(isBlocked({ network: false, cosmetic: false, script: false })).toBe(false);
+    expect(isBlocked({ network: false, cosmetic: false, script: true })).toBe(true);
+    expect(isBlocked({ network: true, cosmetic: false, script: false })).toBe(true);
   });
 });

@@ -16,3 +16,17 @@ export function shouldShowSupportNote(closedAt: string | null, now: number): boo
 
 /** Bait element hidden by cosmetic filters (EasyList hides these class names). */
 export const BAIT_CLASSES = 'adsbox ad-banner ad-placeholder pub_300x250 text-ad';
+
+export interface BlockSignals {
+  /** A request for the AdSense loader failed while online. */
+  network: boolean;
+  /** The bait element was hidden by an element-hiding filter. */
+  cosmetic: boolean;
+  /** The AdSense loader tag is on the page but never ran after the page finished loading. */
+  script: boolean;
+}
+
+/** Any one signal is enough: different blockers trip different checks. */
+export function isBlocked(s: BlockSignals | null): boolean {
+  return Boolean(s && (s.network || s.cosmetic || s.script));
+}

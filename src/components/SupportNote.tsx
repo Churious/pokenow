@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { useI18n } from '../i18n';
 import { useAdBlocked } from '../hooks/useAdBlocked';
-import { SUPPORT_NOTE_KEY, shouldShowSupportNote } from '../lib/adblock';
+import { SUPPORT_NOTE_KEY, isBlocked, shouldShowSupportNote } from '../lib/adblock';
 
 function readClosedAt(): string | null {
   try {
@@ -20,7 +20,7 @@ function readClosedAt(): string | null {
  */
 export function SupportNote() {
   const { t } = useI18n();
-  const blocked = useAdBlocked(400);
+  const blocked = isBlocked(useAdBlocked(400));
   const [visible, setVisible] = useState(false);
   const [howOpen, setHowOpen] = useState(false);
 
