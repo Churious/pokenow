@@ -77,6 +77,12 @@ export const fr: Messages = {
     failed: 'Copie impossible. Appuyez longuement sur les coordonnées pour les copier.',
     aria: (p, x) => `Copier les coordonnées de ${p} : ${x}`,
   },
+  favorites: {
+    pin: 'Épingler ce spot',
+    unpin: 'Désépingler ce spot',
+    pinned: 'Épinglé',
+    hint: 'Les spots épinglés restent en haut de la liste.',
+  },
   how: {
     title: 'Comment PokeSpot choisit un spot',
     p1: 'Les raids sont les plus fréquentés quand les joueurs locaux sont libres. PokeSpot lit l’heure locale de chaque spot grâce aux données de fuseaux horaires intégrées à votre navigateur ; les changements d’heure sont donc gérés automatiquement.',

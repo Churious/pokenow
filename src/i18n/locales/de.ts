@@ -77,6 +77,12 @@ export const de: Messages = {
     failed: 'Kopieren fehlgeschlagen. Halte die Koordinaten gedrückt, um sie zu kopieren.',
     aria: (p, x) => `Koordinaten für ${p} kopieren: ${x}`,
   },
+  favorites: {
+    pin: 'Diesen Spot anheften',
+    unpin: 'Anheftung lösen',
+    pinned: 'Angeheftet',
+    hint: 'Angeheftete Spots bleiben oben in der Liste.',
+  },
   how: {
     title: 'Wie PokeSpot einen Spot auswählt',
     p1: 'Raids sind am vollsten, wenn die Spieler vor Ort Zeit haben. PokeSpot liest die Ortszeit jedes Spots aus den Zeitzonendaten deines Browsers, Sommer- und Winterzeit werden also automatisch berücksichtigt.',

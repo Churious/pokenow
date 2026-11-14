@@ -5,6 +5,7 @@ import { spotHref } from '../lib/routes';
 import { useI18n } from '../i18n';
 import type { Messages } from '../i18n/types';
 import { CopyCoordsButton } from './CopyCoordsButton';
+import { FavoriteButton } from './FavoriteButton';
 import { StatusMark } from './StatusBadge';
 
 function timingNote(s: ScoredHotspot, t: Messages, dur: (n: number) => string): string {
@@ -23,7 +24,19 @@ function timingNote(s: ScoredHotspot, t: Messages, dur: (n: number) => string): 
  *  - Wide desktop (xl, 1280px+): a table-like row, so the whole ranking fits on screen.
  *    Between 1024 and 1280 the sidebar leaves too little room, so rows stay stacked.
  */
-export function SpotRow({ scored, rank, now }: { scored: ScoredHotspot; rank: number; now: Date }) {
+export function SpotRow({
+  scored,
+  rank,
+  now,
+  pinned,
+  onToggleFavorite,
+}: {
+  scored: ScoredHotspot;
+  rank: number;
+  now: Date;
+  pinned: boolean;
+  onToggleFavorite: (id: string) => void;
+}) {
   const { t, dur, num } = useI18n();
   const { hotspot, clock, status, plan } = scored;
   const timeColor = status === 'raid-hour' ? 'text-gold' : status === 'active' ? 'text-ink' : 'text-faint';
@@ -74,7 +87,10 @@ export function SpotRow({ scored, rank, now }: { scored: ScoredHotspot; rank: nu
 
       <div className="col-start-2 col-end-4 flex items-center justify-between gap-3 xl:col-auto xl:justify-end">
         <code className="truncate font-sans text-sm text-dim select-all">{formatCoords(hotspot)}</code>
-        <CopyCoordsButton hotspot={hotspot} />
+        <div className="flex shrink-0 items-center gap-1.5">
+          <FavoriteButton hotspotId={hotspot.id} pinned={pinned} onToggle={onToggleFavorite} />
+          <CopyCoordsButton hotspot={hotspot} />
+        </div>
       </div>
     </li>
   );

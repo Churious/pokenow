@@ -79,6 +79,12 @@ export const id: Messages = {
     failed: 'Tidak bisa menyalin. Tekan lama koordinat untuk menyalinnya.',
     aria: (p, x) => `Salin koordinat ${p}: ${x}`,
   },
+  favorites: {
+    pin: 'Sematkan tempat ini',
+    unpin: 'Lepas sematan',
+    pinned: 'Disematkan',
+    hint: 'Tempat yang disematkan tetap di atas daftar.',
+  },
   how: {
     title: 'Cara PokeSpot memilih tempat',
     p1: 'Raid paling ramai saat pemain lokal sedang senggang. PokeSpot membaca waktu lokal setiap tempat dari data zona waktu bawaan browser, jadi perubahan waktu musim panas ditangani otomatis.',

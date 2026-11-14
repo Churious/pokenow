@@ -77,6 +77,12 @@ export const it: Messages = {
     failed: 'Impossibile copiare. Tieni premute le coordinate per copiarle.',
     aria: (p, x) => `Copia le coordinate di ${p}: ${x}`,
   },
+  favorites: {
+    pin: 'Fissa questa tappa',
+    unpin: 'Rimuovi il fissaggio',
+    pinned: 'Fissata',
+    hint: 'Le tappe fissate restano in cima all’elenco.',
+  },
   how: {
     title: 'Come PokeSpot sceglie un posto',
     p1: 'I raid sono più affollati quando i giocatori locali sono liberi. PokeSpot legge l’ora locale di ogni posto dai dati dei fusi orari integrati nel browser, quindi il cambio dell’ora legale è gestito automaticamente.',
