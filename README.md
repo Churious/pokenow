@@ -90,6 +90,10 @@ Notes:
 - The cooldown table is unofficial and sources disagree.
 - Event times are set by the game operator and can change — check official announcements.
 
+## Support the project
+
+PokeSpot is free and ad-light. If it helps your raids, you can [sponsor it on GitHub](https://github.com/sponsors/WhAnci). Sponsorships keep the hotspot data maintained.
+
 ## License
 
 [MIT](LICENSE). Contributions welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
