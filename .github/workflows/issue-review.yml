@@ -1,0 +1,43 @@
+# AI first-pass review (Gemini) for translation reports and community listings.
+# Setup: repo Settings → Secrets and variables → Actions → Secrets → GEMINI_API_KEY (Google AI Studio).
+# Optional variable GEMINI_MODEL (default in scripts/review-issue.mjs). Without the key this job does nothing.
+# Re-run for an older issue: Actions → AI issue review → Run workflow → issue number.
+name: AI issue review
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: Issue number
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: issue-review-${{ github.event.issue.number || inputs.issue }}
+
+jobs:
+  review:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.issue.labels.*.name, 'translation') ||
+      contains(github.event.issue.labels.*.name, 'community-listing')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      # Issue text is read through the API inside the script, never pasted into a shell command.
+      - run: node scripts/review-issue.mjs
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          GITHUB_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          ISSUE: ${{ github.event.issue.number || inputs.issue }}

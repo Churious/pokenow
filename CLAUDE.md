@@ -58,6 +58,7 @@ src/
 ├── types/index.ts           shared domain types
 └── config.ts                env-driven config (GitHub URL, AdSense slots)
 scripts/site-pages.ts        emits <id>.html per spot, 404.html, sitemap.xml, robots.txt
+scripts/review-issue.mjs     Gemini first-pass review comment on translation / community issues (issue-review.yml)
 .github/ISSUE_TEMPLATE/      community.yml, hotspot.yml, translation.yml (GitHub issue forms)
 privacy.html                 second Vite entry
 worker/report-worker.js      Cloudflare Worker: site report forms → Turnstile → GitHub issue (setup: worker/README.md)
@@ -124,6 +125,11 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   when `VITE_REPORT_URL` and `VITE_TURNSTILE_SITEKEY` are set; otherwise `ReportLink` falls back to the
   GitHub issue forms (`hotspot.yml`, `translation.yml`). Worker tests: `worker/report-worker.test.js`.
 - **Hotspot suggestions** — accepted suggestions are copied by a maintainer into `data/hotspots.ts`.
+- **AI issue review** — `.github/workflows/issue-review.yml` runs `scripts/review-issue.mjs` when a `translation` or
+  `community-listing` issue opens (or via Run workflow + issue number). It sends the issue plus the relevant files
+  (en + reported locale; or hotspots.ts + communities.ts) to Gemini and posts one Korean comment. The model gets no tools;
+  issue text is marked untrusted, mentions are defused, invite-link host and duplicates are checked in code. Needs the
+  `GEMINI_API_KEY` Actions secret (skips without it); `GEMINI_MODEL` variable overrides the default. Advisory only.
 
 ## Common tasks
 
