@@ -170,5 +170,12 @@ export const ptBR: Messages = {
     error: 'Não foi possível carregar a agenda. Confira as notícias oficiais.',
     empty: 'Nenhum evento nas próximas duas semanas.',
   },
-
+  tabs: {
+    label: 'Seções',
+    spots: 'Pontos',
+    route: 'Rota',
+    events: 'Eventos',
+    map: 'Mapa',
+    guide: 'Guia',
+  },
 };

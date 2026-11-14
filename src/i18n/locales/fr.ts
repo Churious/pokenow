@@ -170,5 +170,12 @@ export const fr: Messages = {
     error: 'Impossible de charger le calendrier. Consultez les actualités officielles.',
     empty: 'Aucun événement dans les deux prochaines semaines.',
   },
-
+  tabs: {
+    label: 'Sections',
+    spots: 'Spots',
+    route: 'Itinéraire',
+    events: 'Événements',
+    map: 'Carte',
+    guide: 'Guide',
+  },
 };

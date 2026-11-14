@@ -171,5 +171,12 @@ export const tr: Messages = {
     error: 'Etkinlik takvimi yüklenemedi. Resmî haberlere göz at.',
     empty: 'Önümüzdeki iki hafta etkinlik yok.',
   },
-
+  tabs: {
+    label: 'Bölümler',
+    spots: 'Noktalar',
+    route: 'Rota',
+    events: 'Etkinlikler',
+    map: 'Harita',
+    guide: 'Rehber',
+  },
 };

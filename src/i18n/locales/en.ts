@@ -173,5 +173,12 @@ export const en: Messages = {
     error: 'Couldn’t load the event schedule. Check the official news instead.',
     empty: 'No events in the next two weeks.',
   },
-
+  tabs: {
+    label: 'Sections',
+    spots: 'Spots',
+    route: 'Route',
+    events: 'Events',
+    map: 'Map',
+    guide: 'Guide',
+  },
 };

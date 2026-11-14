@@ -171,5 +171,12 @@ export const id: Messages = {
     error: 'Jadwal event tidak dapat dimuat. Cek berita resmi.',
     empty: 'Tidak ada event dalam dua minggu ke depan.',
   },
-
+  tabs: {
+    label: 'Bagian',
+    spots: 'Tempat',
+    route: 'Rute',
+    events: 'Event',
+    map: 'Peta',
+    guide: 'Panduan',
+  },
 };

@@ -169,5 +169,12 @@ export const ja: Messages = {
     error: 'イベント日程を読み込めませんでした。公式ニュースをご確認ください。',
     empty: '今後2週間のイベントはありません。',
   },
-
+  tabs: {
+    label: 'セクション',
+    spots: 'スポット',
+    route: '巡回ルート',
+    events: 'イベント',
+    map: 'マップ',
+    guide: 'ガイド',
+  },
 };

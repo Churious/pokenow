@@ -32,6 +32,7 @@ import { Logo } from './components/Logo';
 import { LanguagePicker } from './components/LanguagePicker';
 import { BestSpot } from './components/BestSpot';
 import { RoutePlanner } from './components/RoutePlanner';
+import { TabBar } from './components/TabBar';
 import { EventSchedule } from './components/EventSchedule';
 import { TravelPanel } from './components/TravelPanel';
 import { SpotRow } from './components/SpotRow';
@@ -50,6 +51,13 @@ const FILTERS: RegionFilter[] = ['All', 'Asia-Pacific', 'Europe & Middle East', 
 const pad = (n: number) => String(n).padStart(2, '0');
 const SUGGEST_URL = issueTemplateUrl('hotspot.yml');
 
+const HOME_TABS = ['spots', 'route', 'events', 'map', 'guide'] as const;
+type HomeTab = (typeof HOME_TABS)[number];
+const tabFromHash = (): HomeTab => {
+  const h = window.location.hash.slice(1);
+  return (HOME_TABS as readonly string[]).includes(h) ? (h as HomeTab) : 'spots';
+};
+
 export default function App() {
   const now = useNow();
   const { t } = useI18n();
@@ -58,6 +66,22 @@ export default function App() {
   const [region, setRegion] = useState<RegionFilter>('All');
   const [spot] = useState(() => currentSpot());
   const isLarge = useMediaQuery(MQ.lg);
+  const [tab, setTab] = useState<HomeTab>(tabFromHash);
+
+  // The tab lives in the URL hash (#route, #events, …) so it survives reloads and can be shared.
+  const selectTab = (next: HomeTab) => {
+    setTab(next);
+    history.replaceState(null, '', next === 'spots' ? location.pathname + location.search : `#${next}`);
+  };
+  useEffect(() => {
+    const onHash = () => setTab(tabFromHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  // The map tab only exists on phones; on desktop the sidebar shows the map.
+  useEffect(() => {
+    if (isLarge && tab === 'map') setTab('spots');
+  }, [isLarge, tab]);
 
   // Desktop-only sticky 300×250 unit (the mobile anchor is the sticky unit on phones).
   const sidebarAd = isLarge ? (
@@ -129,92 +153,116 @@ export default function App() {
               {/* On desktop the cooldown panel lives in the sidebar. */}
               <TravelPanel hotspots={HOTSPOTS} travel={travel} onChange={setTravel} now={now} className="lg:hidden" />
 
-              <RoutePlanner ranked={ranked} now={now} travel={travel} />
-
-              <AdBanner
-                slot={CONFIG.adsense.slots.inFeed}
-                variant="in-feed"
-                layoutKey={CONFIG.adsense.inFeedLayoutKey}
-                className="my-8"
+              <TabBar
+                label={t.tabs.label}
+                active={tab}
+                onChange={selectTab}
+                tabs={[
+                  { key: 'spots', label: t.tabs.spots },
+                  { key: 'route', label: t.tabs.route },
+                  { key: 'events', label: t.tabs.events },
+                  // The desktop sidebar already shows the map and communities.
+                  { key: 'map', label: t.tabs.map, className: 'lg:hidden' },
+                  { key: 'guide', label: t.tabs.guide },
+                ]}
               />
 
-              <section aria-labelledby="all-spots-title">
-                <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-rule pb-3">
-                  <div className="min-w-0">
-                    <h2 id="all-spots-title" className="semi-condensed text-lg font-bold text-ink">
-                      {t.list.title}
-                    </h2>
-                    {favorites.length > 0 && <p className="mt-1 text-xs text-faint">{t.favorites.hint}</p>}
-                  </div>
-                  <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                    <div role="tablist" aria-label={t.list.regionFilter} className="-mx-1 flex gap-1 overflow-x-auto">
-                      {FILTERS.map((f) => {
-                        const on = region === f;
-                        return (
-                          <button
-                            key={f}
-                            role="tab"
-                            aria-selected={on}
-                            onClick={() => setRegion(f)}
-                            className={`h-9 shrink-0 border-b-2 px-2 text-sm whitespace-nowrap ${
-                              on ? 'border-gold font-semibold text-ink' : 'border-transparent text-dim hover:text-ink'
-                            }`}
-                          >
-                            {f === 'All' ? t.list.all : t.list.regions[f]}
-                          </button>
-                        );
-                      })}
-                    </div>
-                    <a
-                      href={SUGGEST_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex h-9 items-center gap-1.5 text-sm font-medium whitespace-nowrap text-dim underline underline-offset-4 hover:text-ink"
-                    >
-                      <Plus className="size-4" aria-hidden />
-                      {t.list.suggest}
-                    </a>
-                  </div>
-                </div>
-
-                <ul className="md:grid md:grid-cols-2 md:gap-x-10 xl:grid-cols-[1.25rem_minmax(8rem,1fr)_auto_minmax(11rem,1.2fr)_auto] xl:gap-x-5">
-                  {ordered.map(({ scored, rank }) => (
-                    <SpotRow
-                      key={scored.hotspot.id}
-                      scored={scored}
-                      rank={rank}
-                      now={now}
-                      pinned={pinned.has(scored.hotspot.id)}
-                      onToggleFavorite={toggleFavorite}
+              <div id={`panel-${tab}`} role="tabpanel" aria-labelledby={`tab-${tab}`} className="pt-6">
+                {tab === 'spots' && (
+                  <>
+                    <AdBanner
+                      slot={CONFIG.adsense.slots.inFeed}
+                      variant="in-feed"
+                      layoutKey={CONFIG.adsense.inFeedLayoutKey}
+                      className="mb-8"
                     />
-                  ))}
-                </ul>
-              </section>
+                    <section aria-labelledby="all-spots-title">
+                      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-rule pb-3">
+                        <div className="min-w-0">
+                          <h2 id="all-spots-title" className="semi-condensed text-lg font-bold text-ink">
+                            {t.list.title}
+                          </h2>
+                          {favorites.length > 0 && <p className="mt-1 text-xs text-faint">{t.favorites.hint}</p>}
+                        </div>
+                        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                          <div role="group" aria-label={t.list.regionFilter} className="flex gap-2 overflow-x-auto p-px">
+                            {FILTERS.map((f) => {
+                              const on = region === f;
+                              return (
+                                <button
+                                  key={f}
+                                  type="button"
+                                  aria-pressed={on}
+                                  onClick={() => setRegion(f)}
+                                  className={`h-9 shrink-0 rounded-full px-3 text-sm whitespace-nowrap ${
+                                    on ? 'bg-ink font-semibold text-night' : 'text-dim ring-1 ring-rule hover:text-ink'
+                                  }`}
+                                >
+                                  {f === 'All' ? t.list.all : t.list.regions[f]}
+                                </button>
+                              );
+                            })}
+                          </div>
+                          <a
+                            href={SUGGEST_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex h-9 items-center gap-1.5 text-sm font-medium whitespace-nowrap text-dim underline underline-offset-4 hover:text-ink"
+                          >
+                            <Plus className="size-4" aria-hidden />
+                            {t.list.suggest}
+                          </a>
+                        </div>
+                      </div>
 
-              <div className="mt-10">
-                <EventSchedule now={now} />
-              </div>
+                      <ul className="md:grid md:grid-cols-2 md:gap-x-10 xl:grid-cols-[1.25rem_minmax(8rem,1fr)_auto_minmax(11rem,1.2fr)_auto] xl:gap-x-5">
+                        {ordered.map(({ scored, rank }) => (
+                          <SpotRow
+                            key={scored.hotspot.id}
+                            scored={scored}
+                            rank={rank}
+                            now={now}
+                            pinned={pinned.has(scored.hotspot.id)}
+                            onToggleFavorite={toggleFavorite}
+                          />
+                        ))}
+                      </ul>
+                    </section>
+                  </>
+                )}
 
-              {/* On desktop the map lives in the sidebar. */}
-              <section aria-labelledby="map-title" className="mt-10 lg:hidden">
-                <h2 id="map-title" className="semi-condensed text-lg font-bold text-ink">
-                  {t.map.title}
-                </h2>
-                <p className="mt-1 text-sm text-dim">{t.map.intro}</p>
-                <div className="mt-3">
-                  <LazyMap spots={ranked} bestId={ranked[0]?.hotspot.id} heightClass="h-72 md:h-[26rem]" />
-                </div>
-              </section>
+                {tab === 'route' && (
+                  <div className="space-y-10">
+                    <RoutePlanner ranked={ranked} now={now} travel={travel} />
+                    <CooldownGuide />
+                  </div>
+                )}
 
-              <div className="mt-10 lg:hidden">
-                <CommunityList hotspotId={null} compact />
-              </div>
+                {tab === 'events' && <EventSchedule now={now} />}
 
-              <div className="mt-8 lg:mt-12 lg:grid lg:grid-cols-2 lg:gap-10">
-                <HowItWorks />
-                <div className="lg:pt-2">
-                  <CooldownGuide />
-                </div>
+                {tab === 'map' && (
+                  <div className="space-y-10">
+                    <section aria-labelledby="map-title">
+                      <h2 id="map-title" className="semi-condensed text-lg font-bold text-ink">
+                        {t.map.title}
+                      </h2>
+                      <p className="mt-1 text-sm text-dim">{t.map.intro}</p>
+                      <div className="mt-3">
+                        <LazyMap spots={ranked} bestId={ranked[0]?.hotspot.id} heightClass="h-96 md:h-[30rem]" />
+                      </div>
+                    </section>
+                    <CommunityList hotspotId={null} compact />
+                  </div>
+                )}
+
+                {tab === 'guide' && (
+                  <div className="lg:grid lg:grid-cols-2 lg:gap-10">
+                    <HowItWorks />
+                    <div className="mt-8 lg:mt-0 lg:pt-2">
+                      <CooldownGuide />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
