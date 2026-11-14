@@ -36,6 +36,7 @@ import { StickyAnchorAd } from './components/StickyAnchorAd';
 import { CooldownGuide } from './components/CooldownGuide';
 import { HowItWorks } from './components/HowItWorks';
 import { Footer } from './components/Footer';
+import { CommunityList } from './components/CommunityList';
 
 type RegionFilter = 'All' | Region;
 const FILTERS: RegionFilter[] = ['All', 'Asia-Pacific', 'Europe & Middle East', 'Americas'];
@@ -155,6 +156,10 @@ export default function App() {
                 </div>
               </section>
 
+              <div className="mt-10 lg:hidden">
+                <CommunityList hotspotId={null} compact />
+              </div>
+
               <div className="mt-8 lg:mt-12 lg:grid lg:grid-cols-2 lg:gap-10">
                 <HowItWorks />
                 <div className="lg:pt-2">
@@ -176,6 +181,7 @@ export default function App() {
                     <LazyMap spots={ranked} bestId={ranked[0]?.hotspot.id} heightClass="h-64" />
                   </div>
                 </section>
+                <CommunityList hotspotId={null} compact />
                 {sidebarAd}
               </aside>
             )}

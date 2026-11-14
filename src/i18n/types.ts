@@ -149,6 +149,18 @@ export interface Messages {
     seoIntro: (city: string, spot: string) => string;
   };
 
+  community: {
+    title: string;
+    intro: string;
+    empty: string;
+    add: string;
+    rules: string;
+    join: string;
+    global: string;
+    other: string;
+    kakao: string;
+  };
+
   map: {
     title: string;
     intro: string;

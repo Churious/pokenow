@@ -110,6 +110,17 @@ export const es: Messages = {
     seoIntro: (c, s) =>
       `Hora local en directo, cuentas atrás de la Hora de Incursiones y la Hora Destacada, y coordenadas para copiar de ${s} en ${c}.`,
   },
+  community: {
+    title: 'Comunidades de incursiones',
+    intro: 'Grupos donde encontrar compañeros de incursión para este sitio.',
+    empty: 'Aún no hay comunidades. Sé la primera.',
+    add: 'Registra tu comunidad gratis',
+    rules: 'Cada registro se revisa. No se aceptan grupos de falsificación de ubicación, venta de cuentas ni herramientas de trampas.',
+    join: 'Unirse',
+    global: 'Global',
+    other: 'Otra',
+    kakao: 'KakaoTalk',
+  },
   map: {
     title: 'Los sitios en el mapa',
     intro: 'El color indica el estado actual de cada sitio.',

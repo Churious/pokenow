@@ -111,6 +111,17 @@ export const id: Messages = {
     otherSpots: 'Tempat bagus lainnya saat ini',
     seoIntro: (c, s) => `Waktu setempat langsung, hitung mundur Raid Hour dan Spotlight Hour, serta koordinat yang bisa disalin untuk ${s} di ${c}.`,
   },
+  community: {
+    title: 'Komunitas raid',
+    intro: 'Grup untuk mencari teman raid di tempat ini.',
+    empty: 'Belum ada komunitas. Jadilah yang pertama.',
+    add: 'Daftarkan komunitasmu gratis',
+    rules: 'Setiap pendaftaran ditinjau. Grup pemalsuan lokasi, jual beli akun, atau alat curang tidak diterima.',
+    join: 'Gabung',
+    global: 'Global',
+    other: 'Lainnya',
+    kakao: 'KakaoTalk',
+  },
   map: {
     title: 'Tempat di peta',
     intro: 'Warna menunjukkan status setiap tempat saat ini.',

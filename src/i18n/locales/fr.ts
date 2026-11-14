@@ -110,6 +110,17 @@ export const fr: Messages = {
     seoIntro: (c, s) =>
       `Heure locale en direct, comptes à rebours de l’Heure de Raids et de l’Heure Vedette, et coordonnées à copier pour ${s} à ${c}.`,
   },
+  community: {
+    title: 'Communautés de raids',
+    intro: 'Des groupes pour trouver des partenaires de raid à ce spot.',
+    empty: 'Aucune communauté pour l’instant. Soyez la première.',
+    add: 'Inscrire votre communauté gratuitement',
+    rules: 'Chaque inscription est vérifiée. Pas de groupes de falsification de position, de vente de comptes ou d’outils de triche.',
+    join: 'Rejoindre',
+    global: 'Monde entier',
+    other: 'Autre',
+    kakao: 'KakaoTalk',
+  },
   map: {
     title: 'Les spots sur la carte',
     intro: 'La couleur indique l’état actuel de chaque spot.',

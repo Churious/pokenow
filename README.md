@@ -94,6 +94,14 @@ Notes:
 - In-feed units need the `data-ad-layout-key` from your AdSense code snippet.
 - PokeSpot doesn't provide or endorse location-changing tools; keep wording that way to stay within Google Publisher Policies.
 
+## Analytics (optional)
+
+Set one repository variable to count page views without cookies: `VITE_CF_ANALYTICS_TOKEN` (Cloudflare Web Analytics) or `VITE_GOATCOUNTER_CODE` (GoatCounter; its hosted free tier is for non-commercial sites).
+
+## Community directory
+
+Listings live in `src/data/communities.ts` and are free. People request one through the **Add a raid community** issue form; review it against the rules in that file, then add the entry.
+
 ## Data caveats
 
 - Coordinates point at public landmarks/parks, verified against public map data; they are not guarantees of in-game density.

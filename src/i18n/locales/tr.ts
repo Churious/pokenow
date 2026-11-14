@@ -111,6 +111,17 @@ export const tr: Messages = {
     otherSpots: 'Şu an diğer iyi noktalar',
     seoIntro: (c, s) => `${c}, ${s} için canlı yerel saat, Raid Hour ve Spotlight Hour geri sayımları ve kopyalanabilir koordinatlar.`,
   },
+  community: {
+    title: 'Baskın toplulukları',
+    intro: 'Bu noktada baskın arkadaşı bulabileceğin gruplar.',
+    empty: 'Henüz topluluk yok. İlk sen ekle.',
+    add: 'Topluluğunu ücretsiz ekle',
+    rules: 'Her kayıt incelenir. Konum değiştirme, hesap satışı veya hile aracı grupları kabul edilmez.',
+    join: 'Katıl',
+    global: 'Küresel',
+    other: 'Diğer',
+    kakao: 'KakaoTalk',
+  },
   map: {
     title: 'Haritadaki noktalar',
     intro: 'Renk, her noktanın şu anki durumunu gösterir.',

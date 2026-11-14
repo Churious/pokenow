@@ -290,3 +290,18 @@ describe('platform detection for store links', () => {
     expect(campfireHref('other')).toBe('https://campfire.scopely.com/en/');
   });
 });
+
+import { communitiesFor, type Community } from '../data/communities';
+
+describe('community directory', () => {
+  const base = { platform: 'discord' as const, url: 'https://example.com', languages: ['en'], checkedAt: '2026-11-15' };
+  const list: Community[] = [
+    { ...base, id: 'global', name: 'Global', hotspots: ['*'] },
+    { ...base, id: 'busan', name: 'Busan', hotspots: ['busan-seomyeon'] },
+  ];
+  it('shows local communities first, then global ones', () => {
+    expect(communitiesFor('busan-seomyeon', list).map((c) => c.id)).toEqual(['busan', 'global']);
+    expect(communitiesFor('tokyo-shinjuku', list).map((c) => c.id)).toEqual(['global']);
+    expect(communitiesFor(null, list).map((c) => c.id)).toEqual(['global']);
+  });
+});

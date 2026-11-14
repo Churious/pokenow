@@ -1,7 +1,7 @@
-import { GitFork } from 'lucide-react';
 import { CONFIG } from '../config';
 import { LOCALES, useI18n } from '../i18n';
 import { Logo } from './Logo';
+import { GitHubMark } from './GitHubMark';
 
 export function Footer() {
   const { t, locale } = useI18n();
@@ -27,7 +27,7 @@ export function Footer() {
             rel="noopener noreferrer"
             className="inline-flex h-11 shrink-0 items-center gap-2 rounded-md px-4 font-semibold whitespace-nowrap text-ink ring-1 ring-rule hover:ring-dim"
           >
-            <GitFork className="size-4" aria-hidden />
+            <GitHubMark className="size-4" />
             {t.footer.source}
           </a>
           <a href="privacy.html" className="px-1 text-sm text-dim underline underline-offset-4 hover:text-ink">

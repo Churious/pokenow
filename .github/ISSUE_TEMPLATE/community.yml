@@ -1,0 +1,58 @@
+name: Add a raid community (free)
+description: List your Pokémon GO raid community on PokeSpot. Free, reviewed by a maintainer.
+title: "[Community] "
+labels: ["community-listing"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Listing is **free**. We review every request before it appears on the site.
+
+        **Not accepted:** spoofing / GPS-change groups, account selling, botting or cheat tools, anything unsafe for younger players.
+  - type: input
+    id: name
+    attributes:
+      label: Community name
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options: [Discord, KakaoTalk Open Chat, LINE, Telegram, WhatsApp, Other]
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Public invite link
+      description: A link that does not expire, please.
+    validations:
+      required: true
+  - type: input
+    id: hotspots
+    attributes:
+      label: Which PokeSpot hotspot(s)?
+      description: e.g. "Busan, Seomyeon" or "global remote raids"
+    validations:
+      required: true
+  - type: input
+    id: languages
+    attributes:
+      label: Main language(s)
+      placeholder: Korean
+    validations:
+      required: true
+  - type: input
+    id: description
+    attributes:
+      label: One-line description (optional)
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Community rules
+      options:
+        - label: Our community does not allow spoofing, account trading, bots or cheat tools.
+          required: true
+        - label: I'm an admin of this community or have its admins' permission to list it.
+          required: true
