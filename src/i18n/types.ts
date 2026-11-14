@@ -36,8 +36,6 @@ export interface Messages {
     spotlightHour: string;
     peak: string;
     quiet: string;
-    crowd: string;
-    crowdTitle: (n: number) => string;
   };
 
   best: {

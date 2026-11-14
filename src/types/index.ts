@@ -26,12 +26,7 @@ export interface Hotspot {
    * DST is resolved automatically by Intl.DateTimeFormat — never hard-code UTC offsets.
    */
   timeZone: string;
-  /**
-   * Relative player-density weight (1–100). Used ONLY as a tie-breaker inside a tier.
-   * This is a community estimate, not measured data — PRs with better evidence are welcome.
-   */
-  popularity: number;
-  /** Optional one-line note shown on the card (why this spot is good). */
+  /** Optional one-line factual note shown on the spot page (what is there, not how good it is). */
   note?: string;
 }
 

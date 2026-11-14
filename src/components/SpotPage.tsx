@@ -8,7 +8,7 @@ import { homeHref, spotHref } from '../lib/routes';
 import { useI18n } from '../i18n';
 import { campfireHref } from '../lib/platform';
 import { CopyCoordsButton } from './CopyCoordsButton';
-import { CrowdGrade, StatusMark } from './StatusBadge';
+import { StatusMark } from './StatusBadge';
 import { LazyMap } from './LazyMap';
 import { CommunityList } from './CommunityList';
 
@@ -66,7 +66,6 @@ export function SpotPage({
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
             <StatusMark scored={scored} />
-            <CrowdGrade popularity={spot.popularity} />
           </div>
           {spot.note && <p className="mt-3 text-sm text-dim">{spot.note}</p>}
 

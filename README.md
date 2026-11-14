@@ -29,9 +29,9 @@ PokeSpot checks the live local time of 15+ community-curated hotspots worldwide 
 | 2 🟢 Peak | 11:00 – 19:59 (not golden) | General raid activity |
 | 3 ⏳ Upcoming | 20:00 – 10:59 | Ranked by time until the next window opens |
 
-Ties inside tiers 1–2 are broken by `popularity` (1–100); tier 3 uses the soonest opening first, then `popularity`. See [`src/lib/scoring.ts`](src/lib/scoring.ts).
+Tier 3 uses the soonest opening first. Spots that are still tied (several cities share a clock) are ordered by distance from your last action when you've set one, otherwise by id. There is no popularity weight, because there is no measured data for it. See [`src/lib/scoring.ts`](src/lib/scoring.ts).
 
-**Cooldown / soft-ban mode.** With a last action location and time set, each spot gets `wait = max(0, cooldown(distance) − time since last action)` (capped at 2 h). The tier is evaluated at `now + wait`; a window with under 15 minutes left on arrival doesn't count. Within a tier, shorter waits win (10-minute buckets), then popularity. The state is stored only in the browser's localStorage.
+**Cooldown / soft-ban mode.** With a last action location and time set, each spot gets `wait = max(0, cooldown(distance) − time since last action)` (capped at 2 h). The tier is evaluated at `now + wait`; a window with under 15 minutes left on arrival doesn't count. Within a tier, shorter waits win (10-minute buckets), then the nearer spot. The state is stored only in the browser's localStorage.
 
 ## Quick start
 
@@ -104,8 +104,7 @@ Listings live in `src/data/communities.ts` and are free. People request one thro
 
 ## Data caveats
 
-- Coordinates point at public landmarks/parks, verified against public map data; they are not guarantees of in-game density.
-- `popularity` is a community estimate, not measured data.
+- The spot list is what raid players commonly use. Each entry in `src/data/hotspots.ts` cites where its coordinates come from (mostly published community coordinate lists). They are not guarantees of in-game Gym/PokéStop density.
 - The cooldown table is unofficial and sources disagree.
 - Event times are set by the game operator and can change — check official announcements.
 

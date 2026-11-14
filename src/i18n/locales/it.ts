@@ -10,8 +10,6 @@ export const it: Messages = {
     spotlightHour: 'Ora Riflettori',
     peak: 'Fascia di punta',
     quiet: 'Tranquillo',
-    crowd: 'Affluenza',
-    crowdTitle: (n) => `Popolarità nella community ${n}/100`,
   },
   best: {
     now: 'Il miglior posto per i raid adesso',
@@ -71,7 +69,7 @@ export const it: Messages = {
   how: {
     title: 'Come PokeSpot sceglie un posto',
     p1: 'I raid sono più affollati quando i giocatori locali sono liberi. PokeSpot legge l’ora locale di ogni posto dai dati dei fusi orari integrati nel browser, quindi il cambio dell’ora legale è gestito automaticamente.',
-    p2: 'I posti tra le {golden} ora locale vengono prima: in quell’ora ci sono l’Ora dei Raid del mercoledì e l’Ora Riflettori del martedì. Seguono i posti nella fascia {peak}, quando la maggior parte dei giocatori fa raid. Se tutto è tranquillo, vince il posto che apre per primo. A parità, prevale la città più affollata.',
+    p2: 'I posti tra le {golden} ora locale vengono prima: in quell’ora ci sono l’Ora dei Raid del mercoledì e l’Ora Riflettori del martedì. Seguono i posti nella fascia {peak}, quando la maggior parte dei giocatori fa raid. Se tutto è tranquillo, vince il posto che apre per primo.',
     p3: 'Se imposti il tuo tempo di ricarica, ogni posto mostra anche la distanza dalla tua ultima azione e quanto devi ancora aspettare. I posti vengono valutati in base alla fascia in cui saranno alla fine dell’attesa, così non arrivi quando la lobby si svuota.',
   },
   cooldown: {

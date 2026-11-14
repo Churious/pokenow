@@ -10,8 +10,6 @@ export const ptBR: Messages = {
     spotlightHour: 'Hora do Holofote',
     peak: 'Horário de pico',
     quiet: 'Tranquilo',
-    crowd: 'Movimento',
-    crowdTitle: (n) => `Popularidade na comunidade ${n}/100`,
   },
   best: {
     now: 'Melhor ponto de reide agora',
@@ -71,7 +69,7 @@ export const ptBR: Messages = {
   how: {
     title: 'Como o PokeSpot escolhe um ponto',
     p1: 'As reides ficam mais cheias quando os jogadores locais estão livres. O PokeSpot lê o horário local de cada ponto pelos dados de fuso horário do seu navegador, então o horário de verão é aplicado automaticamente.',
-    p2: 'Pontos entre {golden} (horário local) vêm primeiro: nesse horário acontecem a Hora da Reide de quarta-feira e a Hora do Holofote de terça-feira. Depois vêm os pontos no horário {peak}, quando a maioria faz reides. Se tudo estiver tranquilo, vence o ponto que abre primeiro. Em caso de empate, a cidade mais movimentada fica na frente.',
+    p2: 'Pontos entre {golden} (horário local) vêm primeiro: nesse horário acontecem a Hora da Reide de quarta-feira e a Hora do Holofote de terça-feira. Depois vêm os pontos no horário {peak}, quando a maioria faz reides. Se tudo estiver tranquilo, vence o ponto que abre primeiro.',
     p3: 'Se você informar seu tempo de recarga, cada ponto também mostra a distância da sua última ação e quanto ainda falta esperar. Os pontos são avaliados pelo horário em que estarão quando sua espera acabar, para você não chegar quando o lobby estiver esvaziando.',
   },
   cooldown: {

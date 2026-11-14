@@ -10,8 +10,6 @@ export const es: Messages = {
     spotlightHour: 'Hora Destacada',
     peak: 'Franja punta',
     quiet: 'Tranquilo',
-    crowd: 'Afluencia',
-    crowdTitle: (n) => `Popularidad en la comunidad ${n}/100`,
   },
   best: {
     now: 'Mejor sitio para incursiones ahora',
@@ -71,7 +69,7 @@ export const es: Messages = {
   how: {
     title: 'Cómo elige PokeSpot un sitio',
     p1: 'Las incursiones están más llenas cuando los jugadores locales tienen tiempo libre. PokeSpot lee la hora local de cada sitio con los datos de zonas horarias del navegador, así que el horario de verano se aplica automáticamente.',
-    p2: 'Los sitios entre las {golden} (hora local) van primero: en esa hora se celebran la Hora de Incursiones de los miércoles y la Hora Destacada de los martes. Después vienen los sitios en la franja {peak}, cuando la mayoría hace incursiones. Si todo está tranquilo, gana el sitio que abre antes. En caso de empate, va primero la ciudad con más afluencia.',
+    p2: 'Los sitios entre las {golden} (hora local) van primero: en esa hora se celebran la Hora de Incursiones de los miércoles y la Hora Destacada de los martes. Después vienen los sitios en la franja {peak}, cuando la mayoría hace incursiones. Si todo está tranquilo, gana el sitio que abre antes.',
     p3: 'Si indicas tu tiempo de espera, cada sitio muestra también la distancia desde tu última acción y cuánto te queda por esperar. Los sitios se valoran según la franja en la que estarán al terminar tu espera, para que no llegues cuando el lobby se vacía.',
   },
   cooldown: {
