@@ -77,6 +77,12 @@ export const ptBR: Messages = {
     failed: 'Não foi possível copiar. Toque e segure as coordenadas para copiá-las.',
     aria: (p, x) => `Copiar as coordenadas de ${p}: ${x}`,
   },
+  favorites: {
+    pin: 'Fixar este local',
+    unpin: 'Desafixar este local',
+    pinned: 'Fixado',
+    hint: 'Os locais fixados ficam no topo da lista.',
+  },
   how: {
     title: 'Como o PokeSpot escolhe um ponto',
     p1: 'As reides ficam mais cheias quando os jogadores locais estão livres. O PokeSpot lê o horário local de cada ponto pelos dados de fuso horário do seu navegador, então o horário de verão é aplicado automaticamente.',

@@ -109,6 +109,15 @@ export interface Messages {
     aria: (place: string, coords: string) => string;
   };
 
+  favorites: {
+    /** Action label / aria-label when the spot is not pinned. */
+    pin: string;
+    unpin: string;
+    /** Button label when the spot is already pinned. */
+    pinned: string;
+    hint: string;
+  };
+
   how: {
     title: string;
     p1: string;

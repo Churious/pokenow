@@ -8,6 +8,7 @@ import { homeHref, spotHref } from '../lib/routes';
 import { useI18n } from '../i18n';
 import { campfireHref } from '../lib/platform';
 import { CopyCoordsButton } from './CopyCoordsButton';
+import { FavoriteButton } from './FavoriteButton';
 import { StatusMark } from './StatusBadge';
 import { LazyMap } from './LazyMap';
 import { CommunityList } from './CommunityList';
@@ -18,12 +19,16 @@ export function SpotPage({
   ranked,
   now,
   sidebarAd,
+  favorites,
+  onToggleFavorite,
 }: {
   spot: Hotspot;
   ranked: ScoredHotspot[];
   now: Date;
   /** Desktop-only sticky ad, rendered at the bottom of the sidebar. */
   sidebarAd?: ReactNode;
+  favorites: ReadonlySet<string>;
+  onToggleFavorite: (id: string) => void;
 }) {
   const { t, dur, weekday } = useI18n();
   const scored = ranked.find((s) => s.hotspot.id === spot.id);
@@ -72,6 +77,12 @@ export function SpotPage({
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <code className="font-sans text-lg font-semibold text-ink select-all">{formatCoords(spot)}</code>
             <CopyCoordsButton hotspot={spot} tone="primary" />
+            <FavoriteButton
+              hotspotId={spot.id}
+              pinned={favorites.has(spot.id)}
+              onToggle={onToggleFavorite}
+              withLabel
+            />
           </div>
         </div>
 

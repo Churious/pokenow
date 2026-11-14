@@ -77,6 +77,12 @@ export const zhTW: Messages = {
     failed: '無法複製。請長按座標來複製。',
     aria: (p, x) => `複製${p}的座標：${x}`,
   },
+  favorites: {
+    pin: '釘選此地點',
+    unpin: '取消釘選',
+    pinned: '已釘選',
+    hint: '釘選的地點會固定顯示在列表最上方。',
+  },
   how: {
     title: 'PokeSpot 如何挑選地點',
     p1: '當地玩家有空時團體戰最熱鬧。PokeSpot 透過瀏覽器內建的時區資料讀取每個地點的當地時間，因此夏令時間會自動處理。',

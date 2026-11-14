@@ -79,6 +79,12 @@ export const tr: Messages = {
     failed: 'Kopyalanamadı. Kopyalamak için koordinatlara uzun bas.',
     aria: (p, x) => `${p} koordinatlarını kopyala: ${x}`,
   },
+  favorites: {
+    pin: 'Bu durağı sabitle',
+    unpin: 'Sabitlemeyi kaldır',
+    pinned: 'Sabitlendi',
+    hint: 'Sabitlenen duraklar listenin en üstünde kalır.',
+  },
   how: {
     title: 'PokeSpot bir noktayı nasıl seçer',
     p1: 'Baskınlar, yerel oyuncuların boş olduğu saatlerde en kalabalıktır. PokeSpot her noktanın yerel saatini tarayıcının saat dilimi verilerinden okur, bu yüzden yaz saati değişiklikleri otomatik olarak uygulanır.',

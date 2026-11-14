@@ -14,6 +14,7 @@ PokeSpot checks the live local time of 15+ community-curated hotspots worldwide 
 - `[Copy Coords]` with toast feedback (`40.7536, -73.9832` format)
 - **Cooldown & soft-ban aware ranking**: tell PokeSpot where and when you last caught/spun/raided, and every spot shows its distance and remaining wait. Spots are ranked by the raid window they'll be in *when you can safely play there*. After 2 hours without an action, everything is free again.
 - **Cooldown route**: the next few stops as an A → wait → B → wait → C plan. Each leg waits out the community cooldown for its distance, measured from the previous stop; the first stop always matches the recommendation.
+- **Pinned spots**: star the places you return to and they move to the top of the list. Stored in your browser only, so there is no account and no server.
 - 24-hour dial: every hotspot plotted at its local time, golden hour and peak window highlighted
 - Cooldown reference table (unofficial community values, rounded up to the safer side)
 - **14 languages**, the ones Pokémon GO itself supports: English, French, German, Italian, Spanish (Spain), Spanish (Latin America), Portuguese (Brazil), Turkish, Indonesian, Korean, Japanese, Traditional Chinese, Thai, Hindi. Auto-detected from the browser, switchable in the header.
@@ -58,6 +59,7 @@ src/
 │   ├── time.ts          ← Intl-based tz helpers
 │   ├── scoring.ts       ← pure ranking engine
 │   ├── planner.ts       ← pure cooldown route (A → wait → B → C)
+│   ├── favorites.ts     ← pinned spot ids (localStorage helpers)
 │   ├── geo.ts           ← haversine + coordinate formatting
 │   └── scoring.test.ts
 ├── i18n/
@@ -66,7 +68,8 @@ src/
 │   └── locales/*.ts     ← one file per language
 ├── hooks/
 │   ├── useNow.ts        ← 1s ticker aligned to the second
-│   └── useTravelState.ts← last action location/time (localStorage)
+│   ├── useTravelState.ts← last action location/time (localStorage)
+│   └── useFavorites.ts  ← pinned spots (localStorage)
 ├── components/          ← Dial, BestSpot, TravelPanel, SpotRow, HowItWorks, AdBanner, StickyAnchorAd, …
 ├── types/index.ts
 ├── config.ts            ← env-driven config

@@ -15,9 +15,11 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { HOTSPOTS } from './data/hotspots';
 import { rankHotspots } from './lib/scoring';
+import { pinFirst } from './lib/favorites';
 import { currentSpot, homeHref } from './lib/routes';
 import { useNow } from './hooks/useNow';
 import { useTravelState } from './hooks/useTravelState';
+import { useFavorites } from './hooks/useFavorites';
 import { MQ, useMediaQuery } from './hooks/useMediaQuery';
 import { CONFIG } from './config';
 import { useI18n } from './i18n';
@@ -48,6 +50,7 @@ export default function App() {
   const now = useNow();
   const { t } = useI18n();
   const [travel, setTravel] = useTravelState();
+  const { favorites, toggle: toggleFavorite } = useFavorites();
   const [region, setRegion] = useState<RegionFilter>('All');
   const [spot] = useState(() => currentSpot());
   const isLarge = useMediaQuery(MQ.lg);
@@ -68,6 +71,14 @@ export default function App() {
         .map((s, i) => ({ scored: s, rank: i + 1 }))
         .filter(({ scored }) => region === 'All' || scored.hotspot.region === region),
     [ranked, region],
+  );
+
+  // Pinned spots float to the top of the filtered list; the rank number stays
+  // the real (unfiltered) recommendation rank.
+  const pinned = useMemo(() => new Set(favorites), [favorites]);
+  const ordered = useMemo(
+    () => pinFirst(visible, ({ scored }) => scored.hotspot.id, pinned),
+    [visible, pinned],
   );
 
   useEffect(() => {
@@ -97,7 +108,14 @@ export default function App() {
         <AdBanner slot={CONFIG.adsense.slots.top} variant="display" className="mt-4 mb-2" />
 
         {spot ? (
-          <SpotPage spot={spot} ranked={ranked} now={now} sidebarAd={sidebarAd} />
+          <SpotPage
+            spot={spot}
+            ranked={ranked}
+            now={now}
+            sidebarAd={sidebarAd}
+            favorites={pinned}
+            onToggleFavorite={toggleFavorite}
+          />
         ) : (
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_22rem]">
             {/* Main column */}
@@ -118,9 +136,12 @@ export default function App() {
 
               <section aria-labelledby="all-spots-title">
                 <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-rule pb-3">
-                  <h2 id="all-spots-title" className="semi-condensed text-lg font-bold text-ink">
-                    {t.list.title}
-                  </h2>
+                  <div className="min-w-0">
+                    <h2 id="all-spots-title" className="semi-condensed text-lg font-bold text-ink">
+                      {t.list.title}
+                    </h2>
+                    {favorites.length > 0 && <p className="mt-1 text-xs text-faint">{t.favorites.hint}</p>}
+                  </div>
                   <div role="tablist" aria-label={t.list.regionFilter} className="-mx-1 flex gap-1 overflow-x-auto">
                     {FILTERS.map((f) => {
                       const on = region === f;
@@ -142,8 +163,15 @@ export default function App() {
                 </div>
 
                 <ul className="md:grid md:grid-cols-2 md:gap-x-10 xl:grid-cols-[1.25rem_minmax(8rem,1fr)_auto_minmax(11rem,1.2fr)_auto] xl:gap-x-5">
-                  {visible.map(({ scored, rank }) => (
-                    <SpotRow key={scored.hotspot.id} scored={scored} rank={rank} now={now} />
+                  {ordered.map(({ scored, rank }) => (
+                    <SpotRow
+                      key={scored.hotspot.id}
+                      scored={scored}
+                      rank={rank}
+                      now={now}
+                      pinned={pinned.has(scored.hotspot.id)}
+                      onToggleFavorite={toggleFavorite}
+                    />
                   ))}
                 </ul>
               </section>
