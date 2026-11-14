@@ -28,7 +28,7 @@ PokeNow checks the live local time of 15+ community-curated hotspots worldwide a
 
 | Tier | Local time | Meaning |
 | --- | --- | --- |
-| 1 🔥 Golden | 18:00 – 18:59 | Raid Hour (Wed) / Spotlight Hour (Tue) window |
+| 1 🔥 Golden | 18:00 – 18:59 | Raid Hour (Wed) / Spotlight Hour (Thu) window |
 | 2 🟢 Peak | 11:00 – 19:59 (not golden) | General raid activity |
 | 3 ⏳ Upcoming | 20:00 – 10:59 | Ranked by time until the next window opens |
 

@@ -93,7 +93,7 @@ export const fr: Messages = {
   how: {
     title: 'Comment PokeNow choisit un spot',
     p1: 'Les raids sont les plus fréquentés quand les joueurs locaux sont libres. PokeNow lit l’heure locale de chaque spot grâce aux données de fuseaux horaires intégrées à votre navigateur ; les changements d’heure sont donc gérés automatiquement.',
-    p2: 'Les spots entre {golden} (heure locale) passent en premier : c’est le créneau de l’Heure de Raids du mercredi et de l’Heure Vedette du mardi. Viennent ensuite les spots dans le créneau {peak}, quand la plupart des joueurs font des raids. Si tout est calme, le spot qui ouvre le plus tôt l’emporte.',
+    p2: 'Les spots entre {golden} (heure locale) passent en premier : c’est le créneau de l’Heure de Raids du mercredi et de l’Heure Vedette du jeudi. Viennent ensuite les spots dans le créneau {peak}, quand la plupart des joueurs font des raids. Si tout est calme, le spot qui ouvre le plus tôt l’emporte.',
     p3: 'Si vous indiquez votre temps de recharge, chaque spot affiche aussi sa distance depuis votre dernière action et l’attente restante. Les spots sont alors jugés selon le créneau où ils seront à la fin de votre attente, pour ne pas arriver quand le lobby se vide.',
   },
   cooldown: {
@@ -120,7 +120,7 @@ export const fr: Messages = {
     localTime: 'Heure locale',
     nextGolden: 'Prochaine heure dorée (18 h)',
     nextRaidHour: 'Prochaine Heure de Raids (mercredi 18 h)',
-    nextSpotlight: 'Prochaine Heure Vedette (mardi 18 h)',
+    nextSpotlight: 'Prochaine Heure Vedette (jeudi 18 h)',
     liveNow: 'En cours',
     inDuration: (d) => `dans ${d}`,
     openGoogle: 'Ouvrir dans Google Maps',

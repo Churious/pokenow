@@ -3,7 +3,7 @@
  *
  *  - Golden hour: every day 18:00–19:00 local
  *  - Raid Hour:   Wednesdays 18:00–19:00 local
- *  - Spotlight Hour: Tuesdays 18:00–19:00 local
+ *  - Spotlight Hour: Thursdays 18:00–19:00 local (Tuesdays until June 2026)
  *
  * Computed on the local wall clock (see note in scoring.ts about DST nights).
  */

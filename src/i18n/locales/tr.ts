@@ -95,7 +95,7 @@ export const tr: Messages = {
   how: {
     title: 'PokeNow bir noktayı nasıl seçer',
     p1: 'Baskınlar, yerel oyuncuların boş olduğu saatlerde en kalabalıktır. PokeNow her noktanın yerel saatini tarayıcının saat dilimi verilerinden okur, bu yüzden yaz saati değişiklikleri otomatik olarak uygulanır.',
-    p2: 'Yerel saatle {golden} arasındaki noktalar önce gelir: bu saatte çarşamba günleri Raid Hour, salı günleri Spotlight Hour yapılır. Ardından çoğu oyuncunun baskın yaptığı {peak} aralığındaki noktalar gelir. Her yer sakinse en erken açılan nokta kazanır.',
+    p2: 'Yerel saatle {golden} arasındaki noktalar önce gelir: bu saatte çarşamba günleri Raid Hour, perşembe günleri Spotlight Hour yapılır. Ardından çoğu oyuncunun baskın yaptığı {peak} aralığındaki noktalar gelir. Her yer sakinse en erken açılan nokta kazanır.',
     p3: 'Bekleme süreni girersen her nokta son eylemine olan uzaklığı ve daha ne kadar beklemen gerektiğini de gösterir. Noktalar, beklemen bittiğinde içinde olacakları zaman aralığına göre değerlendirilir; böylece lobi dağılırken varmazsın.',
   },
   cooldown: {
@@ -122,7 +122,7 @@ export const tr: Messages = {
     localTime: 'Yerel saat',
     nextGolden: 'Sonraki altın saat (18:00)',
     nextRaidHour: 'Sonraki Raid Hour (Çarşamba 18:00)',
-    nextSpotlight: 'Sonraki Spotlight Hour (Salı 18:00)',
+    nextSpotlight: 'Sonraki Spotlight Hour (Perşembe 18:00)',
     liveNow: 'Şu an devam ediyor',
     inDuration: (d) => `${d} sonra`,
     openGoogle: 'Google Haritalar’da aç',

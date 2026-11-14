@@ -93,7 +93,7 @@ export const it: Messages = {
   how: {
     title: 'Come PokeNow sceglie un posto',
     p1: 'I raid sono più affollati quando i giocatori locali sono liberi. PokeNow legge l’ora locale di ogni posto dai dati dei fusi orari integrati nel browser, quindi il cambio dell’ora legale è gestito automaticamente.',
-    p2: 'I posti tra le {golden} ora locale vengono prima: in quell’ora ci sono l’Ora dei Raid del mercoledì e l’Ora Riflettori del martedì. Seguono i posti nella fascia {peak}, quando la maggior parte dei giocatori fa raid. Se tutto è tranquillo, vince il posto che apre per primo.',
+    p2: 'I posti tra le {golden} ora locale vengono prima: in quell’ora ci sono l’Ora dei Raid del mercoledì e l’Ora Riflettori del giovedì. Seguono i posti nella fascia {peak}, quando la maggior parte dei giocatori fa raid. Se tutto è tranquillo, vince il posto che apre per primo.',
     p3: 'Se imposti il tuo tempo di ricarica, ogni posto mostra anche la distanza dalla tua ultima azione e quanto devi ancora aspettare. I posti vengono valutati in base alla fascia in cui saranno alla fine dell’attesa, così non arrivi quando la lobby si svuota.',
   },
   cooldown: {
@@ -120,7 +120,7 @@ export const it: Messages = {
     localTime: 'Ora locale',
     nextGolden: 'Prossima ora d’oro (18:00)',
     nextRaidHour: 'Prossima Ora dei Raid (mercoledì 18:00)',
-    nextSpotlight: 'Prossima Ora Riflettori (martedì 18:00)',
+    nextSpotlight: 'Prossima Ora Riflettori (giovedì 18:00)',
     liveNow: 'In corso',
     inDuration: (d) => `tra ${d}`,
     openGoogle: 'Apri in Google Maps',
