@@ -61,12 +61,10 @@ export function RoutePlanner({
                       </a>
                       <span className="truncate text-sm text-dim">{stop.hotspot.spot}</span>
                     </p>
-                    <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm">
+                    {/* No "·" separator: on phones the line wraps and a dot would dangle at the end. */}
+                    <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm">
                       <StatusMark scored={stop.atArrival} />
                       <span className="text-dim">{t.route.arrive(formatClockShort(stop.atArrival.clock))}</span>
-                      <span aria-hidden className="text-faint">
-                        ·
-                      </span>
                       <span className="text-dim">{t.list.endsIn(dur(stop.atArrival.secondsLeftInWindow))}</span>
                     </p>
                     {showLeg && from && (
