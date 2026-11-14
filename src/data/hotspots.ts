@@ -3,15 +3,16 @@
  *  PokeNow — Global Hotspot Dataset
  * ============================================================================
  *
- *  This is the ONLY file you need to touch to add or fix a hotspot. 🙌
+ *  Spots are suggested through the site or the hotspot issue form and added
+ *  here by the maintainer (no outside PRs; see CONTRIBUTING.md).
  *
- *  How to contribute (see CONTRIBUTING.md for the full checklist):
+ *  Adding an entry:
  *   1. Add one object to the `HOTSPOTS` array below.
  *   2. `id` must be unique, kebab-case, and stable (it may be used in URLs later).
  *   3. `timeZone` MUST be a valid IANA zone (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
  *      Never use fixed offsets like "UTC+9" — DST is handled automatically.
  *   4. `lat` / `lng` are WGS84 decimal degrees. Please double-check them on
- *      OpenStreetMap or Google Maps and mention the source in your PR.
+ *      OpenStreetMap or Google Maps.
  *   5. Say in a comment where the coordinates come from (a public community
  *      list, an official event page, Wikipedia/OSM…).
  *   6. Run `npm test` — the dataset is validated automatically (ranges, unique ids,

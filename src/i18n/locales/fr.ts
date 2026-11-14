@@ -110,7 +110,7 @@ export const fr: Messages = {
       'PokeNow est un outil créé par des fans pour suivre les créneaux de raids dans le monde et coordonner les raids à distance. Sans lien avec Scopely, Nintendo ni The Pokémon Company.',
     extra:
       'Pokémon GO est actuellement exploité par Scopely. Pokémon et les noms associés sont des marques de leurs propriétaires respectifs. PokeNow ne fournit ni ne recommande d’outil de modification de position ; respectez les conditions d’utilisation du jeu. Les horaires d’événements suivent l’heure locale et peuvent changer : consultez les annonces officielles.',
-    source: 'Code source sur GitHub (MIT)',
+    source: 'Code source sur GitHub',
     privacy: 'Politique de confidentialité',
     sponsor: 'Soutenir PokeNow',
     translation: 'Signaler un problème de traduction',

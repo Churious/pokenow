@@ -1,126 +1,84 @@
 # PokeNow
 
-**Find the best Pokémon GO raid hotspot on Earth — right now.**
+**[pokenow.cc](https://pokenow.cc)** — which Pokémon GO raid hotspot on Earth is busiest right now.
 
-PokeNow checks the live local time of 15+ community-curated hotspots worldwide and recommends where raid lobbies are most likely to be full at this moment, with one-click coordinate copy.
+PokeNow watches the local time at 19 well-known raid spots around the world and points you to the one where lobbies are
+most likely to fill, with the coordinates one tap away. It is a fan-made site: free to use, no accounts, no app.
 
-> PokeNow is a fan-made utility for tracking global raid hours and coordinating remote raids. Not affiliated with Scopely, Nintendo or The Pokémon Company.
+This repository is the site's source code, published so anyone can see how the ranking works and check what runs in their
+browser. It is **source-available, not open source**: see [License](#license).
 
-## Features
+> Not affiliated with Scopely, Nintendo or The Pokémon Company. PokeNow doesn't provide or endorse location-changing tools.
 
-- **Best Raid Spot Now** hero card, re-ranked every second
-- Live local clocks (DST-aware via `Intl.DateTimeFormat`, no date libraries)
-- Status badges: 🔥 Raid Hour / Spotlight Hour / Golden Time · 🟢 Active · 💤 Quiet
-- `[Copy Coords]` with toast feedback (`40.7536, -73.9832` format)
-- **Cooldown & soft-ban aware ranking**: tell PokeNow where and when you last caught/spun/raided, and every spot shows its distance and remaining wait. Spots are ranked by the raid window they'll be in *when you can safely play there*. After 2 hours without an action, everything is free again.
-- **Cooldown route**: the next few stops as an A → wait → B → wait → C plan. Each leg waits out the community cooldown for its distance, measured from the previous stop; the first stop always matches the recommendation.
-- **Pinned spots**: star the places you return to and they move to the top of the list. Stored in your browser only, so there is no account and no server.
-- **Share a spot**: on any spot page, one button shares or copies the coordinates, the current local time and the link — ready for a group chat.
-- 24-hour dial: every hotspot plotted at its local time, golden hour and peak window highlighted
-- Cooldown reference table (unofficial community values, rounded up to the safer side)
-- **14 languages**, the ones Pokémon GO itself supports: English, French, German, Italian, Spanish (Spain), Spanish (Latin America), Portuguese (Brazil), Turkish, Indonesian, Korean, Japanese, Traditional Chinese, Thai, Hindi. Auto-detected from the browser, switchable in the header.
-- **A page per hotspot** (`/<id>`): live clock, next golden hour / Raid Hour / Spotlight Hour countdowns, map, Google Maps & OpenStreetMap links, and a link to the official Campfire app for live raids. Each page has its own title, description and Open Graph tags, plus a sitemap.
-- **Installable app (PWA)** with an offline app shell
-- **Maps** (Leaflet + OpenStreetMap, lazy-loaded). PokéStop / Gym locations are intentionally not shown: there's no official public data for them.
-- Mobile-first dark UI, AdSense-ready slots with policy-minded spacing
+## What the site does
 
-## Recommendation algorithm
+- **Best spot now**: every spot ranked live by its local time (18:00 Raid Hour / Spotlight Hour window first, then the
+  11:00–20:00 peak), re-checked every second.
+- **Cooldown-aware**: tell it where and when you last played and it ranks spots by when you can safely play there, and
+  plans the next few stops as A → wait → B → wait → C.
+- **Event schedule**: Raid Hours, Spotlight Hours, Community Days and current raid bosses in your local time, from the
+  community-run Leek Duck calendar.
+- **A page per spot** with a live clock, countdowns, map links and a share button; pinned favourites; 14 languages.
+- **Reports without a GitHub account**: translation fixes and new-spot suggestions go straight from the site to this
+  repo's issues.
+
+## How the ranking works
 
 | Tier | Local time | Meaning |
 | --- | --- | --- |
-| 1 🔥 Golden | 18:00 – 18:59 | Raid Hour (Wed) / Spotlight Hour (Thu) window |
-| 2 🟢 Peak | 11:00 – 19:59 (not golden) | General raid activity |
-| 3 ⏳ Upcoming | 20:00 – 10:59 | Ranked by time until the next window opens |
+| Golden | 18:00 – 18:59 | Raid Hour (Wed) / Spotlight Hour (Thu) window |
+| Peak | 11:00 – 19:59 | General raid activity |
+| Upcoming | 20:00 – 10:59 | Ordered by time until the next window opens |
 
-Tier 3 uses the soonest opening first. Spots that are still tied (several cities share a clock) are ordered by distance from your last action when you've set one, otherwise by id. There is no popularity weight, because there is no measured data for it. See [`src/lib/scoring.ts`](src/lib/scoring.ts).
+Ties go to the spot nearer your last action, then by id. There is no popularity weight because there is no measured data
+for it. With a last action set, each spot waits `cooldown(distance) − time since your action` (capped at 2 h) and is
+ranked by the window it will be in when you arrive. Details: [`src/lib/scoring.ts`](src/lib/scoring.ts),
+[`src/lib/planner.ts`](src/lib/planner.ts).
 
-**Cooldown / soft-ban mode.** With a last action location and time set, each spot gets `wait = max(0, cooldown(distance) − time since last action)` (capped at 2 h). The tier is evaluated at `now + wait`; a window with under 15 minutes left on arrival doesn't count. Within a tier, shorter waits win (10-minute buckets), then the nearer spot. The state is stored only in the browser's localStorage.
+## Data and its limits
 
-**Cooldown route.** The planner in [`src/lib/planner.ts`](src/lib/planner.ts) turns the ranked list into the next 1–3 stops. The first stop is the current recommendation (wait included). A stop is assumed to last 30 minutes, or until its window closes; the following leg then waits out `cooldown(distance)` from that stop, so waits chain instead of being measured from one fixed origin. Later stops are only added when they arrive inside a golden/peak window with at least 15 minutes left, within a 6-hour horizon; spots never repeat. Shorter waits win (10-minute buckets), then golden before peak, then earlier arrival.
+- **Spots**: each entry in [`src/data/hotspots.ts`](src/data/hotspots.ts) cites where its coordinates come from. They
+  are places raid players commonly use, not a guarantee of Gym or PokéStop density. PokeNow never shows Gym/PokéStop
+  locations.
+- **Cooldowns**: an unofficial community table; sources disagree, so values are rounded to the safer side.
+- **Events**: read at runtime from [ScrapedDuck](https://github.com/bigfoott/ScrapedDuck), a mirror of
+  [Leek Duck](https://leekduck.com)'s calendar. Names only, no artwork. Official announcements win.
 
-## Quick start
+## Privacy
+
+Your last action, pinned spots and language stay in your browser's localStorage and are never sent anywhere. Details in
+[privacy.html](https://pokenow.cc/privacy.html).
+
+## Feedback
+
+- **On the site**: footer → *Report a translation problem*, or *Suggest a hotspot* under the ranking. No account needed.
+- **On GitHub**: [issues](https://github.com/Churious/pokenow/issues/new/choose) for spots, translations, raid
+  communities (free listing) and bugs.
+
+New issues for translations and community listings get an automatic first-pass review comment (Gemini); a maintainer
+makes the call. Pull requests from outside aren't accepted: open an issue instead and the change will be made here.
+
+## Running it locally
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173
-npm test         # unit tests (scoring, DST, dataset validation)
-npm run build    # type-check + production build → dist/
+npm test
+npm run build    # → dist/
 ```
 
-Requires Node `^20.19.0 || >=22.12.0` (Vite 8).
-
-## Project structure
-
-```
-src/
-├── data/
-│   ├── hotspots.ts      ← add hotspots here (the only file most PRs touch)
-│   └── cooldowns.ts     ← unofficial cooldown table
-├── lib/
-│   ├── time.ts          ← Intl-based tz helpers
-│   ├── scoring.ts       ← pure ranking engine
-│   ├── planner.ts       ← pure cooldown route (A → wait → B → C)
-│   ├── favorites.ts     ← pinned spot ids (localStorage helpers)
-│   ├── clipboard.ts     ← clipboard helper for Copy / Share
-│   ├── geo.ts           ← haversine + coordinate formatting
-│   └── scoring.test.ts
-├── i18n/
-│   ├── types.ts         ← translation contract (every key typed)
-│   ├── index.tsx        ← provider, detection, duration/number formatting
-│   └── locales/*.ts     ← one file per language
-├── hooks/
-│   ├── useNow.ts        ← 1s ticker aligned to the second
-│   ├── useTravelState.ts← last action location/time (localStorage)
-│   └── useFavorites.ts  ← pinned spots (localStorage)
-├── components/          ← Dial, BestSpot, TravelPanel, SpotRow, HowItWorks, AdBanner, StickyAnchorAd, …
-├── types/index.ts
-├── config.ts            ← env-driven config
-└── App.tsx
-privacy.html             ← privacy policy (second Vite entry)
-scripts/site-pages.ts    ← build plugin: per-hotspot HTML pages, sitemap.xml, robots.txt
-```
-
-## AdSense setup
-
-AdSense needs the site on its own domain (ads.txt must be served from the domain root), so connect a custom domain first.
-
-0. **Site URL** — set the repository variable `VITE_SITE_URL` (e.g. `https://pokenow.example.com/`) so canonical links and the sitemap use your domain.
-1. **Custom domain** — Settings → Pages → Custom domain, then add the DNS records GitHub shows. The build uses relative paths, so no code change is needed.
-2. **Repository variables** — Settings → Secrets and variables → Actions → *Variables*:
-   - `VITE_ADSENSE_CLIENT` = `ca-pub-…` (your publisher id)
-   - after approval, the ad unit ids: `VITE_AD_SLOT_TOP`, `VITE_AD_SLOT_INFEED`, `VITE_AD_SLOT_ANCHOR` (mobile 300×50), `VITE_AD_SLOT_SIDEBAR` (desktop 300×250), `VITE_AD_INFEED_LAYOUT_KEY`
-3. **Redeploy** (push to `main` or run the workflow). With `VITE_ADSENSE_CLIENT` set, the build automatically:
-   - adds `<meta name="google-adsense-account">` and the AdSense loader to every page,
-   - publishes `/ads.txt` with your publisher line.
-4. **Apply in AdSense** with the custom domain. `privacy.html` covers the required cookie/ads disclosures.
-5. **Consent** — before serving ads, turn on a Google-certified consent message (AdSense → Privacy & messaging) for EEA/UK/Swiss visitors.
-
-Without `VITE_ADSENSE_CLIENT` (or without a slot id), no ad code is loaded and no ad container is rendered at all — dev builds and forks stay ad-free.
-
-Notes:
-- Exactly one sticky unit is ever mounted: the **300×50** bottom anchor below 768px, the **300×250** sidebar unit from 1024px. Breakpoint-specific units are mounted only when visible (AdSense errors on hidden slots).
-- The sticky anchor uses a fixed **300×50** unit, pinned to the bottom edge on mobile only. AdSense allows only **one sticky ad visible at a time**, so don't also enable Auto ads → Anchor ads while this component is in use.
-- In-feed units need the `data-ad-layout-key` from your AdSense code snippet.
-- PokeNow doesn't provide or endorse location-changing tools; keep wording that way to stay within Google Publisher Policies.
-
-## Analytics (optional)
-
-Set one repository variable to count page views without cookies: `VITE_CF_ANALYTICS_TOKEN` (Cloudflare Web Analytics) or `VITE_GOATCOUNTER_CODE` (GoatCounter; its hosted free tier is for non-commercial sites).
-
-## Community directory
-
-Listings live in `src/data/communities.ts` and are free. People request one through the **Add a raid community** issue form; review it against the rules in that file, then add the entry.
-
-## Suggesting a hotspot
-
-The list grows through the **Suggest a spot** link under the ranking, which opens the [hotspot suggestion form](https://github.com/Churious/pokenow/issues/new?template=hotspot.yml). It collects the city, spot, country code, region, coordinates, IANA time zone and the public source of the coordinates. A maintainer checks the coordinates and appends the entry to `src/data/hotspots.ts`, so adding a spot doesn't require a code PR for every suggestion.
-
-## Data caveats
-
-- The spot list is what raid players commonly use. Each entry in `src/data/hotspots.ts` cites where its coordinates come from (mostly published community coordinate lists). They are not guarantees of in-game Gym/PokéStop density.
-- The cooldown table is unofficial and sources disagree.
-- Event times are set by the game operator and can change — check official announcements.
+Node `^20.19.0 || >=22.12.0`. React 19, TypeScript, Vite 8, Tailwind 4, Leaflet. Deployment, ads and analytics notes
+are in [`docs/OPERATING.md`](docs/OPERATING.md).
 
 ## License
 
-[MIT](LICENSE). Contributions welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+[PolyForm Noncommercial 1.0.0](LICENSE). In short, and the license text decides:
+
+- **Allowed**: reading the code, running it, changing it and sharing it for noncommercial purposes (personal use,
+  study, hobby projects, charities and similar organisations).
+- **Not allowed**: any commercial use, including running a copy of the site with ads or as part of a paid product.
+- Keep the license and the `Required Notice` line with any copy.
+
+Want to use it in a way that isn't covered? Open an issue and ask.
+
+Versions published before this change (up to commit `8a25c82`) were released under MIT, and those copies stay MIT.

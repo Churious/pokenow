@@ -4,7 +4,7 @@
  * ============================================================================
  *
  *  Listing a community is FREE. To add one, open the "Add a raid community"
- *  issue on GitHub (or a PR editing this file). Every entry is reviewed.
+ *  issue on GitHub; the maintainer adds accepted entries here.
  *
  *  Rules (enforced in review, also shown on the site):
  *   - Public, active Pokémon GO raid community with a working invite link.

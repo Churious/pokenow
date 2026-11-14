@@ -57,6 +57,7 @@ src/
 ├── components/              presentation (BestSpot, RoutePlanner, SpotRow, SpotPage, …)
 ├── types/index.ts           shared domain types
 └── config.ts                env-driven config (GitHub URL, AdSense slots)
+docs/OPERATING.md            live-site setup: domain, AdSense, analytics variables
 scripts/site-pages.ts        emits <id>.html per spot, 404.html, sitemap.xml, robots.txt
 scripts/review-issue.mjs     Gemini first-pass review comment on translation / community issues (issue-review.yml)
 .github/ISSUE_TEMPLATE/      community.yml, hotspot.yml, translation.yml (GitHub issue forms)
@@ -87,6 +88,10 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   cache) live in localStorage and are never sent anywhere. Don't add a backend for a feature that doesn't need one.
 - **Static hosting.** `base: './'`, relative hrefs, all pages share one bundle. Don't hard-code the
   domain; `VITE_SITE_URL` drives canonical/OG URLs at build time.
+- **Source-available, not open source.** License is PolyForm Noncommercial 1.0.0 (`LICENSE`, with a
+  `Required Notice:` line); `package.json` says `PolyForm-Noncommercial-1.0.0`. Don't call the project "open source"
+  in UI text, docs or metadata. Outside pull requests aren't accepted; feedback comes in as issues.
+  Versions up to `8a25c82` were MIT.
 - **Ads:** only one sticky unit may be mounted at a time (bottom anchor below 768 px, sidebar from
   1024 px). Don't render hidden AdSense slots.
 
