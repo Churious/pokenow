@@ -66,4 +66,36 @@ export interface ScoredHotspot {
   secondsLeftInWindow: number;
   /** Human label for special weekly events active right now, if any. */
   eventLabel: string | null;
+  /** Travel plan from the player's last action location (see TravelState). */
+  plan: TravelPlan;
+}
+
+/**
+ * The player's cooldown situation.
+ *  - free:     no cooldown-triggering action in the last 2 hours → can go anywhere.
+ *  - cooldown: acted recently at `origin`; must wait before acting far away.
+ *  - softban:  same math as cooldown (wait out the timer measured from the last
+ *              successful action), but the UI shows recovery guidance.
+ */
+export type TravelState =
+  | { mode: 'free' }
+  | {
+      mode: 'cooldown' | 'softban';
+      /** Where the last cooldown-triggering action happened. */
+      origin: { lat: number; lng: number; label: string };
+      /** Epoch ms of that action. */
+      lastActionAt: number;
+    };
+
+export interface TravelPlan {
+  /** Great-circle distance from the last action location; null in free mode. */
+  distanceKm: number | null;
+  /** Seconds the player still has to wait before acting at this spot (0 = go now). */
+  waitSeconds: number;
+  /** Tier the spot will be in when the player can safely act there. */
+  arrivalTier: Tier;
+  /** Weekly event label at arrival (Raid Hour / Spotlight Hour / Golden Time). */
+  arrivalEventLabel: string | null;
+  /** Seconds from now until a usable raid window is open at this spot, wait included. */
+  secondsUntilUsable: number;
 }

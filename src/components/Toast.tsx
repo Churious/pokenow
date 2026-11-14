@@ -29,9 +29,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         {message && (
           <div
             key={key}
-            className="animate-toast-in absolute bottom-24 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-go/40 bg-panel-2/95 px-4 py-2 text-sm font-medium text-slate-100 shadow-lg shadow-black/40 backdrop-blur md:bottom-8"
+            className="animate-toast-in absolute bottom-24 left-1/2 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-2 rounded-md bg-ink px-4 py-2.5 text-sm font-semibold text-night md:bottom-8"
           >
-            <CheckCircle2 className="size-4 text-go" aria-hidden />
+            <CheckCircle2 className="size-4 shrink-0" aria-hidden />
             {message}
           </div>
         )}

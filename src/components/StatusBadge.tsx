@@ -1,46 +1,38 @@
 import type { ScoredHotspot } from '../types';
 import { densityGrade } from '../lib/scoring';
 
-const STYLES = {
-  'raid-hour': 'bg-raid/15 text-amber-300 ring-raid/50',
-  active: 'bg-go/15 text-emerald-300 ring-go/40',
-  quiet: 'bg-slate-500/10 text-slate-400 ring-slate-500/30',
-} as const;
-
-/** 🔥 Raid Hour / 🟢 Active / 💤 Quiet */
-export function StatusBadge({ scored }: { scored: ScoredHotspot }) {
-  const label =
-    scored.status === 'raid-hour'
-      ? `🔥 ${scored.eventLabel ?? 'Raid Hour'}`
-      : scored.status === 'active'
-        ? '🟢 Active'
-        : '💤 Quiet';
+/** Status of a spot right now: Raid Hour / Spotlight Hour / Golden hour, Peak window, or Quiet. */
+export function StatusMark({ scored }: { scored: ScoredHotspot }) {
+  if (scored.status === 'raid-hour') {
+    return (
+      <span className="inline-flex items-center gap-1.5 font-semibold text-gold">
+        <span aria-hidden className="size-2 rotate-45 bg-gold" />
+        {scored.eventLabel === 'Golden Time' ? 'Golden hour' : scored.eventLabel}
+      </span>
+    );
+  }
+  if (scored.status === 'active') {
+    return (
+      <span className="inline-flex items-center gap-1.5 font-medium text-peak">
+        <span aria-hidden className="size-2 rounded-full bg-peak" />
+        Peak window
+      </span>
+    );
+  }
   return (
-    <span
-      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ring-1 ${STYLES[scored.status]}`}
-    >
-      {label}
+    <span className="inline-flex items-center gap-1.5 text-dim">
+      <span aria-hidden className="size-2 rounded-full border border-faint" />
+      Quiet
     </span>
   );
 }
 
-const GRADE_STYLES = {
-  S: 'text-raid-hot ring-raid-hot/40',
-  A: 'text-amber-300 ring-raid/30',
-  B: 'text-emerald-300 ring-go/30',
-  C: 'text-slate-400 ring-slate-500/30',
-} as const;
-
-/** Player-density grade derived from the hotspot's popularity weight. */
-export function DensityChip({ popularity }: { popularity: number }) {
+/** Crowd grade (S/A/B/C) from the community popularity weight. */
+export function CrowdGrade({ popularity }: { popularity: number }) {
   const grade = densityGrade(popularity);
   return (
-    <span
-      title={`Community popularity weight: ${popularity}/100`}
-      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ring-1 ${GRADE_STYLES[grade]}`}
-    >
-      Density {grade}
-      <span className="font-normal text-slate-500">· {popularity}</span>
+    <span className="text-dim" title={`Community popularity weight ${popularity} of 100`}>
+      Crowd <span className={grade === 'S' || grade === 'A' ? 'font-semibold text-ink' : 'text-ink'}>{grade}</span>
     </span>
   );
 }

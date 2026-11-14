@@ -12,7 +12,9 @@ PokeSpot checks the live local time of 15+ community-curated hotspots worldwide 
 - Live local clocks (DST-aware via `Intl.DateTimeFormat`, no date libraries)
 - Status badges: 🔥 Raid Hour / Spotlight Hour / Golden Time · 🟢 Active · 💤 Quiet
 - `[Copy Coords]` with toast feedback (`40.7536, -73.9832` format)
-- Cooldown Reference Guide with spot-to-spot distance estimate
+- **Cooldown & soft-ban aware ranking**: tell PokeSpot where and when you last caught/spun/raided, and every spot shows its distance and remaining wait. Spots are ranked by the raid window they'll be in *when you can safely play there*. After 2 hours without an action, everything is free again.
+- 24-hour dial: every hotspot plotted at its local time, golden hour and peak window highlighted
+- Cooldown reference table (unofficial community values, rounded up to the safer side)
 - Mobile-first dark UI, AdSense-ready slots with policy-minded spacing
 
 ## Recommendation algorithm
@@ -24,6 +26,8 @@ PokeSpot checks the live local time of 15+ community-curated hotspots worldwide 
 | 3 ⏳ Upcoming | 20:00 – 10:59 | Ranked by time until the next window opens |
 
 Ties inside tiers 1–2 are broken by `popularity` (1–100); tier 3 uses the soonest opening first, then `popularity`. See [`src/lib/scoring.ts`](src/lib/scoring.ts).
+
+**Cooldown / soft-ban mode.** With a last action location and time set, each spot gets `wait = max(0, cooldown(distance) − time since last action)` (capped at 2 h). The tier is evaluated at `now + wait`; a window with under 15 minutes left on arrival doesn't count. Within a tier, shorter waits win (10-minute buckets), then popularity. The state is stored only in the browser's localStorage.
 
 ## Quick start
 
@@ -48,8 +52,10 @@ src/
 │   ├── scoring.ts       ← pure ranking engine
 │   ├── geo.ts           ← haversine + coordinate formatting
 │   └── scoring.test.ts
-├── hooks/useNow.ts      ← 1s ticker aligned to the second
-├── components/          ← HeroCard, SpotCard, AdBanner, StickyAnchorAd, …
+├── hooks/
+│   ├── useNow.ts        ← 1s ticker aligned to the second
+│   └── useTravelState.ts← last action location/time (localStorage)
+├── components/          ← Dial, BestSpot, TravelPanel, SpotRow, AdBanner, StickyAnchorAd, …
 ├── types/index.ts
 ├── config.ts            ← env-driven config
 └── App.tsx

@@ -34,8 +34,15 @@ export const COOLDOWN_TABLE: readonly CooldownStep[] = [
   { maxKm: Infinity, minutes: 120 },
 ];
 
+/** After this long without a cooldown-triggering action you can act anywhere. */
+export const MAX_COOLDOWN_MINUTES = 120;
+
+/** Moves shorter than this are treated as staying in place (no wait). */
+const SAME_PLACE_KM = 0.1;
+
 /** Conservative lookup: picks the first band whose upper bound covers `km`. */
 export function suggestedCooldownMinutes(km: number): number {
+  if (km <= SAME_PLACE_KM) return 0;
   const step = COOLDOWN_TABLE.find((s) => km <= s.maxKm);
-  return step ? step.minutes : 120;
+  return step ? step.minutes : MAX_COOLDOWN_MINUTES;
 }

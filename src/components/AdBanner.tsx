@@ -75,9 +75,7 @@ export function AdBanner({ slot, variant = 'display', layoutKey, className = '',
   return (
     <aside aria-label="Advertisement" className={`w-full ${className}`}>
       {!hideLabel && (
-        <p className="mb-1.5 text-center text-[10px] font-medium tracking-[0.2em] text-slate-500 uppercase">
-          Advertisement
-        </p>
+        <p className="mb-1 text-xs text-faint">Advertisement</p>
       )}
       <div className={`flex w-full items-center justify-center overflow-hidden ${RESERVED_HEIGHT[variant]}`}>
         {enabled ? (
@@ -94,11 +92,11 @@ export function AdBanner({ slot, variant = 'display', layoutKey, className = '',
           />
         ) : (
           <div
-            className={`flex w-full items-center justify-center rounded-lg border border-dashed border-line text-xs text-slate-600 ${
+            className={`flex w-full items-center justify-center rounded-md border border-dashed border-rule text-xs text-faint ${
               variant === 'anchor' ? 'h-[50px] max-w-[300px]' : 'h-full min-h-[inherit]'
             }`}
           >
-            Ad slot · {variant}
+            Ad slot ({variant})
           </div>
         )}
       </div>

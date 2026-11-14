@@ -47,20 +47,18 @@ export function StickyAnchorAd() {
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-night/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-rule bg-night pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
       <div className="relative mx-auto flex max-w-md items-center justify-center px-12 py-2">
         <AdBanner slot={CONFIG.adsense.slots.anchor} variant="anchor" hideLabel />
         <button
           type="button"
           onClick={close}
           aria-label="Close advertisement"
-          className="absolute top-1/2 right-1 grid size-10 -translate-y-1/2 place-items-center rounded-full text-slate-400 hover:bg-panel-2 hover:text-white"
+          className="absolute top-1/2 right-1 grid size-10 -translate-y-1/2 place-items-center rounded-full text-dim hover:text-ink"
         >
           <X className="size-4" aria-hidden />
         </button>
-        <span className="absolute top-1/2 left-2 -translate-y-1/2 text-[9px] tracking-widest text-slate-600 uppercase [writing-mode:vertical-rl]">
-          Ad
-        </span>
+        <span className="absolute top-1/2 left-3 -translate-y-1/2 text-xs text-faint">Ad</span>
       </div>
     </div>
   );

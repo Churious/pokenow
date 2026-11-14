@@ -145,3 +145,65 @@ describe('geo & cooldown', () => {
     expect(suggestedCooldownMinutes(20000)).toBe(120);
   });
 });
+
+describe('cooldown / soft-ban aware planning', () => {
+  // Wed 2026-11-18 09:00Z → Tokyo & Seoul 18:00 (golden). Taipei 17:00 (peak).
+  const wed = new Date('2026-11-18T09:00:00Z');
+  const tokyo = spot({ id: 'tyo', timeZone: 'Asia/Tokyo', lat: 35.6896, lng: 139.7006, popularity: 98 });
+  const busan = spot({ id: 'pus', timeZone: 'Asia/Seoul', lat: 35.1578, lng: 129.0592, popularity: 80 });
+
+  it('free mode keeps the original ranking (waits are all 0)', () => {
+    const r = rankHotspots([busan, tokyo], wed);
+    expect(r[0].hotspot.id).toBe('tyo');
+    expect(r.every((s) => s.plan.waitSeconds === 0 && s.plan.distanceKm === null)).toBe(true);
+  });
+
+  it('prefers the reachable golden spot when the popular one needs a long wait', () => {
+    // Last action in Busan just now: Busan is 0 km away, Tokyo ~970 km (≈100 min wait).
+    const travel = {
+      mode: 'cooldown' as const,
+      origin: { lat: busan.lat, lng: busan.lng, label: 'Busan' },
+      lastActionAt: wed.getTime(),
+    };
+    const r = rankHotspots([tokyo, busan], wed, travel);
+    expect(r[0].hotspot.id).toBe('pus');
+    expect(r[0].plan.waitSeconds).toBe(0);
+    const t = r.find((s) => s.hotspot.id === 'tyo')!;
+    expect(t.plan.distanceKm).toBeGreaterThan(900);
+    expect(t.plan.waitSeconds).toBe(100 * 60);
+    // Arriving in Tokyo at 19:40 → golden is over, peak has 20 min left → still peak.
+    expect(t.plan.arrivalTier).toBe('peak');
+  });
+
+  it('subtracts time already elapsed since the last action', () => {
+    const travel = {
+      mode: 'softban' as const,
+      origin: { lat: busan.lat, lng: busan.lng, label: 'Busan' },
+      lastActionAt: wed.getTime() - 95 * 60 * 1000,
+    };
+    const t = scoreHotspot(tokyo, wed, travel);
+    expect(t.plan.waitSeconds).toBe(5 * 60);
+  });
+
+  it('treats everything as free after 2 hours without actions', () => {
+    const travel = {
+      mode: 'cooldown' as const,
+      origin: { lat: 0, lng: 0, label: 'Null Island' },
+      lastActionAt: wed.getTime() - 121 * 60 * 1000,
+    };
+    expect(rankHotspots(HOTSPOTS, wed, travel).every((s) => s.plan.waitSeconds === 0)).toBe(true);
+  });
+
+  it('does not count a window that closes within 15 minutes of arrival', () => {
+    // Taipei 19:50 on arrival (peak ends 20:00) → upcoming.
+    const taipei = spot({ id: 'tpe', timeZone: 'Asia/Taipei', lat: 25.0478, lng: 121.517 });
+    const start = new Date('2026-11-18T11:28:00Z'); // Taipei 19:28, arrival 19:50
+    const s = scoreHotspot(taipei, start, {
+      mode: 'cooldown',
+      origin: { lat: 25.0478, lng: 122.0, label: 'nearby' }, // ~48 km → 22 min
+      lastActionAt: start.getTime(),
+    });
+    expect(s.plan.waitSeconds).toBe(22 * 60);
+    expect(s.plan.arrivalTier).toBe('upcoming');
+  });
+});
