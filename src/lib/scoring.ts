@@ -1,5 +1,5 @@
 /**
- * PokeSpot recommendation engine.
+ * PokeNow recommendation engine.
  *
  * Every hotspot is classified into exactly one tier based on its LOCAL time:
  *

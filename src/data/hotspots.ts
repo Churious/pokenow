@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- *  PokeSpot — Global Hotspot Dataset
+ *  PokeNow — Global Hotspot Dataset
  * ============================================================================
  *
  *  This is the ONLY file you need to touch to add or fix a hotspot. 🙌

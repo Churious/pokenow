@@ -1,10 +1,10 @@
-# PokeSpot
+# PokeNow
 
 **Find the best Pokémon GO raid hotspot on Earth — right now.**
 
-PokeSpot checks the live local time of 15+ community-curated hotspots worldwide and recommends where raid lobbies are most likely to be full at this moment, with one-click coordinate copy.
+PokeNow checks the live local time of 15+ community-curated hotspots worldwide and recommends where raid lobbies are most likely to be full at this moment, with one-click coordinate copy.
 
-> PokeSpot is a fan-made utility for tracking global raid hours and coordinating remote raids. Not affiliated with Scopely or The Pokémon Company.
+> PokeNow is a fan-made utility for tracking global raid hours and coordinating remote raids. Not affiliated with Scopely or The Pokémon Company.
 
 ## Features
 
@@ -12,7 +12,7 @@ PokeSpot checks the live local time of 15+ community-curated hotspots worldwide 
 - Live local clocks (DST-aware via `Intl.DateTimeFormat`, no date libraries)
 - Status badges: 🔥 Raid Hour / Spotlight Hour / Golden Time · 🟢 Active · 💤 Quiet
 - `[Copy Coords]` with toast feedback (`40.7536, -73.9832` format)
-- **Cooldown & soft-ban aware ranking**: tell PokeSpot where and when you last caught/spun/raided, and every spot shows its distance and remaining wait. Spots are ranked by the raid window they'll be in *when you can safely play there*. After 2 hours without an action, everything is free again.
+- **Cooldown & soft-ban aware ranking**: tell PokeNow where and when you last caught/spun/raided, and every spot shows its distance and remaining wait. Spots are ranked by the raid window they'll be in *when you can safely play there*. After 2 hours without an action, everything is free again.
 - **Cooldown route**: the next few stops as an A → wait → B → wait → C plan. Each leg waits out the community cooldown for its distance, measured from the previous stop; the first stop always matches the recommendation.
 - **Pinned spots**: star the places you return to and they move to the top of the list. Stored in your browser only, so there is no account and no server.
 - **Share a spot**: on any spot page, one button shares or copies the coordinates, the current local time and the link — ready for a group chat.
@@ -84,7 +84,7 @@ scripts/site-pages.ts    ← build plugin: per-hotspot HTML pages, sitemap.xml, 
 
 AdSense needs the site on its own domain (ads.txt must be served from the domain root), so connect a custom domain first.
 
-0. **Site URL** — set the repository variable `VITE_SITE_URL` (e.g. `https://pokespot.example.com/`) so canonical links and the sitemap use your domain.
+0. **Site URL** — set the repository variable `VITE_SITE_URL` (e.g. `https://pokenow.example.com/`) so canonical links and the sitemap use your domain.
 1. **Custom domain** — Settings → Pages → Custom domain, then add the DNS records GitHub shows. The build uses relative paths, so no code change is needed.
 2. **Repository variables** — Settings → Secrets and variables → Actions → *Variables*:
    - `VITE_ADSENSE_CLIENT` = `ca-pub-…` (your publisher id)
@@ -101,7 +101,7 @@ Notes:
 - Exactly one sticky unit is ever mounted: the **300×50** bottom anchor below 768px, the **300×250** sidebar unit from 1024px. Breakpoint-specific units are mounted only when visible (AdSense errors on hidden slots).
 - The sticky anchor uses a fixed **300×50** unit, pinned to the bottom edge on mobile only. AdSense allows only **one sticky ad visible at a time**, so don't also enable Auto ads → Anchor ads while this component is in use.
 - In-feed units need the `data-ad-layout-key` from your AdSense code snippet.
-- PokeSpot doesn't provide or endorse location-changing tools; keep wording that way to stay within Google Publisher Policies.
+- PokeNow doesn't provide or endorse location-changing tools; keep wording that way to stay within Google Publisher Policies.
 
 ## Analytics (optional)
 
@@ -113,7 +113,7 @@ Listings live in `src/data/communities.ts` and are free. People request one thro
 
 ## Suggesting a hotspot
 
-The list grows through the **Suggest a spot** link under the ranking, which opens the [hotspot suggestion form](https://github.com/Churious/pokespot/issues/new?template=hotspot.yml). It collects the city, spot, country code, region, coordinates, IANA time zone and the public source of the coordinates. A maintainer checks the coordinates and appends the entry to `src/data/hotspots.ts`, so adding a spot doesn't require a code PR for every suggestion.
+The list grows through the **Suggest a spot** link under the ranking, which opens the [hotspot suggestion form](https://github.com/Churious/pokenow/issues/new?template=hotspot.yml). It collects the city, spot, country code, region, coordinates, IANA time zone and the public source of the coordinates. A maintainer checks the coordinates and appends the entry to `src/data/hotspots.ts`, so adding a spot doesn't require a code PR for every suggestion.
 
 ## Data caveats
 

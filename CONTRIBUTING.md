@@ -1,11 +1,11 @@
-# Contributing to PokeSpot
+# Contributing to PokeNow
 
 Thanks for helping! The most common contribution is **adding or fixing a hotspot**, and it only touches one file.
 
 ## Suggest a hotspot (no code)
 
 Click **Suggest a spot** under the ranking on the site, or open the
-[hotspot suggestion form](https://github.com/Churious/pokespot/issues/new?template=hotspot.yml). It asks for the city,
+[hotspot suggestion form](https://github.com/Churious/pokenow/issues/new?template=hotspot.yml). It asks for the city,
 spot, country code, region, coordinates, IANA time zone and the public source of the coordinates. A maintainer checks it
 and adds the entry to `src/data/hotspots.ts`, so you don't need to touch any code.
 

@@ -17,7 +17,7 @@ const CLIENT_RE = /^ca-pub-\d{10,20}$/;
 function adsense(client: string): Plugin {
   const valid = CLIENT_RE.test(client);
   return {
-    name: 'pokespot-adsense',
+    name: 'pokenow-adsense',
     transformIndexHtml() {
       if (!valid) return [];
       return [
@@ -54,7 +54,7 @@ function adsense(client: string): Plugin {
 function analytics(cfToken: string, goatCode: string): Plugin {
   const safe = (v: string) => /^[A-Za-z0-9_-]{1,64}$/.test(v);
   return {
-    name: 'pokespot-analytics',
+    name: 'pokenow-analytics',
     transformIndexHtml() {
       const tags = [];
       if (cfToken && safe(cfToken)) {
@@ -89,7 +89,7 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
-    // Relative asset paths so the same build works on GitHub Pages (/pokespot/),
+    // Relative asset paths so the same build works on GitHub Pages (/pokenow/),
     // a custom domain, or any static host.
     base: './',
     plugins: [
@@ -97,7 +97,7 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       adsense(client),
       analytics(env.VITE_CF_ANALYTICS_TOKEN ?? '', env.VITE_GOATCOUNTER_CODE ?? ''),
-      sitePages(env.VITE_SITE_URL || 'https://churious.github.io/pokespot/'),
+      sitePages(env.VITE_SITE_URL || 'https://churious.github.io/pokenow/'),
       // Installable app + offline app shell. Map tiles and ads are never cached.
       VitePWA({
         registerType: 'autoUpdate',
@@ -105,8 +105,8 @@ export default defineConfig(({ mode }) => {
         includeAssets: ['favicon.svg', 'icons/apple-touch-icon.png'],
         manifest: {
           id: './',
-          name: 'PokeSpot — Best Raid Spot Now',
-          short_name: 'PokeSpot',
+          name: 'PokeNow — Best Raid Spot Now',
+          short_name: 'PokeNow',
           description:
             'Live local times, Raid Hour status and one-click coordinates for Pokémon GO raid hotspots worldwide.',
           start_url: './',

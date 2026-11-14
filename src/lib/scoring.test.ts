@@ -287,10 +287,10 @@ describe('i18n', () => {
 
 describe('routes', () => {
   it('finds the spot from the path, with or without .html', () => {
-    expect(currentSpot('/pokespot/tokyo-harajuku')?.city).toBe('Tokyo');
+    expect(currentSpot('/pokenow/tokyo-harajuku')?.city).toBe('Tokyo');
     expect(currentSpot('/tokyo-harajuku.html')?.city).toBe('Tokyo');
-    expect(currentSpot('/pokespot/')).toBeNull();
-    expect(currentSpot('/pokespot/privacy.html')).toBeNull();
+    expect(currentSpot('/pokenow/')).toBeNull();
+    expect(currentSpot('/pokenow/privacy.html')).toBeNull();
   });
 });
 

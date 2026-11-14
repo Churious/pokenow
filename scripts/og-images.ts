@@ -57,7 +57,7 @@ h1 { font-size: ${Math.max(...title.split('\n').map((l) => l.length)) > 14 ? 128
 p.sub { margin-top: 18px; font-size: 40px; line-height: 1.15; color: #d7deea; font-stretch: 84%; font-weight: 500; }
 p.foot { margin-top: 30px; font-size: 26px; color: #7d8ba6; }
 </style></head><body>${rings}
-<div class="brand">${radarIcon}<span>PokeSpot</span></div>
+<div class="brand">${radarIcon}<span>PokeNow</span></div>
 <div class="main"><h1>${esc(title)}</h1><p class="sub">${esc(subtitle)}</p><p class="foot">${esc(footer)}</p></div>
 </body></html>`;
 }

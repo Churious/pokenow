@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- *  PokeSpot — Raid community directory
+ *  PokeNow — Raid community directory
  * ============================================================================
  *
  *  Listing a community is FREE. To add one, open the "Add a raid community"

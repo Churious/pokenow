@@ -6,7 +6,7 @@
 const env = import.meta.env;
 
 export const CONFIG = {
-  githubUrl: env.VITE_GITHUB_URL || 'https://github.com/Churious/pokespot',
+  githubUrl: env.VITE_GITHUB_URL || 'https://github.com/Churious/pokenow',
   adsense: {
     /** "ca-pub-XXXXXXXXXXXXXXXX". When empty, no ad slots are rendered. */
     client: env.VITE_ADSENSE_CLIENT || '',

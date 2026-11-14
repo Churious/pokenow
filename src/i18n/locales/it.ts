@@ -3,7 +3,7 @@ import type { Messages } from '../types';
 export const it: Messages = {
   languageName: 'Italiano',
   units: { d: 'g', h: 'h', m: 'min', s: 's', spaced: false, sep: ' ', km: 'km', min: 'min' },
-  nav: { home: 'Home di PokeSpot', language: 'Lingua', utc: 'UTC' },
+  nav: { home: 'Home di PokeNow', language: 'Lingua', utc: 'UTC' },
   status: {
     goldenHour: 'Ora d’oro',
     raidHour: 'Ora dei Raid',
@@ -91,14 +91,14 @@ export const it: Messages = {
     text: (place, coords, time, url) => `${place}\n${coords}\nOra locale: ${time}\n${url}`,
   },
   how: {
-    title: 'Come PokeSpot sceglie un posto',
-    p1: 'I raid sono più affollati quando i giocatori locali sono liberi. PokeSpot legge l’ora locale di ogni posto dai dati dei fusi orari integrati nel browser, quindi il cambio dell’ora legale è gestito automaticamente.',
+    title: 'Come PokeNow sceglie un posto',
+    p1: 'I raid sono più affollati quando i giocatori locali sono liberi. PokeNow legge l’ora locale di ogni posto dai dati dei fusi orari integrati nel browser, quindi il cambio dell’ora legale è gestito automaticamente.',
     p2: 'I posti tra le {golden} ora locale vengono prima: in quell’ora ci sono l’Ora dei Raid del mercoledì e l’Ora Riflettori del martedì. Seguono i posti nella fascia {peak}, quando la maggior parte dei giocatori fa raid. Se tutto è tranquillo, vince il posto che apre per primo.',
     p3: 'Se imposti il tuo tempo di ricarica, ogni posto mostra anche la distanza dalla tua ultima azione e quanto devi ancora aspettare. I posti vengono valutati in base alla fascia in cui saranno alla fine dell’attesa, così non arrivi quando la lobby si svuota.',
   },
   cooldown: {
     title: 'Riferimenti per il tempo di ricarica',
-    intro: 'Quanto aspettare dopo una cattura, un PokéStop, un raid o una Palestra prima di agire lontano. Sono stime della community, non numeri ufficiali, e le fonti non concordano nelle distanze intermedie. Quasi tutti concordano sul massimo di due ore. PokeSpot arrotonda al valore più sicuro.',
+    intro: 'Quanto aspettare dopo una cattura, un PokéStop, un raid o una Palestra prima di agire lontano. Sono stime della community, non numeri ufficiali, e le fonti non concordano nelle distanze intermedie. Quasi tutti concordano sul massimo di due ore. PokeNow arrotonda al valore più sicuro.',
     distance: 'Distanza',
     wait: 'Attesa',
     upTo: (k) => `Fino a ${k} km`,
@@ -107,12 +107,12 @@ export const it: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot è uno strumento creato da fan per seguire gli orari dei raid nel mondo e coordinare i raid a distanza. Non affiliato a Scopely o a The Pokémon Company.',
+      'PokeNow è uno strumento creato da fan per seguire gli orari dei raid nel mondo e coordinare i raid a distanza. Non affiliato a Scopely o a The Pokémon Company.',
     extra:
-      'Pokémon GO è attualmente gestito da Scopely. Pokémon e i nomi correlati sono marchi dei rispettivi proprietari. PokeSpot non fornisce né consiglia strumenti per cambiare posizione; gioca nel rispetto dei Termini di servizio. Gli orari degli eventi seguono l’ora locale e possono cambiare: controlla gli annunci ufficiali.',
+      'Pokémon GO è attualmente gestito da Scopely. Pokémon e i nomi correlati sono marchi dei rispettivi proprietari. PokeNow non fornisce né consiglia strumenti per cambiare posizione; gioca nel rispetto dei Termini di servizio. Gli orari degli eventi seguono l’ora locale e possono cambiare: controlla gli annunci ufficiali.',
     source: 'Codice sorgente su GitHub (MIT)',
     privacy: 'Informativa sulla privacy',
-    sponsor: 'Sostieni PokeSpot',
+    sponsor: 'Sostieni PokeNow',
   },
   ads: { label: 'Pubblicità', short: 'Ad', close: 'Chiudi la pubblicità' },
   city: {

@@ -6,7 +6,7 @@
  * in `hooks/useFavorites.ts` is the only part that touches storage.
  */
 
-export const FAVORITES_STORAGE_KEY = 'pokespot:favorites';
+export const FAVORITES_STORAGE_KEY = 'pokenow:favorites';
 
 /** Reads a stored id list defensively. Corrupt or foreign values → empty list. */
 export function parseFavorites(raw: string | null): string[] {

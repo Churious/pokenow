@@ -1,5 +1,5 @@
 /**
- * Shared domain types for PokeSpot.
+ * Shared domain types for PokeNow.
  * Keep these framework-agnostic so they can be reused by tests, scripts or a future API.
  */
 

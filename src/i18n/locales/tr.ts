@@ -5,7 +5,7 @@ import type { Messages } from '../types';
 export const tr: Messages = {
   languageName: 'Türkçe',
   units: { d: 'g', h: 'sa', m: 'dk', s: 'sn', spaced: true, sep: ' ', km: 'km', min: 'dk' },
-  nav: { home: 'PokeSpot ana sayfa', language: 'Dil', utc: 'UTC' },
+  nav: { home: 'PokeNow ana sayfa', language: 'Dil', utc: 'UTC' },
   status: {
     goldenHour: 'Altın saat',
     raidHour: 'Raid Hour',
@@ -93,14 +93,14 @@ export const tr: Messages = {
     text: (place, coords, time, url) => `${place}\n${coords}\nYerel saat: ${time}\n${url}`,
   },
   how: {
-    title: 'PokeSpot bir noktayı nasıl seçer',
-    p1: 'Baskınlar, yerel oyuncuların boş olduğu saatlerde en kalabalıktır. PokeSpot her noktanın yerel saatini tarayıcının saat dilimi verilerinden okur, bu yüzden yaz saati değişiklikleri otomatik olarak uygulanır.',
+    title: 'PokeNow bir noktayı nasıl seçer',
+    p1: 'Baskınlar, yerel oyuncuların boş olduğu saatlerde en kalabalıktır. PokeNow her noktanın yerel saatini tarayıcının saat dilimi verilerinden okur, bu yüzden yaz saati değişiklikleri otomatik olarak uygulanır.',
     p2: 'Yerel saatle {golden} arasındaki noktalar önce gelir: bu saatte çarşamba günleri Raid Hour, salı günleri Spotlight Hour yapılır. Ardından çoğu oyuncunun baskın yaptığı {peak} aralığındaki noktalar gelir. Her yer sakinse en erken açılan nokta kazanır.',
     p3: 'Bekleme süreni girersen her nokta son eylemine olan uzaklığı ve daha ne kadar beklemen gerektiğini de gösterir. Noktalar, beklemen bittiğinde içinde olacakları zaman aralığına göre değerlendirilir; böylece lobi dağılırken varmazsın.',
   },
   cooldown: {
     title: 'Bekleme süresi rehberi',
-    intro: 'Yakalama, PokéStop, baskın veya Gym eyleminden sonra uzak bir yerde eylem yapmadan önce ne kadar beklemen gerektiği. Bunlar resmi değil, topluluk tahminleridir ve orta mesafelerde kaynaklar farklıdır. İki saatlik üst sınırda neredeyse herkes hemfikir. PokeSpot daha güvenli değere yuvarlar.',
+    intro: 'Yakalama, PokéStop, baskın veya Gym eyleminden sonra uzak bir yerde eylem yapmadan önce ne kadar beklemen gerektiği. Bunlar resmi değil, topluluk tahminleridir ve orta mesafelerde kaynaklar farklıdır. İki saatlik üst sınırda neredeyse herkes hemfikir. PokeNow daha güvenli değere yuvarlar.',
     distance: 'Mesafe',
     wait: 'Bekleme',
     upTo: (k) => `${k} km'ye kadar`,
@@ -109,12 +109,12 @@ export const tr: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot, dünya genelindeki baskın saatlerini takip etmek ve uzaktan baskınları koordine etmek için hayranlar tarafından yapılmış bir araçtır. Scopely veya The Pokémon Company ile bağlantılı değildir.',
+      'PokeNow, dünya genelindeki baskın saatlerini takip etmek ve uzaktan baskınları koordine etmek için hayranlar tarafından yapılmış bir araçtır. Scopely veya The Pokémon Company ile bağlantılı değildir.',
     extra:
-      'Pokémon GO şu anda Scopely tarafından işletilmektedir. Pokémon ve ilgili adlar, sahiplerinin ticari markalarıdır. PokeSpot konum değiştirme araçları sağlamaz ve önermez; lütfen oyunun Hizmet Şartları’na uygun oyna. Etkinlik saatleri yerel saate göredir ve değişebilir, resmi duyuruları kontrol et.',
+      'Pokémon GO şu anda Scopely tarafından işletilmektedir. Pokémon ve ilgili adlar, sahiplerinin ticari markalarıdır. PokeNow konum değiştirme araçları sağlamaz ve önermez; lütfen oyunun Hizmet Şartları’na uygun oyna. Etkinlik saatleri yerel saate göredir ve değişebilir, resmi duyuruları kontrol et.',
     source: 'GitHub’da kaynak kod (MIT)',
     privacy: 'Gizlilik politikası',
-    sponsor: 'PokeSpot’a destek ol',
+    sponsor: 'PokeNow’a destek ol',
   },
   ads: { label: 'Reklam', short: 'Reklam', close: 'Reklamı kapat' },
   city: {

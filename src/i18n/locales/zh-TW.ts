@@ -3,7 +3,7 @@ import type { Messages } from '../types';
 export const zhTW: Messages = {
   languageName: '繁體中文',
   units: { d: '天', h: '小時', m: '分', s: '秒', spaced: false, sep: '', km: '公里', min: '分鐘' },
-  nav: { home: 'PokeSpot 首頁', language: '語言', utc: 'UTC' },
+  nav: { home: 'PokeNow 首頁', language: '語言', utc: 'UTC' },
   status: {
     goldenHour: '黃金時段',
     raidHour: '團體戰時間',
@@ -49,7 +49,7 @@ export const zhTW: Messages = {
   },
   travel: {
     title: '我的冷卻時間',
-    intro: '告訴 PokeSpot 你最後一次捕捉、轉補給站或打團體戰的地點。仍在冷卻中的地點會排到後面。',
+    intro: '告訴 PokeNow 你最後一次捕捉、轉補給站或打團體戰的地點。仍在冷卻中的地點會排到後面。',
     statusLabel: '冷卻狀態',
     ready: '可遊玩',
     cooldown: '冷卻中',
@@ -91,14 +91,14 @@ export const zhTW: Messages = {
     text: (place, coords, time, url) => `${place}\n${coords}\n當地時間：${time}\n${url}`,
   },
   how: {
-    title: 'PokeSpot 如何挑選地點',
-    p1: '當地玩家有空時團體戰最熱鬧。PokeSpot 透過瀏覽器內建的時區資料讀取每個地點的當地時間，因此夏令時間會自動處理。',
+    title: 'PokeNow 如何挑選地點',
+    p1: '當地玩家有空時團體戰最熱鬧。PokeNow 透過瀏覽器內建的時區資料讀取每個地點的當地時間，因此夏令時間會自動處理。',
     p2: '當地時間 {golden} 的地點最優先。這個時段每週三有團體戰時間、每週二有聚焦時刻。其次是大多數玩家打團體戰的 {peak} 時段。如果所有地點都很冷清，就選最早開始的地點。',
     p3: '設定冷卻時間後，每個地點也會顯示與最後一次行動的距離，以及還需要等多久。地點會依你等待結束時所處的時段來評估，避免你抵達時大廳已經散場。',
   },
   cooldown: {
     title: '冷卻時間參考',
-    intro: '捕捉、轉補給站、團體戰或道館行動後，到遠處再行動前需要等待的時間。這些是社群估計值而非官方數據，中段距離的數值各來源不同。最長兩小時這點大家看法一致。PokeSpot 會取較安全的數值。',
+    intro: '捕捉、轉補給站、團體戰或道館行動後，到遠處再行動前需要等待的時間。這些是社群估計值而非官方數據，中段距離的數值各來源不同。最長兩小時這點大家看法一致。PokeNow 會取較安全的數值。',
     distance: '距離',
     wait: '等待',
     upTo: (k) => `${k} 公里以內`,
@@ -107,12 +107,12 @@ export const zhTW: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot 是粉絲製作的工具，用於追蹤全球團體戰時段與協調遠端團體戰。與 Scopely 及 The Pokémon Company 無關。',
+      'PokeNow 是粉絲製作的工具，用於追蹤全球團體戰時段與協調遠端團體戰。與 Scopely 及 The Pokémon Company 無關。',
     extra:
-      'Pokémon GO 目前由 Scopely 營運。Pokémon 及相關名稱為各權利人的商標。PokeSpot 不提供也不鼓勵更改位置的工具，請遵守遊戲服務條款。活動時間以當地時間為準，可能會變動，請以官方公告為準。',
+      'Pokémon GO 目前由 Scopely 營運。Pokémon 及相關名稱為各權利人的商標。PokeNow 不提供也不鼓勵更改位置的工具，請遵守遊戲服務條款。活動時間以當地時間為準，可能會變動，請以官方公告為準。',
     source: 'GitHub 原始碼（MIT）',
     privacy: '隱私權政策',
-    sponsor: '贊助 PokeSpot',
+    sponsor: '贊助 PokeNow',
   },
   ads: { label: '廣告', short: '廣告', close: '關閉廣告' },
   city: {

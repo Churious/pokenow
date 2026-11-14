@@ -1,12 +1,12 @@
 name: Suggest a raid hotspot
-description: Suggest a Pokémon GO raid hotspot for PokeSpot. Coordinates must come from a public source.
+description: Suggest a Pokémon GO raid hotspot for PokeNow. Coordinates must come from a public source.
 title: "[Hotspot] "
 labels: ["hotspot-suggestion"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks! PokeSpot's list is community-curated and reviewed by a maintainer.
+        Thanks! PokeNow's list is community-curated and reviewed by a maintainer.
 
         **Good suggestions:** a public square, station area, park or shopping street that local players actually use for raids, with coordinates you can point to on a map.
 
@@ -92,5 +92,5 @@ body:
           required: true
         - label: This is a public place, not a private home.
           required: true
-        - label: I understand PokeSpot lists reference points, not in-game Gym/PokéStop locations.
+        - label: I understand PokeNow lists reference points, not in-game Gym/PokéStop locations.
           required: true

@@ -1,5 +1,5 @@
 {
-  "name": "pokespot",
+  "name": "pokenow",
   "version": "0.1.0",
   "description": "Real-time Pokémon GO raid hour & hotspot recommender (fan-made, open source)",
   "scripts": {
