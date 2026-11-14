@@ -58,13 +58,13 @@ describe('time utils', () => {
   });
 
   it('formats scheduled clock times without seconds', () => {
-    const clock = { hour: 9, minute: 5, second: 42, weekday: 1, secondsOfDay: 9 * 3600 + 5 * 60 + 42 };
+    const clock = { hour: 9, minute: 5, second: 42, weekday: 1, secondsOfDay: 9 * 3600 + 5 * 60 + 42, ymd: '2026-11-16' };
     expect(formatClockShort(clock)).toBe('09:05');
   });
 });
 
 describe('classification', () => {
-  const at = (h: number, m = 0) => ({ hour: h, minute: m, second: 0, weekday: 1, secondsOfDay: h * 3600 + m * 60 });
+  const at = (h: number, m = 0) => ({ hour: h, minute: m, second: 0, weekday: 1, secondsOfDay: h * 3600 + m * 60, ymd: '2026-11-16' });
   it('uses half-open windows', () => {
     expect(classify(at(10, 59))).toBe('upcoming');
     expect(classify(at(11))).toBe('peak');
@@ -228,7 +228,7 @@ import type { Messages } from '../i18n/types';
 import { currentSpot } from './routes';
 
 describe('event countdowns', () => {
-  const clock = (weekday: number, h: number, m = 0) => ({ hour: h, minute: m, second: 0, weekday, secondsOfDay: h * 3600 + m * 60 });
+  const clock = (weekday: number, h: number, m = 0) => ({ hour: h, minute: m, second: 0, weekday, secondsOfDay: h * 3600 + m * 60, ymd: '2026-11-16' });
 
   it('golden hour: later today, tomorrow, or live', () => {
     expect(nextGoldenWindow(clock(1, 17), null)).toEqual({ live: false, secondsUntil: 3600 });

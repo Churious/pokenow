@@ -22,6 +22,8 @@ import { currentSpot, homeHref } from './lib/routes';
 import { useNow } from './hooks/useNow';
 import { useTravelState } from './hooks/useTravelState';
 import { useFavorites } from './hooks/useFavorites';
+import { useGoEvents } from './hooks/useGoEvents';
+import { calendarFrom } from './lib/schedule';
 import { MQ, useMediaQuery } from './hooks/useMediaQuery';
 import { CONFIG } from './config';
 import { useI18n } from './i18n';
@@ -90,8 +92,13 @@ export default function App() {
     </div>
   ) : null;
 
+  // Event feed: real Raid Hour / Spotlight Hour dates for the labels, plus the Events tab.
+  const feed = useGoEvents();
+  const feedEvents = feed.status === 'ready' ? feed.events : null;
+  const calendar = useMemo(() => (feedEvents ? (calendarFrom(feedEvents) ?? undefined) : undefined), [feedEvents]);
+
   // Re-rank every tick; 15–100 spots is far below a millisecond.
-  const ranked = useMemo(() => rankHotspots(HOTSPOTS, now, travel), [now, travel]);
+  const ranked = useMemo(() => rankHotspots(HOTSPOTS, now, travel, calendar), [now, travel, calendar]);
 
   const visible = useMemo(
     () =>
@@ -143,6 +150,7 @@ export default function App() {
             sidebarAd={sidebarAd}
             favorites={pinned}
             onToggleFavorite={toggleFavorite}
+            events={feedEvents}
           />
         ) : (
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_22rem]">
@@ -233,12 +241,12 @@ export default function App() {
 
                 {tab === 'route' && (
                   <div className="space-y-10">
-                    <RoutePlanner ranked={ranked} now={now} travel={travel} />
+                    <RoutePlanner ranked={ranked} now={now} travel={travel} calendar={calendar} />
                     <CooldownGuide />
                   </div>
                 )}
 
-                {tab === 'events' && <EventSchedule now={now} />}
+                {tab === 'events' && <EventSchedule now={now} feed={feed} />}
 
                 {tab === 'map' && (
                   <div className="space-y-10">

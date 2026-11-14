@@ -45,6 +45,18 @@ export interface LocalClock {
   weekday: number;
   /** Seconds elapsed since local midnight (0–86399). */
   secondsOfDay: number;
+  /** Local calendar date, "YYYY-MM-DD". */
+  ymd: string;
+}
+
+/**
+ * Local dates ("YYYY-MM-DD") that have a Raid Hour / Spotlight Hour in the
+ * 18:00–19:00 window, taken from the event feed. When absent, the weekly
+ * rule (Raid Hour Wednesday, Spotlight Hour Thursday) is used instead.
+ */
+export interface EventCalendar {
+  raidHour: ReadonlySet<string>;
+  spotlight: ReadonlySet<string>;
 }
 
 /** A hotspot enriched with live, computed data. */

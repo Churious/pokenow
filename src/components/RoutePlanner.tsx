@@ -1,4 +1,4 @@
-import type { ScoredHotspot, TravelState } from '../types';
+import type { EventCalendar, ScoredHotspot, TravelState } from '../types';
 import { formatClockShort } from '../lib/time';
 import { spotHref } from '../lib/routes';
 import { planRoute, STOP_DWELL_SECONDS } from '../lib/planner';
@@ -14,13 +14,15 @@ export function RoutePlanner({
   ranked,
   now,
   travel,
+  calendar,
 }: {
   ranked: ScoredHotspot[];
   now: Date;
   travel: TravelState;
+  calendar?: EventCalendar;
 }) {
   const { t, dur, num } = useI18n();
-  const route = planRoute(ranked, now);
+  const route = planRoute(ranked, now, { calendar });
   const origin =
     travel.mode === 'free'
       ? null

@@ -24,7 +24,7 @@
  * could be reused by an API or bot later.
  */
 
-import type { Hotspot, ScoredHotspot, Tier } from '../types';
+import type { EventCalendar, Hotspot, ScoredHotspot, Tier } from '../types';
 import { suggestedCooldownMinutes } from '../data/cooldowns';
 import { distanceKm } from './geo';
 import { MIN_USABLE_SECONDS, scoreHotspot } from './scoring';
@@ -69,6 +69,8 @@ export interface PlanOptions {
   maxStops?: number;
   dwellSeconds?: number;
   horizonSeconds?: number;
+  /** Real Raid Hour / Spotlight Hour dates for the labels at each stop. */
+  calendar?: EventCalendar;
 }
 
 const emptyRoute = (): Route => ({ stops: [], totalSeconds: 0, totalDistanceKm: 0 });
@@ -94,7 +96,7 @@ export function planRoute(ranked: readonly ScoredHotspot[], now: Date, options: 
   if (!first) return emptyRoute();
 
   const firstArriveAt = new Date(now.getTime() + first.plan.waitSeconds * 1000);
-  const firstLive = scoreHotspot(first.hotspot, firstArriveAt);
+  const firstLive = scoreHotspot(first.hotspot, firstArriveAt, undefined, options.calendar);
   const stops: RouteStop[] = [
     {
       hotspot: first.hotspot,
@@ -122,7 +124,7 @@ export function planRoute(ranked: readonly ScoredHotspot[], now: Date, options: 
       const arriveAt = new Date(cursor.getTime() + waitSeconds * 1000);
       if ((arriveAt.getTime() - now.getTime()) / 1000 > horizonSeconds) continue;
 
-      const atArrival = scoreHotspot(candidate.hotspot, arriveAt);
+      const atArrival = scoreHotspot(candidate.hotspot, arriveAt, undefined, options.calendar);
       // Arriving outside a window, or just before it closes, is not worth a stop.
       if (atArrival.tier === 'upcoming' || atArrival.secondsLeftInWindow < MIN_USABLE_SECONDS) continue;
 

@@ -28,7 +28,16 @@
  * so it is trivial to unit test and to reuse in a future API / bot.
  */
 
-import type { Hotspot, LocalClock, ScoredHotspot, SpotStatus, Tier, TravelPlan, TravelState } from '../types';
+import type {
+  EventCalendar,
+  Hotspot,
+  LocalClock,
+  ScoredHotspot,
+  SpotStatus,
+  Tier,
+  TravelPlan,
+  TravelState,
+} from '../types';
 import { getLocalClock } from './time';
 import { distanceKm } from './geo';
 import { MAX_COOLDOWN_MINUTES, suggestedCooldownMinutes } from '../data/cooldowns';
@@ -77,8 +86,14 @@ const STATUS_BY_TIER: Record<Tier, SpotStatus> = {
 export const RAID_HOUR_WEEKDAY = 3;
 export const SPOTLIGHT_WEEKDAY = 4;
 
-function eventLabelFor(clock: LocalClock, tier: Tier): string | null {
+function eventLabelFor(clock: LocalClock, tier: Tier, calendar?: EventCalendar): string | null {
   if (tier !== 'golden') return null;
+  // With the feed we know the real dates: skipped weeks, extra Raid Hours on other days.
+  if (calendar) {
+    if (calendar.raidHour.has(clock.ymd)) return 'Raid Hour';
+    if (calendar.spotlight.has(clock.ymd)) return 'Spotlight Hour';
+    return 'Golden Time';
+  }
   if (clock.weekday === RAID_HOUR_WEEKDAY) return 'Raid Hour';
   if (clock.weekday === SPOTLIGHT_WEEKDAY) return 'Spotlight Hour';
   return 'Golden Time';
@@ -87,7 +102,7 @@ function eventLabelFor(clock: LocalClock, tier: Tier): string | null {
 type LiveFields = Omit<ScoredHotspot, 'plan'>;
 
 /** Live data for a hotspot at instant `at` (no travel considerations). */
-function liveAt(hotspot: Hotspot, now: Date): LiveFields {
+function liveAt(hotspot: Hotspot, now: Date, calendar?: EventCalendar): LiveFields {
   const clock = getLocalClock(now, hotspot.timeZone);
   const sod = clock.secondsOfDay;
   const tier = classify(clock);
@@ -132,7 +147,7 @@ function liveAt(hotspot: Hotspot, now: Date): LiveFields {
     secondsUntilNextWindow,
     nextWindow,
     secondsLeftInWindow,
-    eventLabel: eventLabelFor(clock, tier),
+    eventLabel: eventLabelFor(clock, tier, calendar),
   };
 }
 
@@ -160,9 +175,15 @@ export function secondsUntilFullyFree(travel: TravelState, now: Date): number {
   return Math.max(0, Math.ceil(MAX_COOLDOWN_MINUTES * 60 - elapsed));
 }
 
-function planFor(hotspot: Hotspot, live: LiveFields, travel: TravelState, now: Date): TravelPlan {
+function planFor(
+  hotspot: Hotspot,
+  live: LiveFields,
+  travel: TravelState,
+  now: Date,
+  calendar?: EventCalendar,
+): TravelPlan {
   const { distanceKm: km, waitSeconds } = cooldownWait(hotspot, travel, now);
-  const atArrival = waitSeconds === 0 ? live : liveAt(hotspot, new Date(now.getTime() + waitSeconds * 1000));
+  const atArrival = waitSeconds === 0 ? live : liveAt(hotspot, new Date(now.getTime() + waitSeconds * 1000), calendar);
   // When travelling, a window about to close is not worth the trip.
   const minUsable = waitSeconds === 0 ? 0 : MIN_USABLE_SECONDS;
 
@@ -188,9 +209,14 @@ function planFor(hotspot: Hotspot, live: LiveFields, travel: TravelState, now: D
 }
 
 /** Enrich a single hotspot with live data for `now`, plus a travel plan. */
-export function scoreHotspot(hotspot: Hotspot, now: Date, travel: TravelState = { mode: 'free' }): ScoredHotspot {
-  const live = liveAt(hotspot, now);
-  return { ...live, plan: planFor(hotspot, live, travel, now) };
+export function scoreHotspot(
+  hotspot: Hotspot,
+  now: Date,
+  travel: TravelState = { mode: 'free' },
+  calendar?: EventCalendar,
+): ScoredHotspot {
+  const live = liveAt(hotspot, now, calendar);
+  return { ...live, plan: planFor(hotspot, live, travel, now, calendar) };
 }
 
 /** Sort comparator implementing the ranking rules described at the top of the file. */
@@ -220,6 +246,7 @@ export function rankHotspots(
   hotspots: readonly Hotspot[],
   now: Date,
   travel: TravelState = { mode: 'free' },
+  calendar?: EventCalendar,
 ): ScoredHotspot[] {
-  return hotspots.map((h) => scoreHotspot(h, now, travel)).sort(compareScored);
+  return hotspots.map((h) => scoreHotspot(h, now, travel, calendar)).sort(compareScored);
 }

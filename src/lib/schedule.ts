@@ -13,6 +13,8 @@
  * visitor we report it in their own zone, and whether it still runs elsewhere.
  */
 
+import type { EventCalendar } from '../types';
+
 export const FEED_URL = 'https://raw.githubusercontent.com/bigfoott/ScrapedDuck/data/events.min.json';
 export const FEED_SOURCE_URL = 'https://leekduck.com/events/';
 
@@ -201,3 +203,40 @@ export function wallDate(s: string): string {
 }
 
 export const isLocalTime = (e: GoEvent) => !isUtc(e.start);
+
+/**
+ * Local dates of the 18:00 Raid Hours / Spotlight Hours in the feed, for the
+ * ranking labels. Returns null when the feed has none (then the weekly rule applies).
+ */
+export function calendarFrom(events: readonly GoEvent[]): EventCalendar | null {
+  const raidHour = new Set<string>();
+  const spotlight = new Set<string>();
+  for (const e of events) {
+    if (!isLocalTime(e) || wallClock(e.start) !== '18:00') continue;
+    if (e.kind === 'raid-hour') raidHour.add(wallDate(e.start));
+    else if (e.kind === 'spotlight') spotlight.add(wallDate(e.start));
+  }
+  return raidHour.size || spotlight.size ? { raidHour, spotlight } : null;
+}
+
+/** Next (or current) feed event of `kind` at a place in `timeZone`: live with time left, or time until it starts. */
+export function nextEventAt(
+  events: readonly GoEvent[],
+  kind: GoEventKind,
+  timeZone: string,
+  now: Date,
+): { live: true; secondsLeft: number } | { live: false; secondsUntil: number } | null {
+  const t = now.getTime();
+  let best: { start: number; end: number } | null = null;
+  for (const e of events) {
+    if (e.kind !== kind) continue;
+    const start = instantIn(e.start, timeZone);
+    const end = instantIn(e.end, timeZone);
+    if (end <= t) continue;
+    if (!best || start < best.start) best = { start, end };
+  }
+  if (!best) return null;
+  return best.start <= t
+    ? { live: true, secondsLeft: Math.round((best.end - t) / 1000) }
+    : { live: false, secondsUntil: Math.round((best.start - t) / 1000) };
+}

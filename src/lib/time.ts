@@ -36,6 +36,9 @@ function getClockFormatter(timeZone: string): Intl.DateTimeFormat {
       minute: '2-digit',
       second: '2-digit',
       weekday: 'short',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
     });
     clockFormatters.set(timeZone, fmt);
   }
@@ -59,6 +62,7 @@ export function getLocalClock(date: Date, timeZone: string): LocalClock {
     second,
     weekday,
     secondsOfDay: hour * 3600 + minute * 60 + second,
+    ymd: `${get('year')}-${get('month')}-${get('day')}`,
   };
 }
 
