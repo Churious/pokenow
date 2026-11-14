@@ -217,6 +217,9 @@ export const tr: Messages = {
   },
   support: {
     title: 'Reklam engelleyiciyi burada kapatır mısın?',
+    thanksTitle: 'Teşekkürler!',
+    thanksBody: 'Reklam engelleyiciyi burada kapattığın için teşekkürler. PokeNow’un ücretsiz kalmasına gerçekten yardımcı oluyor.',
+    close: 'Kapat',
     body: 'PokeNow tek bir kişinin yaptığı ücretsiz bir site. Küçük bir reklam alan adını ve siteyi ayakta tutuyor. Sayfayı kapatan reklam yok, söz.',
     how: 'Nasıl izin verilir',
     later: 'Sonra',

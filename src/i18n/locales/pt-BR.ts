@@ -216,6 +216,9 @@ export const ptBR: Messages = {
   },
   support: {
     title: 'Pode desativar o bloqueador de anúncios aqui?',
+    thanksTitle: 'Obrigado!',
+    thanksBody: 'Obrigado por desativar o bloqueador aqui. Isso ajuda muito a manter o PokeNow grátis.',
+    close: 'Fechar',
     body: 'O PokeNow é um site gratuito feito por uma pessoa só. Um anúncio pequeno paga o domínio e mantém tudo no ar. Nada de anúncio cobrindo a página, prometo.',
     how: 'Como permitir',
     later: 'Depois',

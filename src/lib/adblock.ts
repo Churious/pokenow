@@ -4,6 +4,8 @@
  */
 
 export const SUPPORT_NOTE_KEY = 'pokenow:support-note';
+/** Set while a blocker is seen, so the next visit without one can say thanks. */
+export const WAS_BLOCKED_KEY = 'pokenow:support-asked';
 export const SNOOZE_MS = 7 * 24 * 60 * 60 * 1000;
 
 /** Show the note unless it was closed less than a week ago. Bad or missing values count as "never closed". */
@@ -29,4 +31,15 @@ export interface BlockSignals {
 /** Any one signal is enough: different blockers trip different checks. */
 export function isBlocked(s: BlockSignals | null): boolean {
   return Boolean(s && (s.network || s.cosmetic || s.script));
+}
+
+export type SupportOutcome = 'ask' | 'thanks' | 'none';
+
+/**
+ * What to show once the check has finished: ask (blocker on, not snoozed), thanks (no blocker now but there was
+ * one on an earlier visit), or nothing.
+ */
+export function supportOutcome(blocked: boolean, wasBlocked: boolean, closedAt: string | null, now: number): SupportOutcome {
+  if (blocked) return shouldShowSupportNote(closedAt, now) ? 'ask' : 'none';
+  return wasBlocked ? 'thanks' : 'none';
 }
