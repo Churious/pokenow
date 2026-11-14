@@ -96,7 +96,7 @@ export const en: Messages = {
   how: {
     title: 'How PokeNow picks a spot',
     p1: 'Raids are busiest when local players are free. PokeNow reads the local time of every hotspot from your browser’s built-in time zone data, so daylight saving changes are handled automatically.',
-    p2: 'Spots between {golden} local time come first. That hour hosts the weekly Raid Hour on Wednesdays and Spotlight Hour on Tuesdays. Next come spots in the {peak} window, when most players raid. If every spot is quiet, the one that opens soonest wins.',
+    p2: 'Spots between {golden} local time come first. That hour hosts the weekly Raid Hour on Wednesdays and Spotlight Hour on Thursdays. Next come spots in the {peak} window, when most players raid. If every spot is quiet, the one that opens soonest wins.',
     p3: 'If you set your cooldown, each spot also shows its distance from your last action and how long you still need to wait there. Spots are then judged by the window they will be in when your wait is over, so you don’t arrive just as a lobby empties out.',
   },
   cooldown: {
@@ -123,7 +123,7 @@ export const en: Messages = {
     localTime: 'Local time',
     nextGolden: 'Next golden hour (18:00)',
     nextRaidHour: 'Next Raid Hour (Wednesday 18:00)',
-    nextSpotlight: 'Next Spotlight Hour (Tuesday 18:00)',
+    nextSpotlight: 'Next Spotlight Hour (Thursday 18:00)',
     liveNow: 'Happening now',
     inDuration: (d) => `in ${d}`,
     openGoogle: 'Open in Google Maps',

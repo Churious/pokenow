@@ -93,7 +93,7 @@ export const ptBR: Messages = {
   how: {
     title: 'Como o PokeNow escolhe um ponto',
     p1: 'As reides ficam mais cheias quando os jogadores locais estão livres. O PokeNow lê o horário local de cada ponto pelos dados de fuso horário do seu navegador, então o horário de verão é aplicado automaticamente.',
-    p2: 'Pontos entre {golden} (horário local) vêm primeiro: nesse horário acontecem a Hora da Reide de quarta-feira e a Hora do Holofote de terça-feira. Depois vêm os pontos no horário {peak}, quando a maioria faz reides. Se tudo estiver tranquilo, vence o ponto que abre primeiro.',
+    p2: 'Pontos entre {golden} (horário local) vêm primeiro: nesse horário acontecem a Hora da Reide de quarta-feira e a Hora do Holofote de quinta-feira. Depois vêm os pontos no horário {peak}, quando a maioria faz reides. Se tudo estiver tranquilo, vence o ponto que abre primeiro.',
     p3: 'Se você informar seu tempo de recarga, cada ponto também mostra a distância da sua última ação e quanto ainda falta esperar. Os pontos são avaliados pelo horário em que estarão quando sua espera acabar, para você não chegar quando o lobby estiver esvaziando.',
   },
   cooldown: {
@@ -120,7 +120,7 @@ export const ptBR: Messages = {
     localTime: 'Horário local',
     nextGolden: 'Próxima hora de ouro (18:00)',
     nextRaidHour: 'Próxima Hora da Reide (quarta-feira 18:00)',
-    nextSpotlight: 'Próxima Hora do Holofote (terça-feira 18:00)',
+    nextSpotlight: 'Próxima Hora do Holofote (quinta-feira 18:00)',
     liveNow: 'Acontecendo agora',
     inDuration: (d) => `em ${d}`,
     openGoogle: 'Abrir no Google Maps',

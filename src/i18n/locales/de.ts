@@ -93,7 +93,7 @@ export const de: Messages = {
   how: {
     title: 'Wie PokeNow einen Spot auswählt',
     p1: 'Raids sind am vollsten, wenn die Spieler vor Ort Zeit haben. PokeNow liest die Ortszeit jedes Spots aus den Zeitzonendaten deines Browsers, Sommer- und Winterzeit werden also automatisch berücksichtigt.',
-    p2: 'Spots zwischen {golden} Ortszeit kommen zuerst. In dieser Stunde finden mittwochs die Raid-Stunde und dienstags die Rampenlicht-Stunde statt. Danach folgen Spots im Zeitfenster {peak}, wenn die meisten raiden. Ist alles ruhig, gewinnt der Spot, der am frühesten beginnt.',
+    p2: 'Spots zwischen {golden} Ortszeit kommen zuerst. In dieser Stunde finden mittwochs die Raid-Stunde und donnerstags die Rampenlicht-Stunde statt. Danach folgen Spots im Zeitfenster {peak}, wenn die meisten raiden. Ist alles ruhig, gewinnt der Spot, der am frühesten beginnt.',
     p3: 'Wenn du deine Abklingzeit angibst, zeigt jeder Spot auch die Entfernung zu deiner letzten Aktion und die verbleibende Wartezeit. Bewertet wird dann das Zeitfenster am Ende deiner Wartezeit, damit du nicht ankommst, wenn sich die Lobby leert.',
   },
   cooldown: {
@@ -120,7 +120,7 @@ export const de: Messages = {
     localTime: 'Ortszeit',
     nextGolden: 'Nächste Goldene Stunde (18:00)',
     nextRaidHour: 'Nächste Raid-Stunde (Mittwoch 18:00)',
-    nextSpotlight: 'Nächste Rampenlicht-Stunde (Dienstag 18:00)',
+    nextSpotlight: 'Nächste Rampenlicht-Stunde (Donnerstag 18:00)',
     liveNow: 'Läuft gerade',
     inDuration: (d) => `in ${d}`,
     openGoogle: 'In Google Maps öffnen',

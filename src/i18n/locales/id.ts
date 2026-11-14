@@ -95,7 +95,7 @@ export const id: Messages = {
   how: {
     title: 'Cara PokeNow memilih tempat',
     p1: 'Raid paling ramai saat pemain lokal sedang senggang. PokeNow membaca waktu lokal setiap tempat dari data zona waktu bawaan browser, jadi perubahan waktu musim panas ditangani otomatis.',
-    p2: 'Tempat yang berada di antara {golden} waktu setempat didahulukan: di jam itu ada Raid Hour setiap Rabu dan Spotlight Hour setiap Selasa. Berikutnya tempat dalam rentang {peak}, saat kebanyakan pemain ikut raid. Jika semua sepi, tempat yang paling cepat dimulai yang menang.',
+    p2: 'Tempat yang berada di antara {golden} waktu setempat didahulukan: di jam itu ada Raid Hour setiap Rabu dan Spotlight Hour setiap Kamis. Berikutnya tempat dalam rentang {peak}, saat kebanyakan pemain ikut raid. Jika semua sepi, tempat yang paling cepat dimulai yang menang.',
     p3: 'Jika kamu mengatur cooldown, setiap tempat juga menampilkan jaraknya dari aksi terakhirmu dan sisa waktu tunggu. Tempat lalu dinilai berdasarkan rentang waktu saat tunggumu selesai, jadi kamu tidak tiba saat lobi mulai kosong.',
   },
   cooldown: {
@@ -122,7 +122,7 @@ export const id: Messages = {
     localTime: 'Waktu setempat',
     nextGolden: 'Jam emas berikutnya (18.00)',
     nextRaidHour: 'Raid Hour berikutnya (Rabu 18.00)',
-    nextSpotlight: 'Spotlight Hour berikutnya (Selasa 18.00)',
+    nextSpotlight: 'Spotlight Hour berikutnya (Kamis 18.00)',
     liveNow: 'Sedang berlangsung',
     inDuration: (d) => `dalam ${d}`,
     openGoogle: 'Buka di Google Maps',

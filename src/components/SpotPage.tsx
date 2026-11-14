@@ -5,6 +5,7 @@ import { formatClock, getUtcOffsetLabel } from '../lib/time';
 import { formatCoords } from '../lib/geo';
 import { nextGoldenWindow, type EventTiming } from '../lib/events';
 import { homeHref, spotHref } from '../lib/routes';
+import { RAID_HOUR_WEEKDAY, SPOTLIGHT_WEEKDAY } from '../lib/scoring';
 import { useI18n } from '../i18n';
 import { campfireHref } from '../lib/platform';
 import { CopyCoordsButton } from './CopyCoordsButton';
@@ -38,8 +39,8 @@ export function SpotPage({
 
   const events: { label: string; timing: EventTiming; gold: boolean }[] = [
     { label: t.city.nextGolden, timing: nextGoldenWindow(clock, null), gold: false },
-    { label: t.city.nextRaidHour, timing: nextGoldenWindow(clock, 3), gold: true },
-    { label: t.city.nextSpotlight, timing: nextGoldenWindow(clock, 2), gold: true },
+    { label: t.city.nextRaidHour, timing: nextGoldenWindow(clock, RAID_HOUR_WEEKDAY), gold: true },
+    { label: t.city.nextSpotlight, timing: nextGoldenWindow(clock, SPOTLIGHT_WEEKDAY), gold: true },
   ];
 
   const others = ranked.filter((s) => s.hotspot.id !== spot.id).slice(0, 5);

@@ -87,10 +87,12 @@ describe('ranking', () => {
   // Wednesday 2026-11-18 09:00Z → Tokyo 18:00 (golden, Raid Hour), Seoul 18:00 (golden).
   const wed = new Date('2026-11-18T09:00:00Z');
 
-  it('labels Wednesday golden time as Raid Hour and Tuesday as Spotlight Hour', () => {
+  it('labels Wednesday golden time as Raid Hour and Thursday as Spotlight Hour', () => {
     expect(scoreHotspot(spot({ timeZone: 'Asia/Tokyo' }), wed).eventLabel).toBe('Raid Hour');
+    const thu = new Date('2026-11-19T09:00:00Z');
+    expect(scoreHotspot(spot({ timeZone: 'Asia/Tokyo' }), thu).eventLabel).toBe('Spotlight Hour');
     const tue = new Date('2026-11-17T09:00:00Z');
-    expect(scoreHotspot(spot({ timeZone: 'Asia/Tokyo' }), tue).eventLabel).toBe('Spotlight Hour');
+    expect(scoreHotspot(spot({ timeZone: 'Asia/Tokyo' }), tue).eventLabel).toBe('Golden Time');
   });
 
   it('golden beats peak', () => {

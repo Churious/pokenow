@@ -3,7 +3,7 @@
  *
  * Every hotspot is classified into exactly one tier based on its LOCAL time:
  *
- *   Tier 1  🔥 golden    18:00 ≤ t < 19:00   (Raid Hour = Wed, Spotlight Hour = Tue)
+ *   Tier 1  🔥 golden    18:00 ≤ t < 19:00   (Raid Hour = Wed, Spotlight Hour = Thu)
  *   Tier 2  🟢 peak      11:00 ≤ t < 20:00   (and not golden)
  *   Tier 3  ⏳ upcoming  everything else      (20:00 → 10:59)
  *
@@ -68,14 +68,19 @@ const STATUS_BY_TIER: Record<Tier, SpotStatus> = {
 
 /**
  * Weekly in-game events that fall inside the golden window (local time).
- * Raid Hour: Wednesdays 18:00–19:00. Spotlight Hour: Tuesdays 18:00–19:00.
+ * Raid Hour: Wednesdays 18:00–19:00. Spotlight Hour: Thursdays 18:00–19:00 (moved from
+ * Tuesday on 18 June 2026: https://pokemongo.com/news/choose-your-path-forever-forward-2026).
  * Event schedules are set by the game operator and can change — always check
  * official announcements for special weeks.
  */
+/** Day numbers (0 = Sunday) of the weekly 18:00–19:00 events. */
+export const RAID_HOUR_WEEKDAY = 3;
+export const SPOTLIGHT_WEEKDAY = 4;
+
 function eventLabelFor(clock: LocalClock, tier: Tier): string | null {
   if (tier !== 'golden') return null;
-  if (clock.weekday === 3) return 'Raid Hour';
-  if (clock.weekday === 2) return 'Spotlight Hour';
+  if (clock.weekday === RAID_HOUR_WEEKDAY) return 'Raid Hour';
+  if (clock.weekday === SPOTLIGHT_WEEKDAY) return 'Spotlight Hour';
   return 'Golden Time';
 }
 
