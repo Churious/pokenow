@@ -75,10 +75,14 @@ export function ReportLink({ kind, className, children }: { kind: ReportKind; cl
 
 type Status = { phase: 'idle' } | { phase: 'sending' } | { phase: 'sent' } | { phase: 'error'; message: string };
 
-/** Label inside a field box (the box, not the input, carries the border). */
-const rowLabel = 'block text-xs font-medium';
-const bare = 'w-full resize-none bg-transparent py-1 text-sm placeholder:text-faint/70 focus:outline-none';
-const box = 'block rounded-lg bg-deck px-3 pt-2 pb-1 ring-1 ring-rule focus-within:ring-gold/60';
+/**
+ * Fields follow the spot list: no boxes, just a hairline under each one that turns
+ * light while typing. No glow or outline ring on click.
+ */
+const fieldLabel = 'block text-sm text-dim';
+const input =
+  'mt-1 block w-full resize-none border-b border-rule bg-transparent pb-2 text-base text-ink placeholder:text-faint/60 ' +
+  'transition-colors focus:border-ink focus:outline-none focus-visible:outline-none';
 
 /**
  * Report forms for visitors without a GitHub account. Submissions go to the
@@ -198,132 +202,132 @@ export function ReportProvider({ children }: { children: ReactNode }) {
           className="m-0 mt-auto w-full max-w-none bg-transparent p-0 text-ink backdrop:bg-black/70 sm:m-auto sm:max-w-md"
         >
           {kind && (
-            <div className="max-h-[90dvh] overflow-y-auto rounded-t-xl border-t-2 border-gold bg-night px-5 pt-4 pb-5 sm:rounded-xl sm:border sm:border-rule sm:border-t-gold">
-              <div className="flex items-center gap-3">
-                <h2 id="report-title" className="semi-condensed text-lg font-bold">
-                  {kind === 'translation' ? t.report.translationTitle : t.report.hotspotTitle}
-                </h2>
-                {kind === 'translation' && (
-                  <span className="rounded bg-deck px-1.5 py-0.5 text-xs text-dim" title={t.report.language}>
-                    {LANGUAGE_NAMES[locale]}
-                  </span>
-                )}
+            <div className="max-h-[92dvh] overflow-y-auto rounded-t-2xl border-t border-rule bg-night px-5 pt-5 pb-6 sm:rounded-2xl sm:border">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h2 id="report-title" className="condensed text-3xl leading-none font-bold">
+                    {kind === 'translation' ? t.report.translationTitle : t.report.hotspotTitle}
+                  </h2>
+                  {kind === 'translation' && <p className="mt-1.5 text-sm text-dim">{LANGUAGE_NAMES[locale]}</p>}
+                </div>
                 <button
                   type="button"
                   onClick={close}
                   aria-label={t.report.close}
-                  className="-m-2 ml-auto p-2 text-dim hover:text-ink"
+                  className="-m-2 p-2 text-faint hover:text-ink focus-visible:outline-none"
                 >
                   <X className="size-5" aria-hidden />
                 </button>
               </div>
 
               {status.phase === 'sent' ? (
-                <div className="mt-4">
+                <div className="mt-6">
                   <p className="font-semibold">{t.report.sentTitle}</p>
                   <p className="mt-1 text-sm text-dim">{t.report.sentBody}</p>
                   <button
                     type="button"
                     onClick={close}
-                    className="mt-5 h-11 rounded-md bg-ink px-5 text-sm font-semibold text-night"
+                    className="mt-6 h-12 w-full rounded-md bg-ink text-base font-semibold text-night"
                   >
                     {t.report.close}
                   </button>
                 </div>
               ) : (
-                <form onSubmit={onSubmit} className="mt-4">
+                <form onSubmit={onSubmit} className="mt-6 space-y-5">
                   {/* Honeypot for bots; hidden from people and screen readers. */}
                   <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
 
                   {kind === 'translation' ? (
-                    <div className="divide-y divide-rule rounded-lg bg-deck ring-1 ring-rule focus-within:ring-gold/60">
-                      <label className="block px-3 pt-2.5 pb-1">
-                        <span className={`${rowLabel} text-faint`}>{t.report.current}</span>
-                        <textarea name="current" required maxLength={1000} rows={2} className={`${bare} text-dim`} />
+                    <>
+                      <label className={fieldLabel}>
+                        {t.report.current}
+                        <textarea name="current" required maxLength={1000} rows={2} className={input} />
                       </label>
-                      <label className="block px-3 pt-2.5 pb-1">
-                        <span className={`${rowLabel} text-gold`}>{t.report.suggestion}</span>
-                        <textarea name="suggestion" required maxLength={1000} rows={2} className={`${bare} text-ink`} />
+                      <label className={fieldLabel}>
+                        {t.report.suggestion}
+                        <textarea name="suggestion" required maxLength={1000} rows={2} className={input} />
                       </label>
-                    </div>
+                    </>
                   ) : (
-                    <div className="space-y-3">
-                      <div className="grid grid-cols-[2fr_3fr] gap-2">
-                        <label className={box}>
-                          <span className={`${rowLabel} text-faint`}>{t.report.city}</span>
-                          <input name="city" required maxLength={120} placeholder="Seoul" className={`${bare} text-ink`} />
+                    <>
+                      <div className="grid grid-cols-[2fr_3fr] gap-4">
+                        <label className={fieldLabel}>
+                          {t.report.city}
+                          <input name="city" required maxLength={120} placeholder="Seoul" className={input} />
                         </label>
-                        <label className={box}>
-                          <span className={`${rowLabel} text-faint`}>{t.report.spot}</span>
-                          <input name="spot" required maxLength={120} placeholder="City Hall Plaza" className={`${bare} text-ink`} />
+                        <label className={fieldLabel}>
+                          {t.report.spot}
+                          <input name="spot" required maxLength={120} placeholder="City Hall Plaza" className={input} />
                         </label>
                       </div>
-                      <label className={box}>
-                        <span className={`${rowLabel} text-faint`}>{t.report.coords}</span>
+                      <label className={fieldLabel}>
+                        {t.report.coords}
                         <input
                           name="coords"
                           required
                           maxLength={120}
                           inputMode="decimal"
                           placeholder="37.5663, 126.9779"
-                          className={`${bare} semi-condensed text-base font-semibold text-ink`}
+                          className={input}
                         />
                       </label>
-                      <label className={box}>
-                        <span className={`${rowLabel} text-faint`}>{t.report.source}</span>
-                        <input name="source" required maxLength={1000} placeholder={t.report.sourceHint} className={`${bare} text-ink`} />
+                      <label className={fieldLabel}>
+                        {t.report.source}
+                        <input name="source" required maxLength={1000} placeholder={t.report.sourceHint} className={input} />
                       </label>
-                    </div>
+                    </>
                   )}
 
                   {noteOpen ? (
-                    <label className={`${box} mt-3`}>
-                      <span className={`${rowLabel} text-faint`}>{kind === 'translation' ? t.report.notes : t.report.note}</span>
+                    <label className={fieldLabel}>
+                      {kind === 'translation' ? t.report.notes : t.report.note}
                       <textarea
                         name={kind === 'translation' ? 'notes' : 'note'}
                         maxLength={1000}
                         rows={2}
                         autoFocus
-                        className={`${bare} text-ink`}
+                        className={input}
                       />
                     </label>
                   ) : (
                     <button
                       type="button"
                       onClick={() => setNoteOpen(true)}
-                      className="mt-2 inline-flex items-center gap-1 py-1 text-sm text-dim hover:text-ink"
+                      className="inline-flex items-center gap-1.5 text-sm text-dim underline underline-offset-4 hover:text-ink"
                     >
                       <Plus className="size-4" aria-hidden />
                       {t.report.addNote}
                     </button>
                   )}
 
-                  <div ref={widgetRef} className="mt-3 empty:hidden" />
+                  <div ref={widgetRef} className="empty:hidden" />
 
                   {status.phase === 'error' && (
-                    <p role="alert" className="mt-3 text-sm text-hot">
+                    <p role="alert" className="text-sm text-hot">
                       {status.message}
                     </p>
                   )}
 
-                  <div className="mt-4 flex items-center gap-4">
-                    <p className="flex-1 text-xs leading-relaxed text-faint">{t.report.publicNote}</p>
+                  <div className="pt-1">
                     <button
                       type="submit"
                       disabled={status.phase === 'sending'}
-                      className="h-11 shrink-0 rounded-md bg-gold px-5 text-sm font-semibold text-night disabled:opacity-60"
+                      className="h-12 w-full rounded-md bg-hot text-base font-semibold text-night hover:bg-[#ff7a3a] disabled:opacity-60"
                     >
                       {status.phase === 'sending' ? t.report.sending : t.report.send}
                     </button>
+                    <p className="mt-3 text-xs leading-relaxed text-faint">
+                      {t.report.publicNote}{' '}
+                      <a
+                        href={githubFormUrl(kind, locale)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline underline-offset-4 hover:text-ink"
+                      >
+                        {t.report.githubAlt}
+                      </a>
+                    </p>
                   </div>
-                  <a
-                    href={githubFormUrl(kind, locale)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 inline-block text-xs text-faint underline underline-offset-4 hover:text-ink"
-                  >
-                    {t.report.githubAlt}
-                  </a>
                 </form>
               )}
             </div>

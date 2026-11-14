@@ -39,9 +39,12 @@ body {
   font-stretch: 84%;
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
+/* In the base layer so a utility (e.g. the report form's focus-visible:outline-none) can opt out. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
 }
 
 /* The only ambient motion on the page: the recommended dot on the dial breathes. */
