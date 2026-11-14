@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
+import { CONFIG } from '../config';
 import { useI18n } from '../i18n';
 import { useAdBlocked } from '../hooks/useAdBlocked';
 import { SUPPORT_NOTE_KEY, isBlocked, shouldShowSupportNote } from '../lib/adblock';
@@ -20,7 +21,9 @@ function readClosedAt(): string | null {
  */
 export function SupportNote() {
   const { t } = useI18n();
-  const blocked = isBlocked(useAdBlocked(400));
+  const signals = useAdBlocked(400);
+  const blocked = isBlocked(signals);
+  const debug = typeof location !== 'undefined' && new URLSearchParams(location.search).has('adcheck');
   const [visible, setVisible] = useState(false);
   const [howOpen, setHowOpen] = useState(false);
 
@@ -29,7 +32,18 @@ export function SupportNote() {
     if (blocked && shouldShowSupportNote(readClosedAt(), Date.now())) setVisible(true);
   }, [blocked]);
 
-  if (!visible) return null;
+  // ?adcheck: show the raw check result on screen (for phones without a console). Developer-only, not translated.
+  const debugBox = debug && (
+    <pre className="fixed top-2 left-2 z-[70] rounded bg-black/90 p-2 text-[11px] leading-tight text-white">
+      {signals
+        ? `adcheck  blocked=${blocked}\nnetwork=${signals.network}\ncosmetic=${signals.cosmetic}\nscript=${signals.script}\nloader=${window.__pokenowAds ?? 'none'}`
+        : CONFIG.adsense.client
+          ? 'adcheck  running…'
+          : 'adcheck  AdSense not configured'}
+    </pre>
+  );
+
+  if (!visible) return debugBox || null;
 
   const close = () => {
     setVisible(false);
@@ -41,47 +55,54 @@ export function SupportNote() {
   };
 
   return (
-    <section
-      aria-labelledby="support-note-title"
-      className="fixed inset-x-3 bottom-3 z-[55] rounded-2xl border border-rule bg-night p-5 shadow-2xl shadow-black/60 sm:inset-x-auto sm:right-5 sm:bottom-5 sm:w-96 motion-safe:animate-[support-in_400ms_ease-out]"
-    >
-      <div className="flex items-start justify-between gap-3">
-        <h2 id="support-note-title" className="semi-condensed text-lg leading-snug font-bold">
-          {t.support.title}
-        </h2>
-        <button
-          type="button"
-          onClick={close}
-          aria-label={t.report.close}
-          className="-m-2 p-2 text-faint hover:text-ink focus-visible:outline-none"
-        >
-          <X className="size-5" aria-hidden />
-        </button>
-      </div>
-      <p className="mt-2 text-sm leading-relaxed text-dim">{t.support.body}</p>
-
-      {howOpen && (
-        <ul className="mt-3 space-y-1.5 border-t border-rule pt-3 text-sm text-ink">
-          <li>{t.support.steps.ublock}</li>
-          <li>{t.support.steps.adguard}</li>
-          <li>{t.support.steps.other}</li>
-        </ul>
-      )}
-
-      <div className="mt-4 flex items-center gap-3">
-        {!howOpen && (
+    <>
+      {debugBox}
+      <section
+        aria-labelledby="support-note-title"
+        className="fixed inset-x-3 bottom-3 z-[55] rounded-2xl border border-rule bg-night p-5 shadow-2xl shadow-black/60 sm:inset-x-auto sm:right-5 sm:bottom-5 sm:w-96 motion-safe:animate-[support-in_400ms_ease-out]"
+      >
+        <div className="flex items-start justify-between gap-3">
+          <h2 id="support-note-title" className="semi-condensed text-lg leading-snug font-bold">
+            {t.support.title}
+          </h2>
           <button
             type="button"
-            onClick={() => setHowOpen(true)}
-            className="h-10 rounded-md bg-gold px-4 text-sm font-semibold text-night"
+            onClick={close}
+            aria-label={t.report.close}
+            className="-m-2 p-2 text-faint hover:text-ink focus-visible:outline-none"
           >
-            {t.support.how}
+            <X className="size-5" aria-hidden />
           </button>
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-dim">{t.support.body}</p>
+
+        {howOpen && (
+          <ul className="mt-3 space-y-1.5 border-t border-rule pt-3 text-sm text-ink">
+            <li>{t.support.steps.ublock}</li>
+            <li>{t.support.steps.adguard}</li>
+            <li>{t.support.steps.other}</li>
+          </ul>
         )}
-        <button type="button" onClick={close} className="h-10 px-2 text-sm text-dim underline underline-offset-4 hover:text-ink">
-          {t.support.later}
-        </button>
-      </div>
-    </section>
+
+        <div className="mt-4 flex items-center gap-3">
+          {!howOpen && (
+            <button
+              type="button"
+              onClick={() => setHowOpen(true)}
+              className="h-10 rounded-md bg-gold px-4 text-sm font-semibold text-night"
+            >
+              {t.support.how}
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={close}
+            className="h-10 px-2 text-sm text-dim underline underline-offset-4 hover:text-ink"
+          >
+            {t.support.later}
+          </button>
+        </div>
+      </section>
+    </>
   );
 }
