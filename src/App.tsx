@@ -1,5 +1,5 @@
 /**
- * PokeSpot — main application shell.
+ * PokeNow — main application shell.
  *
  * Two kinds of page share this component:
  *  - Home (`/`): dial + best spot, cooldown panel, ranked list, world map, guides.
@@ -85,7 +85,7 @@ export default function App() {
   );
 
   useEffect(() => {
-    document.title = spot ? `${spot.city}, ${spot.spot} — PokeSpot` : `PokeSpot — ${t.best.now}`;
+    document.title = spot ? `${spot.city}, ${spot.spot} — PokeNow` : `PokeNow — ${t.best.now}`;
   }, [spot, t]);
 
   return (

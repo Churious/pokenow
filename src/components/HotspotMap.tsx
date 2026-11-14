@@ -40,7 +40,7 @@ export default function HotspotMap({ spots, focusId, bestId, className = '' }: P
 
   return (
     <MapContainer
-      className={`pokespot-map z-0 overflow-hidden rounded-md ring-1 ring-rule ${className}`}
+      className={`pokenow-map z-0 overflow-hidden rounded-md ring-1 ring-rule ${className}`}
       {...view}
       minZoom={0}
       zoomSnap={0.25}

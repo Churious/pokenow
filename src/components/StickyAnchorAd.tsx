@@ -5,7 +5,7 @@ import { CONFIG } from '../config';
 import { useI18n } from '../i18n';
 import { MQ, useMediaQuery } from '../hooks/useMediaQuery';
 
-const STORAGE_KEY = 'pokespot:anchor-dismissed';
+const STORAGE_KEY = 'pokenow:anchor-dismissed';
 
 function readDismissed(): boolean {
   try {

@@ -3,7 +3,7 @@ import type { Messages } from '../types';
 export const en: Messages = {
   languageName: 'English',
   units: { d: 'd', h: 'h', m: 'm', s: 's', spaced: false, sep: ' ', km: 'km', min: 'min' },
-  nav: { home: 'PokeSpot home', language: 'Language', utc: 'UTC' },
+  nav: { home: 'PokeNow home', language: 'Language', utc: 'UTC' },
   status: {
     goldenHour: 'Golden hour',
     raidHour: 'Raid Hour',
@@ -52,7 +52,7 @@ export const en: Messages = {
   },
   travel: {
     title: 'Your cooldown',
-    intro: 'Tell PokeSpot where you last caught, spun or raided. Spots that are still on cooldown for you move down the list.',
+    intro: 'Tell PokeNow where you last caught, spun or raided. Spots that are still on cooldown for you move down the list.',
     statusLabel: 'Cooldown status',
     ready: 'Ready',
     cooldown: 'On cooldown',
@@ -94,14 +94,14 @@ export const en: Messages = {
     text: (place, coords, time, url) => `${place}\n${coords}\nLocal time: ${time}\n${url}`,
   },
   how: {
-    title: 'How PokeSpot picks a spot',
-    p1: 'Raids are busiest when local players are free. PokeSpot reads the local time of every hotspot from your browser’s built-in time zone data, so daylight saving changes are handled automatically.',
+    title: 'How PokeNow picks a spot',
+    p1: 'Raids are busiest when local players are free. PokeNow reads the local time of every hotspot from your browser’s built-in time zone data, so daylight saving changes are handled automatically.',
     p2: 'Spots between {golden} local time come first. That hour hosts the weekly Raid Hour on Wednesdays and Spotlight Hour on Tuesdays. Next come spots in the {peak} window, when most players raid. If every spot is quiet, the one that opens soonest wins.',
     p3: 'If you set your cooldown, each spot also shows its distance from your last action and how long you still need to wait there. Spots are then judged by the window they will be in when your wait is over, so you don’t arrive just as a lobby empties out.',
   },
   cooldown: {
     title: 'Cooldown reference',
-    intro: 'How long to wait after a catch, spin, raid or gym action before acting somewhere far away. These are community estimates, not official numbers, and sources disagree in the middle of the range. The two-hour maximum is the part players agree on. PokeSpot rounds up to the safer value.',
+    intro: 'How long to wait after a catch, spin, raid or gym action before acting somewhere far away. These are community estimates, not official numbers, and sources disagree in the middle of the range. The two-hour maximum is the part players agree on. PokeNow rounds up to the safer value.',
     distance: 'Distance',
     wait: 'Wait',
     upTo: (k) => `Up to ${k} km`,
@@ -110,12 +110,12 @@ export const en: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot is a fan-made utility for tracking global raid hours and coordinating remote raids. Not affiliated with Scopely or The Pokémon Company.',
+      'PokeNow is a fan-made utility for tracking global raid hours and coordinating remote raids. Not affiliated with Scopely or The Pokémon Company.',
     extra:
-      'Pokémon GO is currently operated by Scopely. Pokémon and all related names are trademarks of their respective owners. PokeSpot doesn’t provide or endorse location-changing tools; please play within the game’s Terms of Service. Event times are local-time conventions and may change, so check official announcements.',
+      'Pokémon GO is currently operated by Scopely. Pokémon and all related names are trademarks of their respective owners. PokeNow doesn’t provide or endorse location-changing tools; please play within the game’s Terms of Service. Event times are local-time conventions and may change, so check official announcements.',
     source: 'Source on GitHub (MIT)',
     privacy: 'Privacy policy',
-    sponsor: 'Sponsor PokeSpot',
+    sponsor: 'Sponsor PokeNow',
   },
   ads: { label: 'Advertisement', short: 'Ad', close: 'Close advertisement' },
   city: {

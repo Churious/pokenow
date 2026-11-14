@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import type { TravelState } from '../types';
 
-const KEY = 'pokespot:travel';
+const KEY = 'pokenow:travel';
 
 function isTravelState(v: unknown): v is TravelState {
   if (!v || typeof v !== 'object') return false;

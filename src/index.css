@@ -2,7 +2,7 @@
 @import 'tailwindcss';
 
 /*
- * PokeSpot design tokens.
+ * PokeNow design tokens.
  * One family (Archivo, variable width) does all the work: condensed + heavy for
  * place names and clocks, normal width for reading text. Colour is reserved for
  * meaning: amber = golden hour, emerald = peak window, everything else is ink.
@@ -83,29 +83,29 @@ body {
 }
 
 /* Leaflet in the dark theme: invert OSM tiles, keep markers and UI readable. */
-.leaflet-container.pokespot-map {
+.leaflet-container.pokenow-map {
   background: var(--color-deck);
 }
-.leaflet-container.pokespot-map .leaflet-tile-pane {
+.leaflet-container.pokenow-map .leaflet-tile-pane {
   filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.6);
 }
-.leaflet-container.pokespot-map .leaflet-control-attribution {
+.leaflet-container.pokenow-map .leaflet-control-attribution {
   background: rgb(11 17 32 / 0.8);
   color: var(--color-dim);
 }
-.leaflet-container.pokespot-map .leaflet-control-attribution a {
+.leaflet-container.pokenow-map .leaflet-control-attribution a {
   color: var(--color-ink);
 }
-.leaflet-container.pokespot-map .leaflet-bar a {
+.leaflet-container.pokenow-map .leaflet-bar a {
   background: var(--color-deck);
   color: var(--color-ink);
   border-color: var(--color-rule);
 }
-.leaflet-container.pokespot-map .leaflet-popup-content-wrapper,
-.leaflet-container.pokespot-map .leaflet-popup-tip {
+.leaflet-container.pokenow-map .leaflet-popup-content-wrapper,
+.leaflet-container.pokenow-map .leaflet-popup-tip {
   background: var(--color-deck);
   color: var(--color-ink);
 }
-.leaflet-container.pokespot-map .leaflet-popup-content a {
+.leaflet-container.pokenow-map .leaflet-popup-content a {
   color: var(--color-gold);
 }

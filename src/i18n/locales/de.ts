@@ -3,7 +3,7 @@ import type { Messages } from '../types';
 export const de: Messages = {
   languageName: 'Deutsch',
   units: { d: 'T.', h: 'Std.', m: 'Min.', s: 'Sek.', spaced: true, sep: ' ', km: 'km', min: 'Min.' },
-  nav: { home: 'PokeSpot Startseite', language: 'Sprache', utc: 'UTC' },
+  nav: { home: 'PokeNow Startseite', language: 'Sprache', utc: 'UTC' },
   status: {
     goldenHour: 'Goldene Stunde',
     raidHour: 'Raid-Stunde',
@@ -91,14 +91,14 @@ export const de: Messages = {
     text: (place, coords, time, url) => `${place}\n${coords}\nOrtszeit: ${time}\n${url}`,
   },
   how: {
-    title: 'Wie PokeSpot einen Spot auswählt',
-    p1: 'Raids sind am vollsten, wenn die Spieler vor Ort Zeit haben. PokeSpot liest die Ortszeit jedes Spots aus den Zeitzonendaten deines Browsers, Sommer- und Winterzeit werden also automatisch berücksichtigt.',
+    title: 'Wie PokeNow einen Spot auswählt',
+    p1: 'Raids sind am vollsten, wenn die Spieler vor Ort Zeit haben. PokeNow liest die Ortszeit jedes Spots aus den Zeitzonendaten deines Browsers, Sommer- und Winterzeit werden also automatisch berücksichtigt.',
     p2: 'Spots zwischen {golden} Ortszeit kommen zuerst. In dieser Stunde finden mittwochs die Raid-Stunde und dienstags die Rampenlicht-Stunde statt. Danach folgen Spots im Zeitfenster {peak}, wenn die meisten raiden. Ist alles ruhig, gewinnt der Spot, der am frühesten beginnt.',
     p3: 'Wenn du deine Abklingzeit angibst, zeigt jeder Spot auch die Entfernung zu deiner letzten Aktion und die verbleibende Wartezeit. Bewertet wird dann das Zeitfenster am Ende deiner Wartezeit, damit du nicht ankommst, wenn sich die Lobby leert.',
   },
   cooldown: {
     title: 'Richtwerte zur Abklingzeit',
-    intro: 'Wie lange du nach Fangen, Drehen, Raid oder Arena warten solltest, bevor du weit entfernt aktiv wirst. Das sind Schätzungen der Community, keine offiziellen Werte, und im mittleren Bereich weichen Quellen ab. Einig sind sich fast alle beim Maximum von zwei Stunden. PokeSpot rundet auf den sichereren Wert auf.',
+    intro: 'Wie lange du nach Fangen, Drehen, Raid oder Arena warten solltest, bevor du weit entfernt aktiv wirst. Das sind Schätzungen der Community, keine offiziellen Werte, und im mittleren Bereich weichen Quellen ab. Einig sind sich fast alle beim Maximum von zwei Stunden. PokeNow rundet auf den sichereren Wert auf.',
     distance: 'Entfernung',
     wait: 'Warten',
     upTo: (k) => `Bis ${k} km`,
@@ -107,12 +107,12 @@ export const de: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot ist ein Fan-Tool, um weltweite Raid-Zeiten zu verfolgen und Fern-Raids zu koordinieren. Nicht verbunden mit Scopely oder The Pokémon Company.',
+      'PokeNow ist ein Fan-Tool, um weltweite Raid-Zeiten zu verfolgen und Fern-Raids zu koordinieren. Nicht verbunden mit Scopely oder The Pokémon Company.',
     extra:
-      'Pokémon GO wird derzeit von Scopely betrieben. Pokémon und alle zugehörigen Namen sind Marken ihrer jeweiligen Inhaber. PokeSpot bietet keine Tools zur Standortänderung an und empfiehlt sie nicht; bitte halte dich an die Nutzungsbedingungen des Spiels. Event-Zeiten richten sich nach der Ortszeit und können sich ändern, prüfe daher die offiziellen Ankündigungen.',
+      'Pokémon GO wird derzeit von Scopely betrieben. Pokémon und alle zugehörigen Namen sind Marken ihrer jeweiligen Inhaber. PokeNow bietet keine Tools zur Standortänderung an und empfiehlt sie nicht; bitte halte dich an die Nutzungsbedingungen des Spiels. Event-Zeiten richten sich nach der Ortszeit und können sich ändern, prüfe daher die offiziellen Ankündigungen.',
     source: 'Quellcode auf GitHub (MIT)',
     privacy: 'Datenschutzerklärung',
-    sponsor: 'PokeSpot unterstützen',
+    sponsor: 'PokeNow unterstützen',
   },
   ads: { label: 'Anzeige', short: 'Anzeige', close: 'Anzeige schließen' },
   city: {

@@ -3,7 +3,7 @@ import type { Messages } from '../types';
 export const ko: Messages = {
   languageName: '한국어',
   units: { d: '일', h: '시간', m: '분', s: '초', spaced: false, sep: ' ', km: 'km', min: '분' },
-  nav: { home: 'PokeSpot 홈', language: '언어', utc: 'UTC' },
+  nav: { home: 'PokeNow 홈', language: '언어', utc: 'UTC' },
   status: {
     goldenHour: '골든 아워',
     raidHour: '레이드 아워',
@@ -91,14 +91,14 @@ export const ko: Messages = {
     text: (place, coords, time, url) => `${place}\n${coords}\n현지 시각: ${time}\n${url}`,
   },
   how: {
-    title: 'PokeSpot이 성지를 고르는 방법',
-    p1: '레이드는 현지 플레이어가 한가할 때 가장 붐빕니다. PokeSpot은 브라우저에 내장된 시간대 데이터로 각 성지의 현지 시각을 읽기 때문에 서머타임도 자동으로 반영됩니다.',
+    title: 'PokeNow가 성지를 고르는 방법',
+    p1: '레이드는 현지 플레이어가 한가할 때 가장 붐빕니다. PokeNow는 브라우저에 내장된 시간대 데이터로 각 성지의 현지 시각을 읽기 때문에 서머타임도 자동으로 반영됩니다.',
     p2: '현지 시각 {golden}인 성지가 가장 먼저입니다. 이 시간에 매주 수요일 레이드 아워와 화요일 스포트라이트 아워가 열립니다. 그다음은 대부분의 플레이어가 레이드를 하는 {peak} 시간대의 성지입니다. 모든 성지가 한산하면 가장 먼저 열리는 곳을 고릅니다.',
     p3: '쿨다운을 설정하면 각 성지까지의 거리와 남은 대기 시간도 표시됩니다. 대기가 끝나는 시점의 시간대를 기준으로 평가하므로 로비가 빠질 때 도착하는 일이 없습니다.',
   },
   cooldown: {
     title: '쿨다운 참고표',
-    intro: '포획·스핀·레이드·체육관 행동 후 먼 곳에서 행동하기 전까지 기다려야 하는 시간입니다. 공식 수치가 아닌 커뮤니티 추정치이며, 중간 구간은 출처마다 다릅니다. 최대 2시간이라는 점은 대부분 동의합니다. PokeSpot은 더 안전한 쪽으로 올려 잡습니다.',
+    intro: '포획·스핀·레이드·체육관 행동 후 먼 곳에서 행동하기 전까지 기다려야 하는 시간입니다. 공식 수치가 아닌 커뮤니티 추정치이며, 중간 구간은 출처마다 다릅니다. 최대 2시간이라는 점은 대부분 동의합니다. PokeNow는 더 안전한 쪽으로 올려 잡습니다.',
     distance: '거리',
     wait: '대기',
     upTo: (k) => `${k}km 이하`,
@@ -107,12 +107,12 @@ export const ko: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot은 전 세계 레이드 시간대를 확인하고 원격 레이드를 조율하기 위한 팬 제작 도구입니다. Scopely 및 The Pokémon Company와 관련이 없습니다.',
+      'PokeNow는 전 세계 레이드 시간대를 확인하고 원격 레이드를 조율하기 위한 팬 제작 도구입니다. Scopely 및 The Pokémon Company와 관련이 없습니다.',
     extra:
-      '현재 Pokémon GO는 Scopely가 운영합니다. Pokémon 및 관련 명칭은 각 권리자의 상표입니다. PokeSpot은 위치 변경 도구를 제공하거나 권장하지 않으니 게임 이용약관을 지켜 주세요. 이벤트 시간은 현지 시각 기준이며 바뀔 수 있으니 공식 공지를 확인하세요.',
+      '현재 Pokémon GO는 Scopely가 운영합니다. Pokémon 및 관련 명칭은 각 권리자의 상표입니다. PokeNow는 위치 변경 도구를 제공하거나 권장하지 않으니 게임 이용약관을 지켜 주세요. 이벤트 시간은 현지 시각 기준이며 바뀔 수 있으니 공식 공지를 확인하세요.',
     source: 'GitHub 소스 (MIT)',
     privacy: '개인정보처리방침',
-    sponsor: 'PokeSpot 후원하기',
+    sponsor: 'PokeNow 후원하기',
   },
   ads: { label: '광고', short: '광고', close: '광고 닫기' },
   city: {

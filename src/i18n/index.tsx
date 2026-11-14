@@ -70,7 +70,7 @@ export async function loadMessages(locale: Locale): Promise<Messages> {
   }
 }
 
-const STORAGE_KEY = 'pokespot:lang';
+const STORAGE_KEY = 'pokenow:lang';
 
 /** Picks the best supported locale for a BCP-47 tag ("pt-PT" → pt-BR, "zh-HK" → zh-TW). */
 export function matchLocale(tag: string): Locale | null {

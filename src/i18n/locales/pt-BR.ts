@@ -3,7 +3,7 @@ import type { Messages } from '../types';
 export const ptBR: Messages = {
   languageName: 'Português (Brasil)',
   units: { d: 'd', h: 'h', m: 'min', s: 's', spaced: false, sep: ' ', km: 'km', min: 'min' },
-  nav: { home: 'Início do PokeSpot', language: 'Idioma', utc: 'UTC' },
+  nav: { home: 'Início do PokeNow', language: 'Idioma', utc: 'UTC' },
   status: {
     goldenHour: 'Hora de ouro',
     raidHour: 'Hora da Reide',
@@ -91,14 +91,14 @@ export const ptBR: Messages = {
     text: (place, coords, time, url) => `${place}\n${coords}\nHorário local: ${time}\n${url}`,
   },
   how: {
-    title: 'Como o PokeSpot escolhe um ponto',
-    p1: 'As reides ficam mais cheias quando os jogadores locais estão livres. O PokeSpot lê o horário local de cada ponto pelos dados de fuso horário do seu navegador, então o horário de verão é aplicado automaticamente.',
+    title: 'Como o PokeNow escolhe um ponto',
+    p1: 'As reides ficam mais cheias quando os jogadores locais estão livres. O PokeNow lê o horário local de cada ponto pelos dados de fuso horário do seu navegador, então o horário de verão é aplicado automaticamente.',
     p2: 'Pontos entre {golden} (horário local) vêm primeiro: nesse horário acontecem a Hora da Reide de quarta-feira e a Hora do Holofote de terça-feira. Depois vêm os pontos no horário {peak}, quando a maioria faz reides. Se tudo estiver tranquilo, vence o ponto que abre primeiro.',
     p3: 'Se você informar seu tempo de recarga, cada ponto também mostra a distância da sua última ação e quanto ainda falta esperar. Os pontos são avaliados pelo horário em que estarão quando sua espera acabar, para você não chegar quando o lobby estiver esvaziando.',
   },
   cooldown: {
     title: 'Referência de tempo de recarga',
-    intro: 'Quanto esperar depois de capturar, girar uma Poképarada, fazer uma reide ou agir em um Ginásio antes de agir longe. São estimativas da comunidade, não números oficiais, e as fontes divergem nas distâncias intermediárias. O máximo de duas horas é consenso. O PokeSpot arredonda para o valor mais seguro.',
+    intro: 'Quanto esperar depois de capturar, girar uma Poképarada, fazer uma reide ou agir em um Ginásio antes de agir longe. São estimativas da comunidade, não números oficiais, e as fontes divergem nas distâncias intermediárias. O máximo de duas horas é consenso. O PokeNow arredonda para o valor mais seguro.',
     distance: 'Distância',
     wait: 'Espera',
     upTo: (k) => `Até ${k} km`,
@@ -107,12 +107,12 @@ export const ptBR: Messages = {
   },
   footer: {
     disclaimer:
-      'O PokeSpot é uma ferramenta feita por fãs para acompanhar os horários de reides no mundo e coordenar reides remotas. Não é afiliado à Scopely nem à The Pokémon Company.',
+      'O PokeNow é uma ferramenta feita por fãs para acompanhar os horários de reides no mundo e coordenar reides remotas. Não é afiliado à Scopely nem à The Pokémon Company.',
     extra:
-      'O Pokémon GO é atualmente operado pela Scopely. Pokémon e os nomes relacionados são marcas de seus respectivos donos. O PokeSpot não oferece nem recomenda ferramentas de mudança de localização; jogue respeitando os Termos de Serviço. Os horários de eventos seguem o horário local e podem mudar, então confira os anúncios oficiais.',
+      'O Pokémon GO é atualmente operado pela Scopely. Pokémon e os nomes relacionados são marcas de seus respectivos donos. O PokeNow não oferece nem recomenda ferramentas de mudança de localização; jogue respeitando os Termos de Serviço. Os horários de eventos seguem o horário local e podem mudar, então confira os anúncios oficiais.',
     source: 'Código-fonte no GitHub (MIT)',
     privacy: 'Política de privacidade',
-    sponsor: 'Apoie o PokeSpot',
+    sponsor: 'Apoie o PokeNow',
   },
   ads: { label: 'Publicidade', short: 'Anúncio', close: 'Fechar anúncio' },
   city: {

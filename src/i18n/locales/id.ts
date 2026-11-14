@@ -5,7 +5,7 @@ import type { Messages } from '../types';
 export const id: Messages = {
   languageName: 'Bahasa Indonesia',
   units: { d: 'hr', h: 'j', m: 'm', s: 'd', spaced: false, sep: ' ', km: 'km', min: 'mnt' },
-  nav: { home: 'Beranda PokeSpot', language: 'Bahasa', utc: 'UTC' },
+  nav: { home: 'Beranda PokeNow', language: 'Bahasa', utc: 'UTC' },
   status: {
     goldenHour: 'Jam emas',
     raidHour: 'Raid Hour',
@@ -51,7 +51,7 @@ export const id: Messages = {
   },
   travel: {
     title: 'Cooldown kamu',
-    intro: 'Beri tahu PokeSpot di mana terakhir kali kamu menangkap, memutar PokéStop, atau ikut raid. Tempat yang masih dalam cooldown untukmu akan turun di daftar.',
+    intro: 'Beri tahu PokeNow di mana terakhir kali kamu menangkap, memutar PokéStop, atau ikut raid. Tempat yang masih dalam cooldown untukmu akan turun di daftar.',
     statusLabel: 'Status cooldown',
     ready: 'Siap',
     cooldown: 'Sedang cooldown',
@@ -93,14 +93,14 @@ export const id: Messages = {
     text: (place, coords, time, url) => `${place}\n${coords}\nWaktu setempat: ${time}\n${url}`,
   },
   how: {
-    title: 'Cara PokeSpot memilih tempat',
-    p1: 'Raid paling ramai saat pemain lokal sedang senggang. PokeSpot membaca waktu lokal setiap tempat dari data zona waktu bawaan browser, jadi perubahan waktu musim panas ditangani otomatis.',
+    title: 'Cara PokeNow memilih tempat',
+    p1: 'Raid paling ramai saat pemain lokal sedang senggang. PokeNow membaca waktu lokal setiap tempat dari data zona waktu bawaan browser, jadi perubahan waktu musim panas ditangani otomatis.',
     p2: 'Tempat yang berada di antara {golden} waktu setempat didahulukan: di jam itu ada Raid Hour setiap Rabu dan Spotlight Hour setiap Selasa. Berikutnya tempat dalam rentang {peak}, saat kebanyakan pemain ikut raid. Jika semua sepi, tempat yang paling cepat dimulai yang menang.',
     p3: 'Jika kamu mengatur cooldown, setiap tempat juga menampilkan jaraknya dari aksi terakhirmu dan sisa waktu tunggu. Tempat lalu dinilai berdasarkan rentang waktu saat tunggumu selesai, jadi kamu tidak tiba saat lobi mulai kosong.',
   },
   cooldown: {
     title: 'Acuan cooldown',
-    intro: 'Berapa lama harus menunggu setelah menangkap, memutar PokéStop, ikut raid, atau beraksi di Gym sebelum beraksi di tempat yang jauh. Ini perkiraan komunitas, bukan angka resmi, dan sumbernya berbeda untuk jarak menengah. Batas maksimal dua jam disepakati hampir semua pihak. PokeSpot membulatkan ke nilai yang lebih aman.',
+    intro: 'Berapa lama harus menunggu setelah menangkap, memutar PokéStop, ikut raid, atau beraksi di Gym sebelum beraksi di tempat yang jauh. Ini perkiraan komunitas, bukan angka resmi, dan sumbernya berbeda untuk jarak menengah. Batas maksimal dua jam disepakati hampir semua pihak. PokeNow membulatkan ke nilai yang lebih aman.',
     distance: 'Jarak',
     wait: 'Tunggu',
     upTo: (k) => `Hingga ${k} km`,
@@ -109,12 +109,12 @@ export const id: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot adalah alat buatan penggemar untuk memantau jam raid di seluruh dunia dan mengoordinasikan raid jarak jauh. Tidak berafiliasi dengan Scopely atau The Pokémon Company.',
+      'PokeNow adalah alat buatan penggemar untuk memantau jam raid di seluruh dunia dan mengoordinasikan raid jarak jauh. Tidak berafiliasi dengan Scopely atau The Pokémon Company.',
     extra:
-      'Pokémon GO saat ini dioperasikan oleh Scopely. Pokémon dan nama terkait adalah merek dagang milik pemiliknya masing-masing. PokeSpot tidak menyediakan atau menganjurkan alat pengubah lokasi; mainlah sesuai Ketentuan Layanan game. Waktu acara mengikuti waktu setempat dan bisa berubah, jadi periksa pengumuman resmi.',
+      'Pokémon GO saat ini dioperasikan oleh Scopely. Pokémon dan nama terkait adalah merek dagang milik pemiliknya masing-masing. PokeNow tidak menyediakan atau menganjurkan alat pengubah lokasi; mainlah sesuai Ketentuan Layanan game. Waktu acara mengikuti waktu setempat dan bisa berubah, jadi periksa pengumuman resmi.',
     source: 'Kode sumber di GitHub (MIT)',
     privacy: 'Kebijakan privasi',
-    sponsor: 'Dukung PokeSpot',
+    sponsor: 'Dukung PokeNow',
   },
   ads: { label: 'Iklan', short: 'Iklan', close: 'Tutup iklan' },
   city: {

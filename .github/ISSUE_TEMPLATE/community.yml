@@ -1,5 +1,5 @@
 name: Add a raid community (free)
-description: List your Pokémon GO raid community on PokeSpot. Free, reviewed by a maintainer.
+description: List your Pokémon GO raid community on PokeNow. Free, reviewed by a maintainer.
 title: "[Community] "
 labels: ["community-listing"]
 body:
@@ -32,7 +32,7 @@ body:
   - type: input
     id: hotspots
     attributes:
-      label: Which PokeSpot hotspot(s)?
+      label: Which PokeNow hotspot(s)?
       description: e.g. "Busan, Seomyeon" or "global remote raids"
     validations:
       required: true

@@ -1,7 +1,7 @@
 import { Clock, Radar } from 'lucide-react';
 
 /**
- * PokeSpot mark: Lucide `Radar` with a small `Clock` notch.
+ * PokeNow mark: Lucide `Radar` with a small `Clock` notch.
  * Built only from generic ISC-licensed Lucide icons — no ball or creature shapes.
  */
 export function Logo() {
@@ -15,7 +15,7 @@ export function Logo() {
           aria-hidden
         />
       </span>
-      <span className="condensed text-xl font-extrabold text-ink">PokeSpot</span>
+      <span className="condensed text-xl font-extrabold text-ink">PokeNow</span>
     </span>
   );
 }

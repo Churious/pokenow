@@ -3,7 +3,7 @@ import type { Messages } from '../types';
 export const es: Messages = {
   languageName: 'Español (España)',
   units: { d: 'd', h: 'h', m: 'min', s: 's', spaced: false, sep: ' ', km: 'km', min: 'min' },
-  nav: { home: 'Inicio de PokeSpot', language: 'Idioma', utc: 'UTC' },
+  nav: { home: 'Inicio de PokeNow', language: 'Idioma', utc: 'UTC' },
   status: {
     goldenHour: 'Hora dorada',
     raidHour: 'Hora de Incursiones',
@@ -91,14 +91,14 @@ export const es: Messages = {
     text: (place, coords, time, url) => `${place}\n${coords}\nHora local: ${time}\n${url}`,
   },
   how: {
-    title: 'Cómo elige PokeSpot un sitio',
-    p1: 'Las incursiones están más llenas cuando los jugadores locales tienen tiempo libre. PokeSpot lee la hora local de cada sitio con los datos de zonas horarias del navegador, así que el horario de verano se aplica automáticamente.',
+    title: 'Cómo elige PokeNow un sitio',
+    p1: 'Las incursiones están más llenas cuando los jugadores locales tienen tiempo libre. PokeNow lee la hora local de cada sitio con los datos de zonas horarias del navegador, así que el horario de verano se aplica automáticamente.',
     p2: 'Los sitios entre las {golden} (hora local) van primero: en esa hora se celebran la Hora de Incursiones de los miércoles y la Hora Destacada de los martes. Después vienen los sitios en la franja {peak}, cuando la mayoría hace incursiones. Si todo está tranquilo, gana el sitio que abre antes.',
     p3: 'Si indicas tu tiempo de espera, cada sitio muestra también la distancia desde tu última acción y cuánto te queda por esperar. Los sitios se valoran según la franja en la que estarán al terminar tu espera, para que no llegues cuando el lobby se vacía.',
   },
   cooldown: {
     title: 'Referencia de tiempos de espera',
-    intro: 'Cuánto esperar tras atrapar, girar una Poképarada, hacer una incursión o actuar en un Gimnasio antes de actuar lejos. Son estimaciones de la comunidad, no cifras oficiales, y las fuentes no coinciden en las distancias intermedias. El máximo de dos horas es en lo que casi todos coinciden. PokeSpot redondea al valor más seguro.',
+    intro: 'Cuánto esperar tras atrapar, girar una Poképarada, hacer una incursión o actuar en un Gimnasio antes de actuar lejos. Son estimaciones de la comunidad, no cifras oficiales, y las fuentes no coinciden en las distancias intermedias. El máximo de dos horas es en lo que casi todos coinciden. PokeNow redondea al valor más seguro.',
     distance: 'Distancia',
     wait: 'Espera',
     upTo: (k) => `Hasta ${k} km`,
@@ -107,12 +107,12 @@ export const es: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot es una herramienta hecha por fans para seguir los horarios de incursiones en el mundo y coordinar incursiones a distancia. No está afiliada a Scopely ni a The Pokémon Company.',
+      'PokeNow es una herramienta hecha por fans para seguir los horarios de incursiones en el mundo y coordinar incursiones a distancia. No está afiliada a Scopely ni a The Pokémon Company.',
     extra:
-      'Pokémon GO está operado actualmente por Scopely. Pokémon y los nombres relacionados son marcas de sus respectivos titulares. PokeSpot no ofrece ni recomienda herramientas para cambiar de ubicación; juega respetando los Términos de servicio. Los horarios de eventos siguen la hora local y pueden cambiar, así que consulta los anuncios oficiales.',
+      'Pokémon GO está operado actualmente por Scopely. Pokémon y los nombres relacionados son marcas de sus respectivos titulares. PokeNow no ofrece ni recomienda herramientas para cambiar de ubicación; juega respetando los Términos de servicio. Los horarios de eventos siguen la hora local y pueden cambiar, así que consulta los anuncios oficiales.',
     source: 'Código fuente en GitHub (MIT)',
     privacy: 'Política de privacidad',
-    sponsor: 'Apoya a PokeSpot',
+    sponsor: 'Apoya a PokeNow',
   },
   ads: { label: 'Publicidad', short: 'Anuncio', close: 'Cerrar anuncio' },
   city: {

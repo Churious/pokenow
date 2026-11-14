@@ -30,7 +30,7 @@ export function ShareSpotButton({ hotspot, clock, now }: { hotspot: Hotspot; clo
 
     if (typeof navigator.share === 'function') {
       try {
-        await navigator.share({ title: `${hotspot.city}, ${hotspot.spot} — PokeSpot`, text });
+        await navigator.share({ title: `${hotspot.city}, ${hotspot.spot} — PokeNow`, text });
         return;
       } catch (error) {
         // Closing the share sheet is not a failure; fall back to copying for anything else.

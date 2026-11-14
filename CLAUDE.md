@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Orientation for future Claude sessions working on PokeSpot. Read this first, keep it current when
+Orientation for future Claude sessions working on PokeNow. Read this first, keep it current when
 the architecture or conventions change, and prefer small focused PRs over large rewrites.
 
 ## What this is
@@ -75,7 +75,7 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
 - **No copyrighted assets.** No sprites, franchise logos or artwork.
 - **No location-changing tools or endorsement.** The cooldown feature describes a game mechanic;
   keep wording neutral and keep the fan-made disclaimer. Never claim to show Gym/PokéStop locations.
-- **Browser-only state.** `pokespot:travel`, `pokespot:favorites`, `pokespot:lang` live in
+- **Browser-only state.** `pokenow:travel`, `pokenow:favorites`, `pokenow:lang` live in
   localStorage and are never sent anywhere. Don't add a backend for a feature that doesn't need one.
 - **Static hosting.** `base: './'`, relative hrefs, all pages share one bundle. Don't hard-code the
   domain; `VITE_SITE_URL` drives canonical/OG URLs at build time.

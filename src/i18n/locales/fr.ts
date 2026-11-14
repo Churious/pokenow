@@ -3,7 +3,7 @@ import type { Messages } from '../types';
 export const fr: Messages = {
   languageName: 'Français',
   units: { d: 'j', h: 'h', m: 'min', s: 's', spaced: false, sep: ' ', km: 'km', min: 'min' },
-  nav: { home: 'Accueil PokeSpot', language: 'Langue', utc: 'UTC' },
+  nav: { home: 'Accueil PokeNow', language: 'Langue', utc: 'UTC' },
   status: {
     goldenHour: 'Heure dorée',
     raidHour: 'Heure de Raids',
@@ -91,14 +91,14 @@ export const fr: Messages = {
     text: (place, coords, time, url) => `${place}\n${coords}\nHeure locale : ${time}\n${url}`,
   },
   how: {
-    title: 'Comment PokeSpot choisit un spot',
-    p1: 'Les raids sont les plus fréquentés quand les joueurs locaux sont libres. PokeSpot lit l’heure locale de chaque spot grâce aux données de fuseaux horaires intégrées à votre navigateur ; les changements d’heure sont donc gérés automatiquement.',
+    title: 'Comment PokeNow choisit un spot',
+    p1: 'Les raids sont les plus fréquentés quand les joueurs locaux sont libres. PokeNow lit l’heure locale de chaque spot grâce aux données de fuseaux horaires intégrées à votre navigateur ; les changements d’heure sont donc gérés automatiquement.',
     p2: 'Les spots entre {golden} (heure locale) passent en premier : c’est le créneau de l’Heure de Raids du mercredi et de l’Heure Vedette du mardi. Viennent ensuite les spots dans le créneau {peak}, quand la plupart des joueurs font des raids. Si tout est calme, le spot qui ouvre le plus tôt l’emporte.',
     p3: 'Si vous indiquez votre temps de recharge, chaque spot affiche aussi sa distance depuis votre dernière action et l’attente restante. Les spots sont alors jugés selon le créneau où ils seront à la fin de votre attente, pour ne pas arriver quand le lobby se vide.',
   },
   cooldown: {
     title: 'Repères de temps de recharge',
-    intro: 'Combien de temps attendre après une capture, un PokéStop, un raid ou une Arène avant d’agir loin. Ce sont des estimations de la communauté, pas des chiffres officiels, et les sources divergent pour les distances moyennes. Le maximum de deux heures fait consensus. PokeSpot arrondit à la valeur la plus sûre.',
+    intro: 'Combien de temps attendre après une capture, un PokéStop, un raid ou une Arène avant d’agir loin. Ce sont des estimations de la communauté, pas des chiffres officiels, et les sources divergent pour les distances moyennes. Le maximum de deux heures fait consensus. PokeNow arrondit à la valeur la plus sûre.',
     distance: 'Distance',
     wait: 'Attente',
     upTo: (k) => `Jusqu’à ${k} km`,
@@ -107,12 +107,12 @@ export const fr: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot est un outil créé par des fans pour suivre les créneaux de raids dans le monde et coordonner les raids à distance. Sans lien avec Scopely ni The Pokémon Company.',
+      'PokeNow est un outil créé par des fans pour suivre les créneaux de raids dans le monde et coordonner les raids à distance. Sans lien avec Scopely ni The Pokémon Company.',
     extra:
-      'Pokémon GO est actuellement exploité par Scopely. Pokémon et les noms associés sont des marques de leurs propriétaires respectifs. PokeSpot ne fournit ni ne recommande d’outil de modification de position ; respectez les conditions d’utilisation du jeu. Les horaires d’événements suivent l’heure locale et peuvent changer : consultez les annonces officielles.',
+      'Pokémon GO est actuellement exploité par Scopely. Pokémon et les noms associés sont des marques de leurs propriétaires respectifs. PokeNow ne fournit ni ne recommande d’outil de modification de position ; respectez les conditions d’utilisation du jeu. Les horaires d’événements suivent l’heure locale et peuvent changer : consultez les annonces officielles.',
     source: 'Code source sur GitHub (MIT)',
     privacy: 'Politique de confidentialité',
-    sponsor: 'Soutenir PokeSpot',
+    sponsor: 'Soutenir PokeNow',
   },
   ads: { label: 'Publicité', short: 'Pub', close: 'Fermer la publicité' },
   city: {

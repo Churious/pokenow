@@ -52,7 +52,7 @@ function applyMeta(html: string, m: PageMeta, siteUrl: string): string {
   const head = [
     `<link rel="canonical" href="${esc(m.url)}" />`,
     `<meta property="og:type" content="website" />`,
-    `<meta property="og:site_name" content="PokeSpot" />`,
+    `<meta property="og:site_name" content="PokeNow" />`,
     `<meta property="og:title" content="${esc(m.title)}" />`,
     `<meta property="og:description" content="${esc(m.description)}" />`,
     `<meta property="og:url" content="${esc(m.url)}" />`,
@@ -75,7 +75,7 @@ export function sitePages(siteUrl: string): Plugin {
   const base = siteUrl.endsWith('/') ? siteUrl : `${siteUrl}/`;
 
   return {
-    name: 'pokespot-site-pages',
+    name: 'pokenow-site-pages',
     enforce: 'post',
     generateBundle(_options, bundle) {
       const index = bundle['index.html'];
@@ -88,12 +88,12 @@ export function sitePages(siteUrl: string): Plugin {
       index.source = applyMeta(
         template,
         {
-          title: 'PokeSpot — Best Raid Spot Now',
+          title: 'PokeNow — Best Raid Spot Now',
           description: homeDescription,
           url: base,
           ogImage: 'home.png',
-          ogAlt: 'PokeSpot: best raid spot, right now',
-          body: `<main class="prerender" style="padding:1rem;color:#d7deea;font-family:sans-serif"><h1>PokeSpot</h1><p>${esc(
+          ogAlt: 'PokeNow: best raid spot, right now',
+          body: `<main class="prerender" style="padding:1rem;color:#d7deea;font-family:sans-serif"><h1>PokeNow</h1><p>${esc(
             homeDescription,
           )}</p><ul>${HOTSPOTS.map(
             (h) => `<li><a href="./${h.id}" style="color:#d7deea">${esc(h.city)}, ${esc(h.spot)}</a></li>`,
@@ -103,7 +103,7 @@ export function sitePages(siteUrl: string): Plugin {
       );
 
       for (const h of HOTSPOTS) {
-        const title = `${h.city} raid hotspot: ${h.spot} — Raid Hour times | PokeSpot`;
+        const title = `${h.city} raid hotspot: ${h.spot} — Raid Hour times | PokeNow`;
         const description = `Live local time in ${h.city}, Raid Hour and Spotlight Hour countdowns, and copyable coordinates (${h.lat.toFixed(4)}, ${h.lng.toFixed(4)}) for ${h.spot}.`;
         this.emitFile({
           type: 'asset',
@@ -115,8 +115,8 @@ export function sitePages(siteUrl: string): Plugin {
               description,
               url: `${base}${h.id}`,
               ogImage: `${h.id}.png`,
-              ogAlt: `${h.city}, ${h.spot} on PokeSpot`,
-              body: `<main class="prerender" style="padding:1rem;color:#d7deea;font-family:sans-serif"><p><a href="./" style="color:#d7deea">PokeSpot</a></p><h1>${esc(
+              ogAlt: `${h.city}, ${h.spot} on PokeNow`,
+              body: `<main class="prerender" style="padding:1rem;color:#d7deea;font-family:sans-serif"><p><a href="./" style="color:#d7deea">PokeNow</a></p><h1>${esc(
                 h.city,
               )}</h1><p>${esc(h.spot)}</p><p>${esc(description)}</p><p>Coordinates: ${h.lat.toFixed(
                 4,
