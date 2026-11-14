@@ -26,21 +26,44 @@ GitHub → Settings → Developer settings → **Fine-grained tokens** → Gener
 - Permissions → Repository → **Issues: Read and write** (nothing else)
 - Set an expiry you'll remember to renew; copy the token.
 
-## 3. Create the Worker
+## 3. Create the Worker from GitHub (recommended)
 
-Cloudflare dashboard → **Workers & Pages** → **Create** → Worker → name it (e.g. `pokenow-report`) →
-**Deploy**, then **Edit code**: replace everything with the contents of `report-worker.js` → **Deploy**.
+The Worker deploys straight from this repo (Cloudflare **Workers Builds**), so code changes merged
+into `main` redeploy it automatically. Its config is `worker/wrangler.jsonc`.
 
-Settings → **Variables and Secrets**:
+Cloudflare dashboard → **Workers & Pages** → **Create** → choose the option to import/connect a Git
+repository (GitHub) → pick `Churious/pokenow`, then set:
 
-| Name | Type | Value |
-| --- | --- | --- |
-| `GITHUB_TOKEN` | Secret | token from step 2 |
-| `TURNSTILE_SECRET` | Secret | secret key from step 1 |
-| `GITHUB_REPO` | Text | `Churious/pokenow` |
-| `ALLOWED_ORIGINS` | Text | `https://pokenow.cc` |
+| Setting | Value |
+| --- | --- |
+| Project / Worker name | `pokenow-report` (must equal `name` in `wrangler.jsonc`, or the build fails) |
+| Production branch | `main` |
+| Root directory | `worker` |
+| Build command | *(leave empty)* |
+| Deploy command | `npx wrangler deploy` (the default) |
 
-The Worker URL looks like `https://pokenow-report.<your-subdomain>.workers.dev`.
+Already created the Worker by hand? Open it → **Settings → Builds → Connect** and use the same values.
+
+`GITHUB_REPO` and `ALLOWED_ORIGINS` come from `wrangler.jsonc` (`vars`), so change them there, not in
+the dashboard — a deploy can overwrite plain-text variables set in the dashboard (unless `keep_vars`). After the first build,
+add the two secrets in the Worker → **Settings → Variables and Secrets** → **Add** → type **Secret**:
+
+| Name | Value |
+| --- | --- |
+| `GITHUB_TOKEN` | token from step 2 |
+| `TURNSTILE_SECRET` | secret key from step 1 |
+
+Secrets are never put in the repo. "Build variables" in the Builds settings are **not** runtime
+variables — don't put the secrets there.
+
+The Worker URL looks like `https://pokenow-report.<your-subdomain>.workers.dev`
+(Worker → **Settings → Domains & Routes**).
+
+### Alternative: paste the code
+
+Create a Worker by hand, **Edit code**, paste `report-worker.js`, deploy, and add all four values
+under Variables and Secrets (`GITHUB_REPO` = `Churious/pokenow`, `ALLOWED_ORIGINS` =
+`https://pokenow.cc` as Text). It won't follow repo changes.
 
 ## 4. Turn it on in the site
 
@@ -60,5 +83,7 @@ Close it as a test. If it fails, Workers → your worker → **Logs** shows the 
 
 - Visitor text goes into fenced code blocks, so it can't @mention people or add links/markup.
 - Requests must come from `ALLOWED_ORIGINS`, pass Turnstile, and fit the field limits.
-- Logic is tested in `report-worker.test.js` (runs with `npm test`).
+- Logic is tested in `report-worker.test.js` (runs with `npm test` from the repo root).
+- Check the config without deploying: `cd worker && npx wrangler deploy --dry-run`.
+- After a Git deploy, confirm the two secrets are still listed under Variables and Secrets.
 - Rotate `GITHUB_TOKEN` if it ever leaks: delete it on GitHub and set a new secret.

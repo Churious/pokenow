@@ -1,0 +1,17 @@
+// Cloudflare Workers config for the report Worker (see README.md in this folder).
+// Used by Workers Builds ("Connect to Git", root directory `worker`) and by `npx wrangler deploy`.
+// `name` must match the Worker's name in the Cloudflare dashboard, or the build fails.
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "pokenow-report",
+  "main": "report-worker.js",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": true,
+  "observability": { "enabled": true },
+  // Public settings live here so each deploy is reproducible. Secrets (GITHUB_TOKEN, TURNSTILE_SECRET)
+  // are set only in the dashboard: Settings → Variables and Secrets → type "Secret".
+  "vars": {
+    "GITHUB_REPO": "Churious/pokenow",
+    "ALLOWED_ORIGINS": "https://pokenow.cc"
+  }
+}

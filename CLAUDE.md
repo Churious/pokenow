@@ -61,6 +61,7 @@ scripts/site-pages.ts        emits <id>.html per spot, 404.html, sitemap.xml, ro
 .github/ISSUE_TEMPLATE/      community.yml, hotspot.yml, translation.yml (GitHub issue forms)
 privacy.html                 second Vite entry
 worker/report-worker.js      Cloudflare Worker: site report forms → Turnstile → GitHub issue (setup: worker/README.md)
+worker/wrangler.jsonc        Worker config; Workers Builds deploys it from Git (root dir `worker`, name must match)
 ```
 
 State flows one way: `App` reads `useNow`, `useTravelState`, `useFavorites` and passes data down;
