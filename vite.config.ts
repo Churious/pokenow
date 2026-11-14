@@ -81,6 +81,39 @@ function analytics(cfToken: string, goatCode: string): Plugin {
 }
 
 // https://vite.dev/config/
+/**
+ * Starts the two biggest first-paint downloads together with the HTML instead
+ * of after main.tsx has run: the app bundle (bootstrap.tsx, loaded dynamically
+ * by the tiny entry) and the Latin cut of the Archivo font. Only for the app
+ * pages — privacy.html has neither.
+ */
+function preloadCritical(): Plugin {
+  return {
+    name: 'pokenow-preload-critical',
+    transformIndexHtml: {
+      order: 'post',
+      handler(_html, ctx) {
+        if (!ctx.bundle || !ctx.filename.endsWith('index.html')) return [];
+        const files = Object.values(ctx.bundle);
+        const app = files.find((f) => f.type === 'chunk' && f.facadeModuleId?.endsWith('/src/bootstrap.tsx'));
+        const font = files.find((f) => f.type === 'asset' && /archivo-latin-wdth-normal.*\.woff2$/.test(f.fileName));
+        const tags = [];
+        if (app) {
+          tags.push({ tag: 'link', attrs: { rel: 'modulepreload', crossorigin: true, href: `./${app.fileName}` }, injectTo: 'head' as const });
+        }
+        if (font) {
+          tags.push({
+            tag: 'link',
+            attrs: { rel: 'preload', as: 'font', type: 'font/woff2', crossorigin: true, href: `./${font.fileName}` },
+            injectTo: 'head' as const,
+          });
+        }
+        return tags;
+      },
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_');
   // AdSense shows the id as "pub-…" in most places; the ad client is "ca-pub-…". Accept both.
@@ -99,6 +132,7 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       adsense(client),
       analytics(env.VITE_CF_ANALYTICS_TOKEN ?? '', env.VITE_GOATCOUNTER_CODE ?? ''),
+      preloadCritical(),
       sitePages(env.VITE_SITE_URL || 'https://churious.github.io/pokenow/'),
       // Installable app + offline app shell. Map tiles and ads are never cached.
       VitePWA({
