@@ -57,7 +57,7 @@ export function TravelPanel({ hotspots, travel, onChange, now, className = '' }:
     : undefined;
   const selectedSpot = pickingCustom ? undefined : matchedSpot;
 
-  const field = 'h-11 w-full rounded-md bg-deck px-3 text-ink ring-1 ring-rule focus:ring-gold focus:outline-none';
+  const field = 'h-11 w-full rounded-md bg-deck px-3 text-ink ring-1 ring-rule focus:ring-dim focus:outline-none focus-visible:outline-none';
 
   return (
     <section aria-labelledby={`${uid}-title`} className={`@container border-y border-rule py-5 ${className}`}>
