@@ -107,9 +107,9 @@ export const it: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot è uno strumento creato da fan per seguire gli orari dei raid nel mondo e coordinare i raid a distanza. Non affiliato a Niantic o a The Pokémon Company.',
+      'PokeSpot è uno strumento creato da fan per seguire gli orari dei raid nel mondo e coordinare i raid a distanza. Non affiliato a Scopely o a The Pokémon Company.',
     extra:
-      'Non affiliato nemmeno a Scopely, l’attuale gestore di Pokémon GO. Pokémon e i nomi correlati sono marchi dei rispettivi proprietari. PokeSpot non fornisce né consiglia strumenti per cambiare posizione; gioca nel rispetto dei Termini di servizio. Gli orari degli eventi seguono l’ora locale e possono cambiare: controlla gli annunci ufficiali.',
+      'Pokémon GO è attualmente gestito da Scopely. Pokémon e i nomi correlati sono marchi dei rispettivi proprietari. PokeSpot non fornisce né consiglia strumenti per cambiare posizione; gioca nel rispetto dei Termini di servizio. Gli orari degli eventi seguono l’ora locale e possono cambiare: controlla gli annunci ufficiali.',
     source: 'Codice sorgente su GitHub (MIT)',
     privacy: 'Informativa sulla privacy',
     sponsor: 'Sostieni PokeSpot',

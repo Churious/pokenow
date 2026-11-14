@@ -4,7 +4,7 @@
 
 PokeSpot checks the live local time of 15+ community-curated hotspots worldwide and recommends where raid lobbies are most likely to be full at this moment, with one-click coordinate copy.
 
-> PokeSpot is a fan-made utility for tracking global raid hours and coordinating remote raids. Not affiliated with Niantic or The Pokémon Company.
+> PokeSpot is a fan-made utility for tracking global raid hours and coordinating remote raids. Not affiliated with Scopely or The Pokémon Company.
 
 ## Features
 

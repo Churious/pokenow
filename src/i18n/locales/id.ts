@@ -109,9 +109,9 @@ export const id: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeSpot adalah alat buatan penggemar untuk memantau jam raid di seluruh dunia dan mengoordinasikan raid jarak jauh. Tidak berafiliasi dengan Niantic atau The Pokémon Company.',
+      'PokeSpot adalah alat buatan penggemar untuk memantau jam raid di seluruh dunia dan mengoordinasikan raid jarak jauh. Tidak berafiliasi dengan Scopely atau The Pokémon Company.',
     extra:
-      'Juga tidak berafiliasi dengan Scopely, operator Pokémon GO saat ini. Pokémon dan nama terkait adalah merek dagang milik pemiliknya masing-masing. PokeSpot tidak menyediakan atau menganjurkan alat pengubah lokasi; mainlah sesuai Ketentuan Layanan game. Waktu acara mengikuti waktu setempat dan bisa berubah, jadi periksa pengumuman resmi.',
+      'Pokémon GO saat ini dioperasikan oleh Scopely. Pokémon dan nama terkait adalah merek dagang milik pemiliknya masing-masing. PokeSpot tidak menyediakan atau menganjurkan alat pengubah lokasi; mainlah sesuai Ketentuan Layanan game. Waktu acara mengikuti waktu setempat dan bisa berubah, jadi periksa pengumuman resmi.',
     source: 'Kode sumber di GitHub (MIT)',
     privacy: 'Kebijakan privasi',
     sponsor: 'Dukung PokeSpot',
