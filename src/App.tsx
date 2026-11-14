@@ -17,7 +17,6 @@ import { Plus } from 'lucide-react';
 import { HOTSPOTS } from './data/hotspots';
 import { rankHotspots } from './lib/scoring';
 import { pinFirst } from './lib/favorites';
-import { issueTemplateUrl } from './lib/github';
 import { currentSpot, homeHref } from './lib/routes';
 import { useNow } from './hooks/useNow';
 import { useTravelState } from './hooks/useTravelState';
@@ -35,6 +34,7 @@ import { LanguagePicker } from './components/LanguagePicker';
 import { BestSpot } from './components/BestSpot';
 import { RoutePlanner } from './components/RoutePlanner';
 import { TabBar } from './components/TabBar';
+import { ReportLink, ReportProvider } from './components/ReportDialog';
 import { EventSchedule } from './components/EventSchedule';
 import { TravelPanel } from './components/TravelPanel';
 import { SpotRow } from './components/SpotRow';
@@ -51,7 +51,6 @@ type RegionFilter = 'All' | Region;
 const FILTERS: RegionFilter[] = ['All', 'Asia-Pacific', 'Europe & Middle East', 'Americas'];
 
 const pad = (n: number) => String(n).padStart(2, '0');
-const SUGGEST_URL = issueTemplateUrl('hotspot.yml');
 
 const HOME_TABS = ['spots', 'route', 'events', 'map', 'guide'] as const;
 type HomeTab = (typeof HOME_TABS)[number];
@@ -122,6 +121,7 @@ export default function App() {
 
   return (
     <ToastProvider>
+      <ReportProvider>
       <header className="border-b border-rule">
         <nav className="mx-auto flex h-14 max-w-4xl items-center justify-between gap-3 px-4 lg:max-w-7xl lg:px-6">
           <a href={homeHref} aria-label={t.nav.home}>
@@ -211,15 +211,13 @@ export default function App() {
                               );
                             })}
                           </div>
-                          <a
-                            href={SUGGEST_URL}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <ReportLink
+                            kind="hotspot"
                             className="inline-flex h-9 items-center gap-1.5 text-sm font-medium whitespace-nowrap text-dim underline underline-offset-4 hover:text-ink"
                           >
                             <Plus className="size-4" aria-hidden />
                             {t.list.suggest}
-                          </a>
+                          </ReportLink>
                         </div>
                       </div>
 
@@ -298,6 +296,7 @@ export default function App() {
       </main>
 
       <StickyAnchorAd />
+      </ReportProvider>
     </ToastProvider>
   );
 }

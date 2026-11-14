@@ -60,6 +60,7 @@ src/
 scripts/site-pages.ts        emits <id>.html per spot, 404.html, sitemap.xml, robots.txt
 .github/ISSUE_TEMPLATE/      community.yml, hotspot.yml, translation.yml (GitHub issue forms)
 privacy.html                 second Vite entry
+worker/report-worker.js      Cloudflare Worker: site report forms → Turnstile → GitHub issue (setup: worker/README.md)
 ```
 
 State flows one way: `App` reads `useNow`, `useTravelState`, `useFavorites` and passes data down;
@@ -115,8 +116,13 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
 - **Not-found page** — `scripts/site-pages.ts` emits `404.html` (noindex, `<base>` = site root,
   rewrites the URL to home) so old ids, typos and redirected links from the previous domain land
   on the app instead of GitHub's bare 404.
-- **Hotspot suggestions** — `.github/ISSUE_TEMPLATE/hotspot.yml`, linked from the ranking via
-  `lib/github.ts`. A maintainer transfers accepted suggestions into `data/hotspots.ts`.
+- **Reports without a GitHub account** — `components/ReportDialog.tsx` (`ReportProvider` + `ReportLink`)
+  opens an in-site form for translation problems and hotspot suggestions; Turnstile is loaded only
+  when a form opens. It posts to `worker/report-worker.js`, which checks origin + Turnstile + limits
+  and opens a GitHub issue (visitor text fenced so it can't @mention or inject markup). Enabled only
+  when `VITE_REPORT_URL` and `VITE_TURNSTILE_SITEKEY` are set; otherwise `ReportLink` falls back to the
+  GitHub issue forms (`hotspot.yml`, `translation.yml`). Worker tests: `worker/report-worker.test.js`.
+- **Hotspot suggestions** — accepted suggestions are copied by a maintainer into `data/hotspots.ts`.
 
 ## Common tasks
 
