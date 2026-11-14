@@ -8,7 +8,7 @@
  *   browser form ──POST /report──▶ this Worker ──▶ Turnstile check ──▶ GitHub issue
  *
  * Settings (Workers → your worker → Settings → Variables and Secrets):
- *   GITHUB_TOKEN      secret  fine-grained token: this repo only, "Issues: Read and write"
+ *   ISSUE_TOKEN       secret  fine-grained token: this repo only, "Issues: Read and write"
  *   TURNSTILE_SECRET  secret  Turnstile secret key for the site
  *   GITHUB_REPO       text    e.g. "Churious/pokenow"
  *   ALLOWED_ORIGINS   text    comma-separated, e.g. "https://pokenow.cc"
@@ -184,7 +184,7 @@ export default {
     const gh = await fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/issues`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+        Authorization: `Bearer ${env.ISSUE_TOKEN}`,
         Accept: 'application/vnd.github+json',
         'User-Agent': 'pokenow-report-worker',
         'X-GitHub-Api-Version': '2022-11-28',

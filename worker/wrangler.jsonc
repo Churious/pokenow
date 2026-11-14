@@ -7,8 +7,11 @@
   "main": "report-worker.js",
   "compatibility_date": "2026-11-01",
   "workers_dev": true,
+  // Only the production URL is used by the site; no per-version preview URLs.
+  "preview_urls": false,
   "observability": { "enabled": true },
-  // Public settings live here so each deploy is reproducible. Secrets (GITHUB_TOKEN, TURNSTILE_SECRET)
+  // Public settings live here so each deploy is reproducible. Secrets (ISSUE_TOKEN, TURNSTILE_SECRET —
+  // Cloudflare rejects secret names starting with GITHUB_)
   // are set only in the dashboard: Settings → Variables and Secrets → type "Secret".
   "vars": {
     "GITHUB_REPO": "Churious/pokenow",
