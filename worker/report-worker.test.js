@@ -52,7 +52,7 @@ describe('buildIssue', () => {
 });
 
 describe('worker fetch', () => {
-  const env = { ALLOWED_ORIGINS: 'https://pokenow.cc', GITHUB_REPO: 'o/r', GITHUB_TOKEN: 't', TURNSTILE_SECRET: 's' };
+  const env = { ALLOWED_ORIGINS: 'https://pokenow.cc', GITHUB_REPO: 'o/r', ISSUE_TOKEN: 't', TURNSTILE_SECRET: 's' };
   const req = (body, origin = 'https://pokenow.cc') =>
     new Request('https://w.example/report', {
       method: 'POST',

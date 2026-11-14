@@ -50,7 +50,7 @@ add the two secrets in the Worker → **Settings → Variables and Secrets** →
 
 | Name | Value |
 | --- | --- |
-| `GITHUB_TOKEN` | token from step 2 |
+| `ISSUE_TOKEN` | token from step 2 (Cloudflare doesn't allow secret names starting with `GITHUB_`) |
 | `TURNSTILE_SECRET` | secret key from step 1 |
 
 Secrets are never put in the repo. "Build variables" in the Builds settings are **not** runtime
@@ -86,4 +86,4 @@ Close it as a test. If it fails, Workers → your worker → **Logs** shows the 
 - Logic is tested in `report-worker.test.js` (runs with `npm test` from the repo root).
 - Check the config without deploying: `cd worker && npx wrangler deploy --dry-run`.
 - After a Git deploy, confirm the two secrets are still listed under Variables and Secrets.
-- Rotate `GITHUB_TOKEN` if it ever leaks: delete it on GitHub and set a new secret.
+- Rotate `ISSUE_TOKEN` if it ever leaks: delete it on GitHub and set a new secret.
