@@ -9,9 +9,9 @@ function arrivalSentence(s: ScoredHotspot): string {
   const { plan } = s;
   if (plan.waitSeconds > 0) {
     const wait = formatDuration(plan.waitSeconds);
-    if (plan.arrivalTier === 'golden') return `Safe to play here in ${wait}, during ${plan.arrivalEventLabel ?? 'golden hour'}.`;
-    if (plan.arrivalTier === 'peak') return `Safe to play here in ${wait}, inside the peak window.`;
-    return `Safe to play here in ${wait}. The next raid window opens in ${formatDuration(plan.secondsUntilUsable)}.`;
+    if (plan.arrivalTier === 'golden') return `Ready to play here in ${wait}, during ${plan.arrivalEventLabel ?? 'golden hour'}.`;
+    if (plan.arrivalTier === 'peak') return `Ready to play here in ${wait}, inside the peak window.`;
+    return `Ready to play here in ${wait}. The next raid window opens in ${formatDuration(plan.secondsUntilUsable)}.`;
   }
   if (s.tier === 'golden') return `${s.eventLabel === 'Golden Time' ? 'Golden hour' : s.eventLabel} ends in ${formatDuration(s.secondsLeftInWindow)}.`;
   if (s.tier === 'peak')

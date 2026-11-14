@@ -15,20 +15,26 @@ export function Footer() {
           </p>
           <p className="text-xs leading-relaxed text-faint">
             Also not affiliated with Scopely, the current operator of Pokémon GO. Pokémon and all related names are
-            trademarks of their respective owners. Event times are local-time conventions and may change — check
+            trademarks of their respective owners. PokeSpot doesn’t provide or endorse location-changing tools; please
+            play within the game’s Terms of Service. Event times are local-time conventions and may change, so check
             official announcements.
           </p>
         </div>
 
-        <a
-          href={CONFIG.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex h-11 shrink-0 items-center gap-2 self-start rounded-md whitespace-nowrap px-4 font-semibold text-ink ring-1 ring-rule hover:ring-dim"
-        >
-          <GitFork className="size-4" aria-hidden />
-          Source on GitHub (MIT)
-        </a>
+        <div className="flex flex-col gap-2 self-start sm:items-end">
+          <a
+            href={CONFIG.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-md px-4 font-semibold whitespace-nowrap text-ink ring-1 ring-rule hover:ring-dim"
+          >
+            <GitFork className="size-4" aria-hidden />
+            Source on GitHub (MIT)
+          </a>
+          <a href="privacy.html" className="px-1 text-sm text-dim underline underline-offset-4 hover:text-ink">
+            Privacy policy
+          </a>
+        </div>
       </div>
     </footer>
   );

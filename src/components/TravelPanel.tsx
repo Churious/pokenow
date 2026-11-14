@@ -11,8 +11,8 @@ interface Props {
 }
 
 const MODES: { value: TravelState['mode']; label: string }[] = [
-  { value: 'free', label: 'Free to move' },
-  { value: 'cooldown', label: 'Cooling down' },
+  { value: 'free', label: 'Ready' },
+  { value: 'cooldown', label: 'On cooldown' },
   { value: 'softban', label: 'Soft-banned' },
 ];
 
@@ -32,7 +32,7 @@ function parseCoords(text: string): { lat: number; lng: number } | null {
 /**
  * "Where did you last act, and when?" — feeds the cooldown-aware ranking.
  * The rule players rely on: after 2 hours with no cooldown-triggering action
- * (catch, spin, raid, gym…) you can go anywhere, so the panel shows that clock too.
+ * (catch, spin, raid, gym…) every spot is ready again, so the panel shows that clock too.
  */
 export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
   const firstSpot = hotspots[0];
@@ -66,7 +66,7 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
         Your cooldown
       </h2>
       <p className="mt-1 max-w-prose text-sm text-dim">
-        Tell PokeSpot where you last caught, spun or raided. Spots you can’t reach safely yet move down the list.
+        Tell PokeSpot where you last caught, spun or raided. Spots that are still on cooldown for you move down the list.
       </p>
 
       <div role="radiogroup" aria-label="Cooldown status" className="mt-4 grid grid-cols-3 rounded-md ring-1 ring-rule">
@@ -157,11 +157,11 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
           <p className="text-sm text-ink sm:col-span-2">
             {freeIn > 0 ? (
               <>
-                Last action {minutesAgo === 0 ? 'just now' : `${minutesAgo} min ago`} in {active.origin.label}. You can
-                go anywhere in <strong className="text-gold">{formatDuration(freeIn)}</strong>.
+                Last action {minutesAgo === 0 ? 'just now' : `${minutesAgo} min ago`} in {active.origin.label}. Every
+                spot is ready in <strong className="text-gold">{formatDuration(freeIn)}</strong>.
               </>
             ) : (
-              <>Two hours have passed since your last action, so every spot is safe now.</>
+              <>Two hours have passed since your last action, so every spot is ready.</>
             )}
           </p>
 
@@ -170,7 +170,7 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
               <p className="font-semibold text-hot">While soft-banned</p>
               <ul className="mt-1 list-disc space-y-1 pl-5 text-ink/90">
                 <li>Stop catching and spinning until the wait for your next spot has passed. Retrying doesn’t lift it.</li>
-                <li>Pick a spot with a short wait below, or simply wait out the two-hour clock above.</li>
+                <li>Pick a spot with a short wait below, or wait out the two-hour clock above.</li>
                 <li>
                   Set “Last action at” to where your last <em>successful</em> action happened, not where you got
                   soft-banned.
