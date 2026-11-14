@@ -14,20 +14,19 @@ function readClosedAt(): string | null {
 
 /**
  * A small, polite card asking visitors with an ad blocker to allow ads on PokeNow. Never blocks the page:
- * no overlay, no focus trap, appears a few seconds in, and "Maybe later" / close hides it for a week.
+ * no overlay, no focus trap, appears right after the page opens, and "Maybe later" / close hides it for a week.
  * Only rendered when AdSense is configured and a blocker is detected (hooks/useAdBlocked.ts).
  * Class names avoid "ad" words so cosmetic filters don't hide the card itself.
  */
 export function SupportNote() {
   const { t } = useI18n();
-  const blocked = useAdBlocked();
+  const blocked = useAdBlocked(400);
   const [visible, setVisible] = useState(false);
   const [howOpen, setHowOpen] = useState(false);
 
+  // Shown as soon as the check finishes on entry (no extra wait).
   useEffect(() => {
-    if (!blocked || !shouldShowSupportNote(readClosedAt(), Date.now())) return;
-    const timer = window.setTimeout(() => setVisible(true), 9000);
-    return () => window.clearTimeout(timer);
+    if (blocked && shouldShowSupportNote(readClosedAt(), Date.now())) setVisible(true);
   }, [blocked]);
 
   if (!visible) return null;
