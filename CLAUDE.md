@@ -26,6 +26,8 @@ the surrounding style (2 spaces, single quotes, ~120-column lines).
 
 ```
 src/
+├── main.tsx                 tiny entry: picks the language, loads bootstrap + dictionary in parallel
+├── bootstrap.tsx            React mount (preloaded from the HTML by vite.config.ts)
 ├── App.tsx                  shell: home vs. spot page, ranking, list order
 ├── data/
 │   ├── hotspots.ts          the dataset — most data PRs only touch this
@@ -47,7 +49,8 @@ src/
 │   └── useFavorites.ts      pinned spots (localStorage)
 ├── i18n/
 │   ├── types.ts             Messages contract — every key is typed
-│   ├── index.tsx            provider, detection, duration/number formatting
+│   ├── load.ts              React-free: locale list, detection, lazy dictionary loading
+│   ├── index.tsx            provider, duration/number formatting (re-exports load.ts)
 │   └── locales/*.ts         one lazy-loaded file per language
 ├── components/              presentation (BestSpot, RoutePlanner, SpotRow, SpotPage, …)
 ├── types/index.ts           shared domain types
