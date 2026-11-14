@@ -6,42 +6,69 @@
  * flag any missing key.
  */
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { Messages } from './types';
 import { en } from './locales/en';
-import { ko } from './locales/ko';
-import { ja } from './locales/ja';
-import { zhTW } from './locales/zh-TW';
-import { fr } from './locales/fr';
-import { de } from './locales/de';
-import { it } from './locales/it';
-import { es } from './locales/es';
-import { es419 } from './locales/es-419';
-import { ptBR } from './locales/pt-BR';
-import { tr } from './locales/tr';
-import { th } from './locales/th';
-import { id } from './locales/id';
-import { hi } from './locales/hi';
 
-export const LOCALES = {
-  en,
-  fr,
-  de,
-  it,
-  es,
-  'es-419': es419,
-  'pt-BR': ptBR,
-  tr,
-  id,
-  ko,
-  ja,
-  'zh-TW': zhTW,
-  th,
-  hi,
-} as const satisfies Record<string, Messages>;
+/**
+ * Only English ships in the main bundle (it is the fallback and the footer
+ * always shows its disclaimer). Every other language is its own chunk, fetched
+ * when it is first needed.
+ */
+const LOADERS = {
+  en: () => Promise.resolve(en),
+  fr: () => import('./locales/fr').then((m) => m.fr),
+  de: () => import('./locales/de').then((m) => m.de),
+  it: () => import('./locales/it').then((m) => m.it),
+  es: () => import('./locales/es').then((m) => m.es),
+  'es-419': () => import('./locales/es-419').then((m) => m.es419),
+  'pt-BR': () => import('./locales/pt-BR').then((m) => m.ptBR),
+  tr: () => import('./locales/tr').then((m) => m.tr),
+  id: () => import('./locales/id').then((m) => m.id),
+  ko: () => import('./locales/ko').then((m) => m.ko),
+  ja: () => import('./locales/ja').then((m) => m.ja),
+  'zh-TW': () => import('./locales/zh-TW').then((m) => m.zhTW),
+  th: () => import('./locales/th').then((m) => m.th),
+  hi: () => import('./locales/hi').then((m) => m.hi),
+} as const satisfies Record<string, () => Promise<Messages>>;
 
-export type Locale = keyof typeof LOCALES;
-export const LOCALE_CODES = Object.keys(LOCALES) as Locale[];
+export type Locale = keyof typeof LOADERS;
+export const LOCALE_CODES = Object.keys(LOADERS) as Locale[];
+
+/** Each language's name in itself, for the picker (kept in sync with `languageName` by a test). */
+export const LANGUAGE_NAMES: Record<Locale, string> = {
+  en: 'English',
+  fr: 'Français',
+  de: 'Deutsch',
+  it: 'Italiano',
+  es: 'Español (España)',
+  'es-419': 'Español (Latinoamérica)',
+  'pt-BR': 'Português (Brasil)',
+  tr: 'Türkçe',
+  id: 'Bahasa Indonesia',
+  ko: '한국어',
+  ja: '日本語',
+  'zh-TW': '繁體中文',
+  th: 'ไทย',
+  hi: 'हिन्दी',
+};
+
+export const EN = en;
+
+const loaded = new Map<Locale, Messages>([['en', en]]);
+
+/** Loads a locale's dictionary (cached). Falls back to English if the chunk can't be fetched. */
+export async function loadMessages(locale: Locale): Promise<Messages> {
+  const hit = loaded.get(locale);
+  if (hit) return hit;
+  try {
+    const m = await LOADERS[locale]();
+    loaded.set(locale, m);
+    return m;
+  } catch {
+    return en;
+  }
+}
 
 const STORAGE_KEY = 'pokespot:lang';
 
@@ -58,10 +85,10 @@ export function matchLocale(tag: string): Locale | null {
   return LOCALE_CODES.find((c) => c.toLowerCase().split('-')[0] === base) ?? null;
 }
 
-function detect(): Locale {
+export function detectLocale(): Locale {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved && saved in LOCALES) return saved as Locale;
+    if (saved && saved in LOADERS) return saved as Locale;
   } catch {
     /* storage unavailable */
   }
@@ -105,16 +132,30 @@ const I18nContext = createContext<I18n | null>(null);
 
 const weekdayFormatters = new Map<string, Intl.DateTimeFormat>();
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(detect);
+export function I18nProvider({
+  children,
+  initialLocale,
+  initialMessages,
+}: {
+  children: ReactNode;
+  initialLocale: Locale;
+  initialMessages: Messages;
+}) {
+  const [{ locale, messages }, setState] = useState({ locale: initialLocale, messages: initialMessages });
+  const requested = useRef(initialLocale);
 
   const setLocale = useCallback((l: Locale) => {
-    setLocaleState(l);
+    requested.current = l;
     try {
       localStorage.setItem(STORAGE_KEY, l);
     } catch {
       /* ignore */
     }
+    // Keep the current language on screen until the new one has arrived;
+    // if the user picks again meanwhile, only the latest choice wins.
+    void loadMessages(l).then((m) => {
+      if (requested.current === l) setState({ locale: l, messages: m });
+    });
   }, []);
 
   useEffect(() => {
@@ -122,7 +163,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, [locale]);
 
   const value = useMemo<I18n>(() => {
-    const t = LOCALES[locale];
+    const t = messages;
     const numFmt = new Intl.NumberFormat(locale, { maximumFractionDigits: 0 });
     return {
       locale,
@@ -140,7 +181,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         return f.format(date);
       },
     };
-  }, [locale, setLocale]);
+  }, [locale, messages, setLocale]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }

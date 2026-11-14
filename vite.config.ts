@@ -124,6 +124,8 @@ export default defineConfig(({ mode }) => {
         },
         workbox: {
           globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+          // Link-preview images are for other sites' crawlers, not for offline use.
+          globIgnores: ['og/**'],
           navigateFallback: 'index.html',
           navigateFallbackDenylist: [/privacy/, /ads\.txt$/, /sitemap\.xml$/, /robots\.txt$/],
           cleanupOutdatedCaches: true,

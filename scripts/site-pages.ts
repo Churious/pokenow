@@ -11,6 +11,8 @@
  * bundle serves every page.
  */
 
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import type { Plugin } from 'vite';
 import { HOTSPOTS } from '../src/data/hotspots';
 
@@ -22,6 +24,28 @@ interface PageMeta {
   description: string;
   url: string;
   body: string;
+  /** Name of a 1200×630 image in public/og/ (made by `npm run og`). */
+  ogImage: string;
+  ogAlt: string;
+}
+
+const OG_DIR = resolve(import.meta.dirname, '../public/og');
+
+/** Large preview card when the page has its own image, otherwise the app icon. */
+function ogImageTags(m: PageMeta, siteUrl: string): string[] {
+  if (existsSync(resolve(OG_DIR, m.ogImage))) {
+    return [
+      `<meta property="og:image" content="${esc(siteUrl)}og/${esc(m.ogImage)}" />`,
+      `<meta property="og:image:width" content="1200" />`,
+      `<meta property="og:image:height" content="630" />`,
+      `<meta property="og:image:alt" content="${esc(m.ogAlt)}" />`,
+      `<meta name="twitter:card" content="summary_large_image" />`,
+    ];
+  }
+  return [
+    `<meta property="og:image" content="${esc(siteUrl)}icons/icon-512.png" />`,
+    `<meta name="twitter:card" content="summary" />`,
+  ];
 }
 
 function applyMeta(html: string, m: PageMeta, siteUrl: string): string {
@@ -32,8 +56,7 @@ function applyMeta(html: string, m: PageMeta, siteUrl: string): string {
     `<meta property="og:title" content="${esc(m.title)}" />`,
     `<meta property="og:description" content="${esc(m.description)}" />`,
     `<meta property="og:url" content="${esc(m.url)}" />`,
-    `<meta property="og:image" content="${esc(siteUrl)}icons/icon-512.png" />`,
-    `<meta name="twitter:card" content="summary" />`,
+    ...ogImageTags(m, siteUrl),
     // The summary in #root is for crawlers and no-JS visitors. With JavaScript on,
     // hide it while the app loads instead of flashing unstyled text; if the app
     // still hasn't replaced it after 4s (script blocked or failed), show it.
@@ -68,6 +91,8 @@ export function sitePages(siteUrl: string): Plugin {
           title: 'PokeSpot — Best Raid Spot Now',
           description: homeDescription,
           url: base,
+          ogImage: 'home.png',
+          ogAlt: 'PokeSpot: best raid spot, right now',
           body: `<main class="prerender" style="padding:1rem;color:#d7deea;font-family:sans-serif"><h1>PokeSpot</h1><p>${esc(
             homeDescription,
           )}</p><ul>${HOTSPOTS.map(
@@ -89,6 +114,8 @@ export function sitePages(siteUrl: string): Plugin {
               title,
               description,
               url: `${base}${h.id}`,
+              ogImage: `${h.id}.png`,
+              ogAlt: `${h.city}, ${h.spot} on PokeSpot`,
               body: `<main class="prerender" style="padding:1rem;color:#d7deea;font-family:sans-serif"><p><a href="./" style="color:#d7deea">PokeSpot</a></p><h1>${esc(
                 h.city,
               )}</h1><p>${esc(h.spot)}</p><p>${esc(description)}</p><p>Coordinates: ${h.lat.toFixed(

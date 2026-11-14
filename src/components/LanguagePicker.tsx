@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
 import { Check, ChevronDown, Languages } from 'lucide-react';
-import { LOCALES, LOCALE_CODES, useI18n, type Locale } from '../i18n';
+import { LANGUAGE_NAMES, LOCALE_CODES, useI18n, type Locale } from '../i18n';
 
 /**
  * Language menu: one button (icon + current language + chevron) opens a
@@ -83,7 +83,7 @@ export function LanguagePicker() {
         if (e.key.length === 1) {
           const ch = e.key.toLowerCase();
           const order = [...LOCALE_CODES.slice(active + 1), ...LOCALE_CODES.slice(0, active + 1)];
-          const hit = order.find((c) => LOCALES[c].languageName.toLowerCase().startsWith(ch));
+          const hit = order.find((c) => LANGUAGE_NAMES[c].toLowerCase().startsWith(ch));
           if (hit) setActive(LOCALE_CODES.indexOf(hit));
         }
     }
@@ -99,7 +99,7 @@ export function LanguagePicker() {
         aria-expanded={open}
         aria-controls={`${id}-list`}
         aria-activedescendant={open ? `${id}-opt-${active}` : undefined}
-        aria-label={`${t.nav.language}: ${LOCALES[locale].languageName}`}
+        aria-label={`${t.nav.language}: ${LANGUAGE_NAMES[locale]}`}
         onClick={() => (open ? setOpen(false) : openMenu())}
         onKeyDown={onKeyDown}
         className={`inline-flex h-9 items-center gap-1.5 rounded-md px-2.5 text-sm ring-1 transition-colors ${
@@ -107,7 +107,7 @@ export function LanguagePicker() {
         }`}
       >
         <Languages className="size-4 shrink-0" aria-hidden />
-        <span className="max-w-[9rem] truncate text-ink">{LOCALES[locale].languageName}</span>
+        <span className="max-w-[9rem] truncate text-ink">{LANGUAGE_NAMES[locale]}</span>
         <ChevronDown className={`size-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden />
       </button>
 
@@ -136,7 +136,7 @@ export function LanguagePicker() {
                   highlighted ? 'bg-rule text-ink' : 'text-dim'
                 } ${selected ? 'font-semibold text-ink' : ''}`}
               >
-                <span className="truncate">{LOCALES[code].languageName}</span>
+                <span className="truncate">{LANGUAGE_NAMES[code]}</span>
                 {selected && <Check className="size-4 shrink-0 text-gold" aria-hidden />}
               </li>
             );
