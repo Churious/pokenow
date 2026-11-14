@@ -1,26 +1,35 @@
 import { useEffect, useState } from 'react';
 import { CONFIG } from '../config';
-import { BAIT_CLASSES } from '../lib/adblock';
+import { BAIT_CLASSES, type BlockSignals, isBlocked } from '../lib/adblock';
 
 const LOADER = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
 
+const pageLoaded = () =>
+  new Promise<void>((resolve) => {
+    if (document.readyState === 'complete') resolve();
+    else window.addEventListener('load', () => resolve(), { once: true });
+  });
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 /**
- * true when an ad blocker is active. Only runs when AdSense is configured (otherwise there are no ads to block)
- * and only while online, so a dropped connection isn't mistaken for a blocker.
- *
- * Two checks, either one counts:
- *  - network: request the AdSense loader; extensions (uBlock Origin, AdGuard, Brave Shields) and DNS blockers make
- *    the request fail outright. `no-cors` keeps a successful response opaque; we only look at failure.
+ * Ad-blocker check. Only runs when AdSense is configured and the browser is online, so a dropped connection
+ * isn't mistaken for a blocker. Three signals (see lib/adblock.ts for how they combine):
+ *  - script: the AdSense loader tag in <head> fired `error`, or still hasn't fired `load` after the page `load`
+ *    event (async scripts delay it) plus a grace period. Its onload/onerror attributes set
+ *    `window.__pokenowAds` (vite.config.ts). Catches blockers that drop the script, e.g. Safari content blockers.
+ *  - network: a no-cors request for the loader fails (extensions, Brave Shields, DNS blockers).
  *  - cosmetic: an off-screen element with common ad class names gets hidden by element-hiding filters.
+ * Add `?adcheck` to the URL to log the signals to the console.
  */
-export function useAdBlocked(delayMs = 3000): boolean {
-  const [blocked, setBlocked] = useState(false);
+export function useAdBlocked(delayMs = 400): BlockSignals | null {
+  const [signals, setSignals] = useState<BlockSignals | null>(null);
 
   useEffect(() => {
     if (!CONFIG.adsense.client) return;
     let cancelled = false;
 
     const run = async () => {
+      await sleep(delayMs);
       if (!navigator.onLine) return;
       const bait = document.createElement('div');
       bait.className = BAIT_CLASSES;
@@ -29,7 +38,7 @@ export function useAdBlocked(delayMs = 3000): boolean {
       bait.innerHTML = '&nbsp;';
       document.body.appendChild(bait);
 
-      let networkBlocked = false;
+      let network = false;
       try {
         await fetch(`${LOADER}?client=${encodeURIComponent(CONFIG.adsense.client)}`, {
           method: 'HEAD',
@@ -37,20 +46,34 @@ export function useAdBlocked(delayMs = 3000): boolean {
           cache: 'no-store',
         });
       } catch {
-        networkBlocked = navigator.onLine;
+        network = navigator.onLine;
       }
+      // Give element-hiding filters a moment; some apply asynchronously.
+      await sleep(600);
       const style = getComputedStyle(bait);
-      const cosmeticBlocked = bait.offsetHeight === 0 || style.display === 'none' || style.visibility === 'hidden';
+      const cosmetic = bait.offsetHeight === 0 || style.display === 'none' || style.visibility === 'hidden';
       bait.remove();
-      if (!cancelled) setBlocked(networkBlocked || cosmeticBlocked);
+
+      const hasLoaderTag = Boolean(document.getElementById('adsbygoogle-js'));
+      let script = false;
+      if (hasLoaderTag && !network && !cosmetic) {
+        await pageLoaded();
+        await sleep(2500);
+        // The loader tag records its own load/error (vite.config.ts). An error, or no load event at all once the page
+        // has finished loading, means the script was blocked.
+        script = navigator.onLine && window.__pokenowAds !== 'loaded';
+      }
+
+      const result = { network, cosmetic, script };
+      if (new URLSearchParams(location.search).has('adcheck')) console.info('[pokenow] ad-block check', result, isBlocked(result));
+      if (!cancelled) setSignals(result);
     };
 
-    const timer = window.setTimeout(() => void run(), delayMs);
+    void run();
     return () => {
       cancelled = true;
-      window.clearTimeout(timer);
     };
   }, [delayMs]);
 
-  return blocked;
+  return signals;
 }

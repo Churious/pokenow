@@ -29,6 +29,11 @@ function adsense(client: string): Plugin {
             async: true,
             crossorigin: 'anonymous',
             src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`,
+            // Read by src/hooks/useAdBlocked.ts: did the loader load, or was it blocked?
+            onload: 'window.__pokenowAds="loaded"',
+            onerror: 'window.__pokenowAds="error"',
+            // Keep Cloudflare Rocket Loader from deferring it (that would look like a blocked script).
+            'data-cfasync': 'false',
           },
           injectTo: 'head',
         },

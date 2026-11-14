@@ -131,7 +131,8 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   GitHub issue forms (`hotspot.yml`, `translation.yml`). Worker tests: `worker/report-worker.test.js`.
 - **Hotspot suggestions** — accepted suggestions are copied by a maintainer into `data/hotspots.ts`.
 - **Ad-blocker note** — `components/SupportNote.tsx` + `hooks/useAdBlocked.ts` + `lib/adblock.ts`. Only with AdSense
-  configured: a failed request for the AdSense loader or a hidden bait element means a blocker. On entry (after a
+  configured: the loader tag's onload/onerror (set in vite.config.ts), a failed request for the loader, or a hidden
+  bait element means a blocker. `?adcheck` logs the signals to the console. On entry (after a
   ~0.4 s check) a small non-modal card asks to allow ads (how-to for uBlock Origin / AdGuard); closing hides it for 7 days. Never a wall.
 - **AI issue review** — `.github/workflows/issue-review.yml` runs `scripts/review-issue.mjs` when a `translation` or
   `community-listing` issue opens (or via Run workflow + issue number). It sends the issue plus the relevant files
