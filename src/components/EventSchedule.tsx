@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { ExternalLink } from 'lucide-react';
-import { useGoEvents } from '../hooks/useGoEvents';
+import type { FeedState } from '../hooks/useGoEvents';
 import {
   FEED_SOURCE_URL,
   eventStatuses,
@@ -51,9 +51,8 @@ function kindLabel(e: GoEvent, t: Messages): string {
  * Raid bosses on now, then the next two weeks of events from the community feed
  * (lib/schedule.ts). Names only — no Pokémon artwork (copyright).
  */
-export function EventSchedule({ now }: { now: Date }) {
+export function EventSchedule({ now, feed }: { now: Date; feed: FeedState }) {
   const { t, locale, dur } = useI18n();
-  const feed = useGoEvents();
 
   const dateFmt = new Intl.DateTimeFormat(locale, { timeZone: 'UTC', month: 'short', day: 'numeric', weekday: 'short' });
   const shortDate = new Intl.DateTimeFormat(locale, { timeZone: 'UTC', month: 'short', day: 'numeric' });

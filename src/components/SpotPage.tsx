@@ -6,6 +6,7 @@ import { formatCoords } from '../lib/geo';
 import { nextGoldenWindow, type EventTiming } from '../lib/events';
 import { homeHref, spotHref } from '../lib/routes';
 import { RAID_HOUR_WEEKDAY, SPOTLIGHT_WEEKDAY } from '../lib/scoring';
+import { nextEventAt, type GoEvent } from '../lib/schedule';
 import { useI18n } from '../i18n';
 import { campfireHref } from '../lib/platform';
 import { CopyCoordsButton } from './CopyCoordsButton';
@@ -23,6 +24,7 @@ export function SpotPage({
   sidebarAd,
   favorites,
   onToggleFavorite,
+  events: feedEvents,
 }: {
   spot: Hotspot;
   ranked: ScoredHotspot[];
@@ -31,6 +33,8 @@ export function SpotPage({
   sidebarAd?: ReactNode;
   favorites: ReadonlySet<string>;
   onToggleFavorite: (id: string) => void;
+  /** Event feed, when loaded: real Raid Hour / Spotlight Hour dates. */
+  events: readonly GoEvent[] | null;
 }) {
   const { t, dur, weekday } = useI18n();
   const scored = ranked.find((s) => s.hotspot.id === spot.id);
@@ -39,8 +43,17 @@ export function SpotPage({
 
   const events: { label: string; timing: EventTiming; gold: boolean }[] = [
     { label: t.city.nextGolden, timing: nextGoldenWindow(clock, null), gold: false },
-    { label: t.city.nextRaidHour, timing: nextGoldenWindow(clock, RAID_HOUR_WEEKDAY), gold: true },
-    { label: t.city.nextSpotlight, timing: nextGoldenWindow(clock, SPOTLIGHT_WEEKDAY), gold: true },
+    // From the feed when it's loaded (skipped weeks, extra days); otherwise the weekly rule.
+    {
+      label: t.city.nextRaidHour,
+      timing: (feedEvents && nextEventAt(feedEvents, 'raid-hour', spot.timeZone, now)) || nextGoldenWindow(clock, RAID_HOUR_WEEKDAY),
+      gold: true,
+    },
+    {
+      label: t.city.nextSpotlight,
+      timing: (feedEvents && nextEventAt(feedEvents, 'spotlight', spot.timeZone, now)) || nextGoldenWindow(clock, SPOTLIGHT_WEEKDAY),
+      gold: true,
+    },
   ];
 
   const others = ranked.filter((s) => s.hotspot.id !== spot.id).slice(0, 5);

@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import fixture from './__fixtures__/scrapedduck-events.json';
-import { eventStatuses, instantIn, parseFeed, type GoEvent } from './schedule';
+import { calendarFrom, eventStatuses, instantIn, nextEventAt, parseFeed, type GoEvent } from './schedule';
+import { scoreHotspot } from './scoring';
+import { HOTSPOTS } from '../data/hotspots';
 
 const ev = (over: Partial<GoEvent> = {}): GoEvent => ({
   id: 'e',
@@ -75,5 +77,40 @@ describe('local-time events', () => {
       'UTC',
     );
     expect(list.map((s) => s.event.id)).toEqual(['a', 'b']);
+  });
+});
+
+describe('feed-driven Raid Hour / Spotlight Hour', () => {
+  const seoul = HOTSPOTS.find((h) => h.id === 'seoul-city-hall')!;
+  const rh = (date: string, id = `rh-${date}`) =>
+    ev({ id, kind: 'raid-hour', start: `${date}T18:00:00.000`, end: `${date}T19:00:00.000` });
+
+  it('builds the calendar from 18:00 local events only', () => {
+    const cal = calendarFrom([rh('2026-11-18'), ev({ id: 'cd', kind: 'community-day' })])!;
+    expect([...cal.raidHour]).toEqual(['2026-11-18']);
+    expect(calendarFrom([ev()])).toBeNull();
+  });
+
+  it('labels a Monday Raid Hour from the feed and a skipped Wednesday as plain golden time', () => {
+    const cal = calendarFrom([rh('2026-11-09')])!; // Monday
+    const monday = scoreHotspot(seoul, new Date('2026-11-09T09:30:00Z'), undefined, cal); // 18:30 Seoul
+    expect(monday.eventLabel).toBe('Raid Hour');
+    const wednesday = scoreHotspot(seoul, new Date('2026-11-11T09:30:00Z'), undefined, cal);
+    expect(wednesday.eventLabel).toBe('Golden Time');
+    // Without the feed the weekly rule still applies.
+    expect(scoreHotspot(seoul, new Date('2026-11-11T09:30:00Z')).eventLabel).toBe('Raid Hour');
+  });
+
+  it('counts down to the next Raid Hour at a place', () => {
+    const events = [rh('2026-11-18'), rh('2026-11-25')];
+    expect(nextEventAt(events, 'raid-hour', 'Asia/Seoul', new Date('2026-11-18T08:00:00Z'))).toEqual({
+      live: false,
+      secondsUntil: 3600,
+    });
+    expect(nextEventAt(events, 'raid-hour', 'Asia/Seoul', new Date('2026-11-18T09:15:00Z'))).toEqual({
+      live: true,
+      secondsLeft: 45 * 60,
+    });
+    expect(nextEventAt(events, 'spotlight', 'Asia/Seoul', new Date('2026-11-18T08:00:00Z'))).toBeNull();
   });
 });

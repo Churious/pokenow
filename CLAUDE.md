@@ -105,7 +105,10 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   never the feed's artwork URLs** (copyright). Feed times without `Z` are local wall-clock times in
   every zone; with `Z` one global instant. `hooks/useGoEvents.ts` caches the last good copy for 30 min
   (`pokenow:events`). Tests use a real-data fixture in `lib/__fixtures__/`.
-  Weekly Raid Hour (Wed) and Spotlight Hour (Thu, since June 2026) are constants in `lib/scoring.ts`.
+  The feed also drives the Raid Hour / Spotlight Hour labels: `calendarFrom()` → `EventCalendar`
+  (local dates with an 18:00 event) passed to `rankHotspots` / `planRoute`, and `nextEventAt()` for
+  spot-page countdowns. Without the feed, the weekly rule in `lib/scoring.ts` applies (Raid Hour Wed,
+  Spotlight Hour Thu since June 2026).
 - **Home tabs** — `components/TabBar.tsx` (WAI-ARIA tabs, sticky). Hero (BestSpot) and the phone
   cooldown panel stay above the tabs; panels: spots (default), route (+ cooldown table), events, map
   (phones only — the desktop sidebar has it), guide. The tab is in the URL hash (`#route`, …).
