@@ -83,6 +83,12 @@ export const fr: Messages = {
     pinned: 'Épinglé',
     hint: 'Les spots épinglés restent en haut de la liste.',
   },
+  share: {
+    button: 'Partager',
+    copied: 'Coordonnées, heure locale et lien copiés',
+    failed: 'Impossible de partager ou copier. Appuyez longuement sur les coordonnées.',
+    text: (place, coords, time, url) => `${place}\n${coords}\nHeure locale : ${time}\n${url}`,
+  },
   how: {
     title: 'Comment PokeSpot choisit un spot',
     p1: 'Les raids sont les plus fréquentés quand les joueurs locaux sont libres. PokeSpot lit l’heure locale de chaque spot grâce aux données de fuseaux horaires intégrées à votre navigateur ; les changements d’heure sont donc gérés automatiquement.',

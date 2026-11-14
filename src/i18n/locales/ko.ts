@@ -83,6 +83,12 @@ export const ko: Messages = {
     pinned: '고정됨',
     hint: '고정한 성지는 목록 맨 위에 표시됩니다.',
   },
+  share: {
+    button: '공유',
+    copied: '좌표, 현지 시각, 링크를 복사했습니다',
+    failed: '공유하거나 복사하지 못했습니다. 좌표를 길게 눌러 복사하세요.',
+    text: (place, coords, time, url) => `${place}\n${coords}\n현지 시각: ${time}\n${url}`,
+  },
   how: {
     title: 'PokeSpot이 성지를 고르는 방법',
     p1: '레이드는 현지 플레이어가 한가할 때 가장 붐빕니다. PokeSpot은 브라우저에 내장된 시간대 데이터로 각 성지의 현지 시각을 읽기 때문에 서머타임도 자동으로 반영됩니다.',

@@ -86,6 +86,12 @@ export const en: Messages = {
     pinned: 'Pinned',
     hint: 'Pinned spots stay at the top of the list.',
   },
+  share: {
+    button: 'Share',
+    copied: 'Copied coordinates, local time and link',
+    failed: 'Couldn’t share or copy. Long-press the coordinates to copy them.',
+    text: (place, coords, time, url) => `${place}\n${coords}\nLocal time: ${time}\n${url}`,
+  },
   how: {
     title: 'How PokeSpot picks a spot',
     p1: 'Raids are busiest when local players are free. PokeSpot reads the local time of every hotspot from your browser’s built-in time zone data, so daylight saving changes are handled automatically.',

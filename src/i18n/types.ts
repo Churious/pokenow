@@ -118,6 +118,14 @@ export interface Messages {
     hint: string;
   };
 
+  share: {
+    button: string;
+    copied: string;
+    failed: string;
+    /** Plain-text payload: place, coordinates, current local time and URL. */
+    text: (place: string, coords: string, localTime: string, url: string) => string;
+  };
+
   how: {
     title: string;
     p1: string;

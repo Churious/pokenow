@@ -85,6 +85,12 @@ export const tr: Messages = {
     pinned: 'Sabitlendi',
     hint: 'Sabitlenen duraklar listenin en üstünde kalır.',
   },
+  share: {
+    button: 'Paylaş',
+    copied: 'Koordinatlar, yerel saat ve bağlantı kopyalandı',
+    failed: 'Paylaşılamadı veya kopyalanamadı. Kopyalamak için koordinatlara uzun bas.',
+    text: (place, coords, time, url) => `${place}\n${coords}\nYerel saat: ${time}\n${url}`,
+  },
   how: {
     title: 'PokeSpot bir noktayı nasıl seçer',
     p1: 'Baskınlar, yerel oyuncuların boş olduğu saatlerde en kalabalıktır. PokeSpot her noktanın yerel saatini tarayıcının saat dilimi verilerinden okur, bu yüzden yaz saati değişiklikleri otomatik olarak uygulanır.',

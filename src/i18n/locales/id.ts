@@ -85,6 +85,12 @@ export const id: Messages = {
     pinned: 'Disematkan',
     hint: 'Tempat yang disematkan tetap di atas daftar.',
   },
+  share: {
+    button: 'Bagikan',
+    copied: 'Koordinat, waktu setempat, dan tautan disalin',
+    failed: 'Gagal membagikan atau menyalin. Tekan lama koordinat untuk menyalin.',
+    text: (place, coords, time, url) => `${place}\n${coords}\nWaktu setempat: ${time}\n${url}`,
+  },
   how: {
     title: 'Cara PokeSpot memilih tempat',
     p1: 'Raid paling ramai saat pemain lokal sedang senggang. PokeSpot membaca waktu lokal setiap tempat dari data zona waktu bawaan browser, jadi perubahan waktu musim panas ditangani otomatis.',

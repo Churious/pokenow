@@ -83,6 +83,12 @@ export const zhTW: Messages = {
     pinned: '已釘選',
     hint: '釘選的地點會固定顯示在列表最上方。',
   },
+  share: {
+    button: '分享',
+    copied: '已複製座標、當地時間與連結',
+    failed: '無法分享或複製。請長按座標複製。',
+    text: (place, coords, time, url) => `${place}\n${coords}\n當地時間：${time}\n${url}`,
+  },
   how: {
     title: 'PokeSpot 如何挑選地點',
     p1: '當地玩家有空時團體戰最熱鬧。PokeSpot 透過瀏覽器內建的時區資料讀取每個地點的當地時間，因此夏令時間會自動處理。',
