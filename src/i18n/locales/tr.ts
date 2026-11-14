@@ -109,7 +109,7 @@ export const tr: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeNow, dünya genelindeki baskın saatlerini takip etmek ve uzaktan baskınları koordine etmek için hayranlar tarafından yapılmış bir araçtır. Scopely veya The Pokémon Company ile bağlantılı değildir.',
+      'PokeNow, dünya genelindeki baskın saatlerini takip etmek ve uzaktan baskınları koordine etmek için hayranlar tarafından yapılmış bir araçtır. Scopely, Nintendo veya The Pokémon Company ile bağlantılı değildir.',
     extra:
       'Pokémon GO şu anda Scopely tarafından işletilmektedir. Pokémon ve ilgili adlar, sahiplerinin ticari markalarıdır. PokeNow konum değiştirme araçları sağlamaz ve önermez; lütfen oyunun Hizmet Şartları’na uygun oyna. Etkinlik saatleri yerel saate göredir ve değişebilir, resmi duyuruları kontrol et.',
     source: 'GitHub’da kaynak kod (MIT)',

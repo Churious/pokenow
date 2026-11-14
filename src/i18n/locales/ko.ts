@@ -107,7 +107,7 @@ export const ko: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeNow는 전 세계 레이드 시간대를 확인하고 원격 레이드를 조율하기 위한 팬 제작 도구입니다. Scopely 및 The Pokémon Company와 관련이 없습니다.',
+      'PokeNow는 전 세계 레이드 시간대를 확인하고 원격 레이드를 조율하기 위한 팬 제작 도구입니다. Scopely, Nintendo, The Pokémon Company와 관련이 없습니다.',
     extra:
       '현재 Pokémon GO는 Scopely가 운영합니다. Pokémon 및 관련 명칭은 각 권리자의 상표입니다. PokeNow는 위치 변경 도구를 제공하거나 권장하지 않으니 게임 이용약관을 지켜 주세요. 이벤트 시간은 현지 시각 기준이며 바뀔 수 있으니 공식 공지를 확인하세요.',
     source: 'GitHub 소스 (MIT)',

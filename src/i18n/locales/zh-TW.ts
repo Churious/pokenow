@@ -107,7 +107,7 @@ export const zhTW: Messages = {
   },
   footer: {
     disclaimer:
-      'PokeNow 是粉絲製作的工具，用於追蹤全球團體戰時段與協調遠端團體戰。與 Scopely 及 The Pokémon Company 無關。',
+      'PokeNow 是粉絲製作的工具，用於追蹤全球團體戰時段與協調遠端團體戰。與 Scopely、任天堂及 The Pokémon Company 無關。',
     extra:
       'Pokémon GO 目前由 Scopely 營運。Pokémon 及相關名稱為各權利人的商標。PokeNow 不提供也不鼓勵更改位置的工具，請遵守遊戲服務條款。活動時間以當地時間為準，可能會變動，請以官方公告為準。',
     source: 'GitHub 原始碼（MIT）',
