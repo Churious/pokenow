@@ -272,6 +272,10 @@ export interface Messages {
   /** Polite request shown to visitors with an ad blocker (components/SupportNote.tsx). */
   support: {
     title: string;
+    /** Shown once on the first visit without a blocker after one was seen. */
+    thanksTitle: string;
+    thanksBody: string;
+    close: string;
     body: string;
     how: string;
     later: string;

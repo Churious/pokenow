@@ -219,6 +219,9 @@ export const en: Messages = {
   },
   support: {
     title: 'Mind switching off your ad blocker here?',
+    thanksTitle: 'Thank you!',
+    thanksBody: 'Thanks for turning off your ad blocker here. It really helps keep PokeNow free.',
+    close: 'Close',
     body: 'PokeNow is a free site made by one person. One small ad keeps the domain and the lights on. No ads that cover the page, promise.',
     how: 'How to allow it',
     later: 'Maybe later',

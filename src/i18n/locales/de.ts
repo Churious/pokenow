@@ -216,6 +216,9 @@ export const de: Messages = {
   },
   support: {
     title: 'Magst du deinen Werbeblocker hier ausschalten?',
+    thanksTitle: 'Danke!',
+    thanksBody: 'Danke, dass du den Werbeblocker hier ausgeschaltet hast. Das hilft wirklich, PokeNow kostenlos zu halten.',
+    close: 'Schließen',
     body: 'PokeNow ist eine kostenlose Seite, die eine einzelne Person baut. Eine kleine Anzeige deckt Domain und Betrieb. Keine Werbung, die die Seite verdeckt – versprochen.',
     how: 'So geht’s',
     later: 'Später',

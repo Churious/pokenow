@@ -217,6 +217,9 @@ export const id: Messages = {
   },
   support: {
     title: 'Boleh matikan pemblokir iklan di sini?',
+    thanksTitle: 'Terima kasih!',
+    thanksBody: 'Terima kasih sudah mematikan pemblokir iklan di sini. Ini sangat membantu PokeNow tetap gratis.',
+    close: 'Tutup',
     body: 'PokeNow adalah situs gratis yang dibuat satu orang. Satu iklan kecil membantu membayar domain dan menjaga situs tetap jalan. Tidak ada iklan yang menutupi halaman, janji.',
     how: 'Cara mengizinkan',
     later: 'Nanti saja',

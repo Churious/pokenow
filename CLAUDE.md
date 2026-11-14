@@ -85,7 +85,8 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
 - **No location-changing tools or endorsement.** The cooldown feature describes a game mechanic;
   keep wording neutral and keep the fan-made disclaimer. Never claim to show Gym/PokéStop locations.
 - **Browser-only state.** `pokenow:travel`, `pokenow:favorites`, `pokenow:lang`, `pokenow:events` (feed
-  cache), `pokenow:support-note` (when the ad-blocker note was closed) live in localStorage and are never sent anywhere. Don't add a backend for a feature that doesn't need one.
+  cache), `pokenow:support-note` (when the ad-blocker note was closed), `pokenow:support-asked` (a blocker was seen;
+  next visit without one says thanks) live in localStorage and are never sent anywhere. Don't add a backend for a feature that doesn't need one.
 - **Static hosting.** `base: './'`, relative hrefs, all pages share one bundle. Don't hard-code the
   domain; `VITE_SITE_URL` drives canonical/OG URLs at build time.
 - **Source-available, not open source.** License is PolyForm Noncommercial 1.0.0 (`LICENSE`, with a
@@ -133,8 +134,10 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
 - **Hotspot suggestions** — accepted suggestions are copied by a maintainer into `data/hotspots.ts`.
 - **Ad-blocker note** — `components/SupportNote.tsx` + `hooks/useAdBlocked.ts` + `lib/adblock.ts`. Only with AdSense
   configured: the loader tag's onload/onerror (set in vite.config.ts), a failed request for the loader, or a hidden
-  bait element means a blocker. `?adcheck` shows the signals in a box at the top left (and logs them to the console). On entry (after a
-  ~0.4 s check) a small non-modal card asks to allow ads (how-to for uBlock Origin / AdGuard); closing hides it for 7 days. Never a wall.
+  bait element means a blocker. `?adcheck` shows the signals in a box at the top left (and logs them to the console). On entry a centred
+  <dialog> asks to allow ads (how-to for uBlock Origin / AdGuard); X / later / Esc / backdrop closes it and hides it
+  for 7 days. The first visit without a blocker after one was seen shows a thank-you. No emoji in UI text (Linux
+  without an emoji font shows boxes); use lucide icons. Never a wall.
 - **AI issue review** — `.github/workflows/issue-review.yml` runs `scripts/review-issue.mjs` when a `translation` or
   `community-listing` issue opens (or via Run workflow + issue number). It sends the issue plus the relevant files
   (en + reported locale; or hotspots.ts + communities.ts) to Gemini and posts one Korean comment. The model gets no tools;

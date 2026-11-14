@@ -1,22 +1,31 @@
-import { useEffect, useState } from 'react';
-import { X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Heart, X } from 'lucide-react';
 import { CONFIG } from '../config';
 import { useI18n } from '../i18n';
 import { useAdBlocked } from '../hooks/useAdBlocked';
-import { SUPPORT_NOTE_KEY, isBlocked, shouldShowSupportNote } from '../lib/adblock';
+import { SUPPORT_NOTE_KEY, WAS_BLOCKED_KEY, isBlocked, supportOutcome, type SupportOutcome } from '../lib/adblock';
 
-function readClosedAt(): string | null {
+function read(key: string): string | null {
   try {
-    return localStorage.getItem(SUPPORT_NOTE_KEY);
+    return localStorage.getItem(key);
   } catch {
     return null;
   }
 }
+function write(key: string, value: string | null) {
+  try {
+    if (value === null) localStorage.removeItem(key);
+    else localStorage.setItem(key, value);
+  } catch {
+    /* private mode: the note still works for this visit */
+  }
+}
 
 /**
- * A small, polite card asking visitors with an ad blocker to allow ads on PokeNow. Never blocks the page:
- * no overlay, no focus trap, appears right after the page opens, and "Maybe later" / close hides it for a week.
- * Only rendered when AdSense is configured and a blocker is detected (hooks/useAdBlocked.ts).
+ * Asks visitors with an ad blocker to allow ads on PokeNow, and says thanks on the first visit after they did.
+ * A centred native <dialog> so it isn't missed, but always one tap to dismiss (X, "Maybe later", Esc or the
+ * backdrop); "Maybe later" / close hides it for a week. Only with AdSense configured (hooks/useAdBlocked.ts).
+ * Icons are SVG, not emoji: some systems (e.g. Linux without an emoji font) show emoji as blank boxes.
  * Class names avoid "ad" words so cosmetic filters don't hide the card itself.
  */
 export function SupportNote() {
@@ -24,13 +33,29 @@ export function SupportNote() {
   const signals = useAdBlocked(400);
   const blocked = isBlocked(signals);
   const debug = typeof location !== 'undefined' && new URLSearchParams(location.search).has('adcheck');
-  const [visible, setVisible] = useState(false);
+  const [mode, setMode] = useState<SupportOutcome>('none');
   const [howOpen, setHowOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
-  // Shown as soon as the check finishes on entry (no extra wait).
+  // Decide once the check has finished.
   useEffect(() => {
-    if (blocked && shouldShowSupportNote(readClosedAt(), Date.now())) setVisible(true);
-  }, [blocked]);
+    if (!signals) return;
+    const outcome = supportOutcome(blocked, read(WAS_BLOCKED_KEY) === '1', read(SUPPORT_NOTE_KEY), Date.now());
+    if (blocked) write(WAS_BLOCKED_KEY, '1');
+    if (outcome === 'thanks') write(WAS_BLOCKED_KEY, null);
+    setMode(outcome);
+  }, [signals, blocked]);
+
+  useEffect(() => {
+    const d = dialogRef.current;
+    if (d && mode !== 'none' && !d.open) d.showModal();
+  }, [mode]);
+
+  const close = () => {
+    if (mode === 'ask') write(SUPPORT_NOTE_KEY, String(Date.now()));
+    dialogRef.current?.close();
+    setMode('none');
+  };
 
   // ?adcheck: show the raw check result on screen (for phones without a console). Developer-only, not translated.
   const debugBox = debug && (
@@ -43,66 +68,83 @@ export function SupportNote() {
     </pre>
   );
 
-  if (!visible) return debugBox || null;
-
-  const close = () => {
-    setVisible(false);
-    try {
-      localStorage.setItem(SUPPORT_NOTE_KEY, String(Date.now()));
-    } catch {
-      /* private mode: closing still works for this visit */
-    }
-  };
-
   return (
     <>
       {debugBox}
-      <section
-        aria-labelledby="support-note-title"
-        className="fixed inset-x-3 bottom-3 z-[55] rounded-2xl border border-rule bg-night p-5 shadow-2xl shadow-black/60 sm:inset-x-auto sm:right-5 sm:bottom-5 sm:w-96 motion-safe:animate-[support-in_400ms_ease-out]"
-      >
-        <div className="flex items-start justify-between gap-3">
-          <h2 id="support-note-title" className="semi-condensed text-lg leading-snug font-bold">
-            {t.support.title}
-          </h2>
-          <button
-            type="button"
-            onClick={close}
-            aria-label={t.report.close}
-            className="-m-2 p-2 text-faint hover:text-ink focus-visible:outline-none"
-          >
-            <X className="size-5" aria-hidden />
-          </button>
-        </div>
-        <p className="mt-2 text-sm leading-relaxed text-dim">{t.support.body}</p>
+      {mode !== 'none' && (
+        <dialog
+          ref={dialogRef}
+          onClose={close}
+          onClick={(e) => e.target === e.currentTarget && close()}
+          aria-labelledby="support-note-title"
+          className="m-auto w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-rule bg-night p-0 text-ink shadow-2xl shadow-black/60 backdrop:bg-black/60 motion-safe:animate-[support-in_300ms_ease-out]"
+        >
+          <div className="p-6">
+            <div className="flex items-start justify-between gap-3">
+              <Heart
+                className={`size-7 shrink-0 ${mode === 'thanks' ? 'fill-hot text-hot' : 'text-gold'}`}
+                aria-hidden
+              />
+              <button
+                type="button"
+                onClick={close}
+                aria-label={t.support.close}
+                className="-m-2 p-2 text-faint hover:text-ink focus-visible:outline-none"
+              >
+                <X className="size-5" aria-hidden />
+              </button>
+            </div>
 
-        {howOpen && (
-          <ul className="mt-3 space-y-1.5 border-t border-rule pt-3 text-sm text-ink">
-            <li>{t.support.steps.ublock}</li>
-            <li>{t.support.steps.adguard}</li>
-            <li>{t.support.steps.other}</li>
-          </ul>
-        )}
+            {mode === 'thanks' ? (
+              <>
+                <h2 id="support-note-title" className="semi-condensed mt-3 text-2xl leading-snug font-bold">
+                  {t.support.thanksTitle}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-dim">{t.support.thanksBody}</p>
+                <button
+                  type="button"
+                  onClick={close}
+                  autoFocus
+                  className="mt-5 h-11 w-full rounded-md bg-ink text-sm font-semibold text-night"
+                >
+                  {t.support.close}
+                </button>
+              </>
+            ) : (
+              <>
+                <h2 id="support-note-title" className="semi-condensed mt-3 text-xl leading-snug font-bold">
+                  {t.support.title}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-dim">{t.support.body}</p>
 
-        <div className="mt-4 flex items-center gap-3">
-          {!howOpen && (
-            <button
-              type="button"
-              onClick={() => setHowOpen(true)}
-              className="h-10 rounded-md bg-gold px-4 text-sm font-semibold text-night"
-            >
-              {t.support.how}
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={close}
-            className="h-10 px-2 text-sm text-dim underline underline-offset-4 hover:text-ink"
-          >
-            {t.support.later}
-          </button>
-        </div>
-      </section>
+                {howOpen && (
+                  <ul className="mt-4 space-y-1.5 border-t border-rule pt-4 text-sm text-ink">
+                    <li>{t.support.steps.ublock}</li>
+                    <li>{t.support.steps.adguard}</li>
+                    <li>{t.support.steps.other}</li>
+                  </ul>
+                )}
+
+                <div className="mt-5 flex flex-col gap-2">
+                  {!howOpen && (
+                    <button
+                      type="button"
+                      onClick={() => setHowOpen(true)}
+                      autoFocus
+                      className="h-11 rounded-md bg-gold text-sm font-semibold text-night"
+                    >
+                      {t.support.how}
+                    </button>
+                  )}
+                  <button type="button" onClick={close} className="h-10 text-sm text-dim hover:text-ink">
+                    {t.support.later}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </dialog>
+      )}
     </>
   );
 }

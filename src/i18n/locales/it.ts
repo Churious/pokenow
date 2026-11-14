@@ -216,6 +216,9 @@ export const it: Messages = {
   },
   support: {
     title: 'Ti va di disattivare il blocco annunci qui?',
+    thanksTitle: 'Grazie!',
+    thanksBody: 'Grazie per aver disattivato il blocco annunci qui. Aiuta davvero a mantenere PokeNow gratuito.',
+    close: 'Chiudi',
     body: 'PokeNow è un sito gratuito fatto da una sola persona. Un piccolo annuncio basta a pagare il dominio e a tenerlo in piedi. Niente annunci che coprono la pagina, promesso.',
     how: 'Come consentirli',
     later: 'Più tardi',

@@ -214,7 +214,10 @@ export const zhTW: Messages = {
     errors: { captcha: '垃圾訊息檢查失敗，請再試一次。', missing: '請填寫必填欄位。', coords: '請用「緯度, 經度」格式，例如 37.5720, 126.9769。', tooLong: '內容太長，請縮短。', network: '無法送出，請檢查網路後再試。', generic: '無法送出回報，請稍後再試。', url: '請填寫以 https:// 開頭的完整邀請連結。' },
   },
   support: {
-    title: '可以在這裡暫時關掉廣告封鎖嗎？🥺',
+    title: '可以在這裡暫時關掉廣告封鎖嗎？',
+    thanksTitle: '謝謝你！',
+    thanksBody: '感謝你關閉廣告封鎖，PokeNow 才能繼續免費運作。',
+    close: '關閉',
     body: 'PokeNow 是一個人製作的免費網站。一則小廣告就能支撐網域和營運費用。我們保證不放遮住畫面的廣告。',
     how: '如何允許',
     later: '下次再說',
