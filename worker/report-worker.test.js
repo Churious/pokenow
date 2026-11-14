@@ -100,3 +100,29 @@ describe('worker fetch', () => {
     vi.restoreAllMocks();
   });
 });
+
+describe('community listings', () => {
+  const community = {
+    type: 'community',
+    name: 'Seoul Raiders',
+    platform: 'Discord',
+    url: 'https://discord.gg/abc',
+    hotspots: 'Seoul, City Hall',
+    languages: 'Korean',
+    ruleNoCheat: 'on',
+    ruleAdmin: 'on',
+  };
+  it('builds an issue the review script can read', () => {
+    const i = buildIssue(community);
+    expect(i.labels).toEqual(['community-listing']);
+    expect(i.title).toBe('[Community] Seoul Raiders');
+    expect(i.body).toContain('### Platform\n\nDiscord');
+    expect(i.body).toContain('### One-line description (optional)\n\n_No response_');
+  });
+  it('rejects unticked rules, unknown platforms and non-https links', () => {
+    expect(buildIssue({ ...community, ruleAdmin: '' }).error).toBe('missing_fields');
+    expect(buildIssue({ ...community, platform: 'Skype' }).error).toBe('bad_request');
+    expect(buildIssue({ ...community, url: 'http://discord.gg/abc' }).error).toBe('bad_url');
+    expect(buildIssue({ ...community, url: 'not a link' }).error).toBe('bad_url');
+  });
+});

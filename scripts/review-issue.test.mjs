@@ -19,6 +19,12 @@ describe('review-issue', () => {
     expect(parseLanguage('no language here')).toBeNull();
   });
 
+  it('reads site-form fields inside code fences', () => {
+    const site = '### Public invite link\n\n```text\nhttps://discord.gg/xyz\n```\n\n### Platform\n\nDiscord';
+    expect(formField(site, 'Public invite link')).toBe('https://discord.gg/xyz');
+    expect(formField(site, 'Platform')).toBe('Discord');
+  });
+
   it('reads issue-form fields', () => {
     expect(formField(community, 'Public invite link')).toBe('https://discord.gg/abc123');
     expect(formField(community, 'One-line description (optional)')).toBe('');
