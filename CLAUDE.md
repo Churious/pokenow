@@ -32,6 +32,7 @@ src/
 ├── data/
 │   ├── hotspots.ts          the dataset — most data PRs only touch this
 │   ├── communities.ts       free community directory
+│   ├── schedule.ts          announced events (official pokemongo.com sources only)
 │   └── cooldowns.ts         unofficial community cooldown table
 ├── lib/                     pure logic, no React, unit-tested
 │   ├── scoring.ts           ranking engine (tiers, cooldown-aware plan)
@@ -39,7 +40,8 @@ src/
 │   ├── favorites.ts         pinned ids + stable pin-first ordering
 │   ├── time.ts              Intl time-zone helpers + formatters
 │   ├── geo.ts               haversine distance, coordinate string
-│   ├── events.ts            golden-hour / Raid Hour countdowns
+│   ├── events.ts            golden-hour / Raid Hour / Spotlight Hour countdowns
+│   ├── schedule.ts          local-time event state (upcoming / live / further west)
 │   ├── routes.ts            URL → spot, relative hrefs
 │   ├── clipboard.ts         copy fallback for Copy / Share
 │   └── github.ts            issue-form URLs
@@ -96,6 +98,11 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   Tests: `lib/favorites.test.ts`.
 - **Share** — `components/ShareSpotButton.tsx`: native Web Share where available, otherwise
   clipboard. Payload = place, coordinates, current local time + UTC offset, URL.
+- **Event schedule** — `data/schedule.ts` (hand-maintained), `lib/schedule.ts`,
+  `components/EventSchedule.tsx`. Only events stated on pokemongo.com, each with its `source`;
+  omit `start`/`end` until officially announced (the UI says "time not announced", never guesses).
+  Times are local wall-clock times in every zone; an event stays listed until it has ended at UTC−12.
+  Weekly Raid Hour (Wed) and Spotlight Hour (Thu, since June 2026) are constants in `lib/scoring.ts`.
 - **Not-found page** — `scripts/site-pages.ts` emits `404.html` (noindex, `<base>` = site root,
   rewrites the URL to home) so old ids, typos and redirected links from the previous domain land
   on the app instead of GitHub's bare 404.
@@ -110,6 +117,12 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
    IANA zone, source comment).
 2. Run `npm test` (validates ids, ranges, zones) and `npm run build`.
 3. Optional: `npm run og` for the preview card.
+
+### Update the event schedule
+
+Add or edit entries in `src/data/schedule.ts` from an official pokemongo.com post (link it in
+`source`). Use the official English name. `npm test` checks ids, dates and that sources are
+pokemongo.com URLs.
 
 ### Change a translation
 

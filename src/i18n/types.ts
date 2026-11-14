@@ -196,4 +196,21 @@ export interface Messages {
     loading: string;
     viewSpot: string;
   };
+
+  schedule: {
+    title: string;
+    intro: string;
+    /** "14:00–17:00 local time" */
+    localTime: (range: string) => string;
+    timeTbd: string;
+    today: string;
+    inDays: (n: number) => string;
+    startsIn: (d: string) => string;
+    liveHere: (d: string) => string;
+    liveTodayTbd: string;
+    elsewhere: string;
+    source: string;
+    weekly: string;
+    empty: string;
+  };
 }
