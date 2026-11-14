@@ -65,7 +65,7 @@ export default function App() {
     <ToastProvider>
       <header className="border-b border-rule">
         <nav className="mx-auto flex h-14 max-w-4xl items-center justify-between px-4">
-          <a href="/" aria-label="PokeSpot home">
+          <a href={import.meta.env.BASE_URL} aria-label="PokeSpot home">
             <Logo />
           </a>
           <p className="text-sm text-dim">
