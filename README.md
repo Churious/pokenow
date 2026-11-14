@@ -92,7 +92,7 @@ Notes:
 
 ## Support the project
 
-PokeSpot is free and ad-light. If it helps your raids, you can [sponsor it on GitHub](https://github.com/sponsors/Churious). Sponsorships keep the hotspot data maintained.
+PokeSpot is free and ad-light. If it helps your raids, you can [sponsor it on GitHub](https://github.com/sponsors/WhAnci). Sponsorships keep the hotspot data maintained.
 
 ## License
 
