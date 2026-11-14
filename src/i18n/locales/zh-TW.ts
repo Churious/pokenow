@@ -113,6 +113,7 @@ export const zhTW: Messages = {
     source: 'GitHub 原始碼（MIT）',
     privacy: '隱私權政策',
     sponsor: '贊助 PokeNow',
+    translation: '回報翻譯問題',
   },
   ads: { label: '廣告', short: '廣告', close: '關閉廣告' },
   city: {

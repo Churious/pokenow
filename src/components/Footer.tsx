@@ -1,10 +1,11 @@
 import { CONFIG } from '../config';
 import { useI18n } from '../i18n';
+import { issueTemplateUrl } from '../lib/github';
 import { Logo } from './Logo';
 import { GitHubMark } from './GitHubMark';
 
 export function Footer() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   return (
     <footer className="mt-12 border-t border-rule pt-8 pb-10 text-sm text-dim">
       <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
@@ -26,6 +27,15 @@ export function Footer() {
           </a>
           <a href="privacy.html" className="px-1 text-sm text-dim underline underline-offset-4 hover:text-ink">
             {t.footer.privacy}
+          </a>
+          <a
+            // The language and page are filled into the issue form automatically.
+            href={issueTemplateUrl('translation.yml', { language: locale, page: window.location.href.split('#')[0] })}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-1 text-sm text-dim underline underline-offset-4 hover:text-ink"
+          >
+            {t.footer.translation}
           </a>
         </div>
       </div>

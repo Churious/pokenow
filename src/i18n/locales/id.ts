@@ -115,6 +115,7 @@ export const id: Messages = {
     source: 'Kode sumber di GitHub (MIT)',
     privacy: 'Kebijakan privasi',
     sponsor: 'Dukung PokeNow',
+    translation: 'Laporkan masalah terjemahan',
   },
   ads: { label: 'Iklan', short: 'Iklan', close: 'Tutup iklan' },
   city: {

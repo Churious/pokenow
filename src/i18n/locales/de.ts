@@ -113,6 +113,7 @@ export const de: Messages = {
     source: 'Quellcode auf GitHub (MIT)',
     privacy: 'Datenschutzerklärung',
     sponsor: 'PokeNow unterstützen',
+    translation: 'Übersetzungsfehler melden',
   },
   ads: { label: 'Anzeige', short: 'Anzeige', close: 'Anzeige schließen' },
   city: {

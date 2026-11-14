@@ -152,6 +152,7 @@ export interface Messages {
     source: string;
     privacy: string;
     sponsor: string;
+    translation: string;
   };
 
   ads: {

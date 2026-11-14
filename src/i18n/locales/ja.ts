@@ -113,6 +113,7 @@ export const ja: Messages = {
     source: 'GitHubのソース(MIT)',
     privacy: 'プライバシーポリシー',
     sponsor: 'PokeNowを支援する',
+    translation: '翻訳の誤りを報告',
   },
   ads: { label: '広告', short: '広告', close: '広告を閉じる' },
   city: {

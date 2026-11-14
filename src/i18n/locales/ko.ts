@@ -113,6 +113,7 @@ export const ko: Messages = {
     source: 'GitHub 소스 (MIT)',
     privacy: '개인정보처리방침',
     sponsor: 'PokeNow 후원하기',
+    translation: '번역 오류 제보',
   },
   ads: { label: '광고', short: '광고', close: '광고 닫기' },
   city: {

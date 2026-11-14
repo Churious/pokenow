@@ -58,7 +58,7 @@ src/
 ├── types/index.ts           shared domain types
 └── config.ts                env-driven config (GitHub URL, AdSense slots)
 scripts/site-pages.ts        emits <id>.html per spot, 404.html, sitemap.xml, robots.txt
-.github/ISSUE_TEMPLATE/      community.yml + hotspot.yml (GitHub issue forms)
+.github/ISSUE_TEMPLATE/      community.yml, hotspot.yml, translation.yml (GitHub issue forms)
 privacy.html                 second Vite entry
 ```
 
@@ -133,6 +133,8 @@ Nothing to maintain: it comes from the feed. If the feed format changes, update 
 fixture (`npm test` uses it). Never render the feed's image URLs.
 
 ### Change a translation
+
+Reports arrive as `translation` issues (footer link; language + page prefilled via query params).
 
 Edit `en.ts` first, then the same keys in every locale. Use the official in-game event names where
 they exist. Hotspot names (city/spot) stay in English on purpose.

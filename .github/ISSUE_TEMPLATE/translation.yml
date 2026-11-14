@@ -1,0 +1,44 @@
+name: Report a translation problem
+description: A wrong, awkward or missing translation on PokeNow.
+title: "[Translation] "
+labels: ["translation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping! One problem per issue is easiest to fix, but you can list several lines from the same page.
+
+        Event and Pokémon names come from the game in English on purpose; spot names (city, place) stay in English too.
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      description: Filled in automatically when you use the link on the site (for example ko, ja, pt-BR).
+      placeholder: ko
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: Where you saw it. Filled in automatically from the link on the site.
+      placeholder: https://pokenow.cc/
+  - type: textarea
+    id: current
+    attributes:
+      label: Text on the site now
+      description: Copy the exact words if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Better wording
+      description: How a native speaker would say it. If you're not sure, describe what's wrong instead.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else (optional)
+      description: For example the official in-game term for an event.

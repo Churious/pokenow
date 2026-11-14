@@ -115,6 +115,7 @@ export const th: Messages = {
     source: 'ซอร์สโค้ดบน GitHub (MIT)',
     privacy: 'นโยบายความเป็นส่วนตัว',
     sponsor: 'สนับสนุน PokeNow',
+    translation: 'แจ้งปัญหาการแปล',
   },
   ads: { label: 'โฆษณา', short: 'โฆษณา', close: 'ปิดโฆษณา' },
   city: {
