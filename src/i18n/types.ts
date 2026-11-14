@@ -141,6 +141,8 @@ export interface Messages {
     inDuration: (d: string) => string;
     openGoogle: string;
     openOsm: string;
+    /** Link to the official Campfire app (raids & gyms map). */
+    openCampfire: string;
     mapTitle: string;
     mapNote: string;
     otherSpots: string;

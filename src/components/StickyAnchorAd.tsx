@@ -33,8 +33,8 @@ export function StickyAnchorAd() {
   // Reserve space at the bottom of the page so the anchor never covers content.
   useEffect(() => {
     if (dismissed) return;
-    document.body.classList.add('pb-24', 'md:pb-0');
-    return () => document.body.classList.remove('pb-24', 'md:pb-0');
+    document.body.classList.add('pb-28', 'md:pb-0');
+    return () => document.body.classList.remove('pb-28', 'md:pb-0');
   }, [dismissed]);
 
   if (dismissed) return null;
@@ -50,17 +50,20 @@ export function StickyAnchorAd() {
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-rule bg-night pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
-      <div className="relative mx-auto flex max-w-md items-center justify-center px-12 py-2">
+      {/* Top row: label + close, kept off the creative. Below: the 300×50 unit. */}
+      <div className="mx-auto max-w-md px-3 pt-1 pb-2">
+        <div className="flex h-7 items-center justify-between">
+          <span className="text-[11px] text-faint">{t.ads.short}</span>
+          <button
+            type="button"
+            onClick={close}
+            aria-label={t.ads.close}
+            className="-mr-2 grid size-9 place-items-center rounded-full text-dim hover:text-ink"
+          >
+            <X className="size-4" aria-hidden />
+          </button>
+        </div>
         <AdBanner slot={CONFIG.adsense.slots.anchor} variant="anchor" hideLabel />
-        <button
-          type="button"
-          onClick={close}
-          aria-label={t.ads.close}
-          className="absolute top-1/2 right-1 grid size-10 -translate-y-1/2 place-items-center rounded-full text-dim hover:text-ink"
-        >
-          <X className="size-4" aria-hidden />
-        </button>
-        <span className="absolute top-1/2 left-3 -translate-y-1/2 text-xs text-faint">{t.ads.short}</span>
       </div>
     </div>
   );

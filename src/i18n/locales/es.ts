@@ -1,7 +1,7 @@
 import type { Messages } from '../types';
 
 export const es: Messages = {
-  languageName: 'Español',
+  languageName: 'Español (España)',
   units: { d: 'd', h: 'h', m: 'min', s: 's', spaced: false, sep: ' ', km: 'km', min: 'min' },
   nav: { home: 'Inicio de PokeSpot', language: 'Idioma', utc: 'UTC' },
   status: {
@@ -103,6 +103,7 @@ export const es: Messages = {
     inDuration: (d) => `en ${d}`,
     openGoogle: 'Abrir en Google Maps',
     openOsm: 'Abrir en OpenStreetMap',
+    openCampfire: 'Buscar incursiones en Campfire (app oficial)',
     mapTitle: 'Dónde está',
     mapNote: 'No se muestran Poképaradas ni Gimnasios: no hay datos públicos oficiales.',
     otherSpots: 'Otros buenos sitios ahora',

@@ -234,7 +234,9 @@ describe('i18n', () => {
     expect(matchLocale('pt-PT')).toBe('pt-BR');
     expect(matchLocale('zh-HK')).toBe('zh-TW');
     expect(matchLocale('zh-CN')).toBeNull();
-    expect(matchLocale('es-419')).toBe('es');
+    expect(matchLocale('es-419')).toBe('es-419');
+    expect(matchLocale('es-MX')).toBe('es-419');
+    expect(matchLocale('es-ES')).toBe('es');
     expect(matchLocale('ru')).toBeNull();
   });
 

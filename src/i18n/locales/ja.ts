@@ -103,6 +103,7 @@ export const ja: Messages = {
     inDuration: (d) => `${d}後`,
     openGoogle: 'Google マップで開く',
     openOsm: 'OpenStreetMapで開く',
+    openCampfire: 'Campfireでレイドを探す(公式アプリ)',
     mapTitle: '場所',
     mapNote: 'ポケストップとジムの位置は表示していません。公式の公開データがないためです。',
     otherSpots: '今おすすめの他のスポット',

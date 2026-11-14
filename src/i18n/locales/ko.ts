@@ -103,6 +103,7 @@ export const ko: Messages = {
     inDuration: (d) => `${d} 후`,
     openGoogle: 'Google 지도에서 열기',
     openOsm: 'OpenStreetMap에서 열기',
+    openCampfire: 'Campfire에서 실시간 레이드 찾기 (공식 앱)',
     mapTitle: '위치',
     mapNote: '포켓스톱과 체육관 위치는 표시하지 않습니다. 공식 공개 데이터가 없기 때문입니다.',
     otherSpots: '지금 추천하는 다른 성지',

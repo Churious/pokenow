@@ -15,8 +15,8 @@ PokeSpot checks the live local time of 15+ community-curated hotspots worldwide 
 - **Cooldown & soft-ban aware ranking**: tell PokeSpot where and when you last caught/spun/raided, and every spot shows its distance and remaining wait. Spots are ranked by the raid window they'll be in *when you can safely play there*. After 2 hours without an action, everything is free again.
 - 24-hour dial: every hotspot plotted at its local time, golden hour and peak window highlighted
 - Cooldown reference table (unofficial community values, rounded up to the safer side)
-- **13 languages**, the ones Pokémon GO itself supports: English, French, German, Italian, Spanish, Portuguese (Brazil), Turkish, Indonesian, Korean, Japanese, Traditional Chinese, Thai, Hindi. Auto-detected from the browser, switchable in the header.
-- **A page per hotspot** (`/<id>`): live clock, next golden hour / Raid Hour / Spotlight Hour countdowns, map, Google Maps & OpenStreetMap links. Each page has its own title, description and Open Graph tags, plus a sitemap.
+- **14 languages**, the ones Pokémon GO itself supports: English, French, German, Italian, Spanish (Spain), Spanish (Latin America), Portuguese (Brazil), Turkish, Indonesian, Korean, Japanese, Traditional Chinese, Thai, Hindi. Auto-detected from the browser, switchable in the header.
+- **A page per hotspot** (`/<id>`): live clock, next golden hour / Raid Hour / Spotlight Hour countdowns, map, Google Maps & OpenStreetMap links, and a link to the official Campfire app for live raids. Each page has its own title, description and Open Graph tags, plus a sitemap.
 - **Installable app (PWA)** with an offline app shell
 - **Maps** (Leaflet + OpenStreetMap, lazy-loaded). PokéStop / Gym locations are intentionally not shown: there's no official public data for them.
 - Mobile-first dark UI, AdSense-ready slots with policy-minded spacing

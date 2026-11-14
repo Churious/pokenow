@@ -105,6 +105,7 @@ export const th: Messages = {
     inDuration: (d) => `ในอีก ${d}`,
     openGoogle: 'เปิดใน Google Maps',
     openOsm: 'เปิดใน OpenStreetMap',
+    openCampfire: 'หาเรดใน Campfire (แอปทางการ)',
     mapTitle: 'ตำแหน่ง',
     mapNote: 'ไม่แสดงตำแหน่งโปเกสต็อปและยิม เพราะไม่มีข้อมูลสาธารณะอย่างเป็นทางการ',
     otherSpots: 'จุดดีอื่นๆ ตอนนี้',
