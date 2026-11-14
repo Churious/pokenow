@@ -153,45 +153,61 @@ async function verifyTurnstile(token, ip, secret) {
   if (ip) form.append('remoteip', ip);
   const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body: form });
   const data = await r.json().catch(() => ({}));
+  if (data.success !== true) console.warn('turnstile rejected', JSON.stringify(data['error-codes'] ?? r.status));
   return data.success === true;
 }
 
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);
     const origin = request.headers.get('Origin') || '';
     const headers = cors(origin, env);
-
-    if (url.pathname !== '/report') return json(404, { error: 'not_found' });
-    if (!headers) return json(403, { error: 'origin' });
-    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
-    if (request.method !== 'POST') return json(405, { error: 'method' }, headers);
-    if (Number(request.headers.get('Content-Length') || 0) > 16_000) return json(413, { error: 'too_long' }, headers);
-
-    let input;
     try {
-      input = await request.json();
-    } catch {
-      return json(400, { error: 'bad_request' }, headers);
+      return await handle(request, env, origin, headers);
+    } catch (err) {
+      // Keep CORS headers on failures too, or the browser only sees a "network error".
+      console.error('report failed', err instanceof Error ? err.stack || err.message : String(err));
+      return json(500, { error: 'server' }, headers ?? {});
     }
-
-    const ok = await verifyTurnstile(str(input?.turnstileToken), request.headers.get('CF-Connecting-IP'), env.TURNSTILE_SECRET);
-    if (!ok) return json(403, { error: 'captcha' }, headers);
-
-    const issue = buildIssue(input);
-    if (issue.error) return json(400, { error: issue.error }, headers);
-
-    const gh = await fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/issues`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${env.ISSUE_TOKEN}`,
-        Accept: 'application/vnd.github+json',
-        'User-Agent': 'pokenow-report-worker',
-        'X-GitHub-Api-Version': '2022-11-28',
-      },
-      body: JSON.stringify({ title: issue.title, body: issue.body, labels: issue.labels }),
-    });
-    if (!gh.ok) return json(502, { error: 'github' }, headers);
-    return json(201, { ok: true }, headers);
   },
 };
+
+async function handle(request, env, origin, headers) {
+  const url = new URL(request.url);
+  if (url.pathname !== '/report') return json(404, { error: 'not_found' });
+  if (!headers) {
+    console.warn('origin not allowed', origin || '(none)');
+    return json(403, { error: 'origin' });
+  }
+  if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
+  if (request.method !== 'POST') return json(405, { error: 'method' }, headers);
+  if (Number(request.headers.get('Content-Length') || 0) > 16_000) return json(413, { error: 'too_long' }, headers);
+
+  let input;
+  try {
+    input = await request.json();
+  } catch {
+    return json(400, { error: 'bad_request' }, headers);
+  }
+
+  const ok = await verifyTurnstile(str(input?.turnstileToken), request.headers.get('CF-Connecting-IP'), env.TURNSTILE_SECRET);
+  if (!ok) return json(403, { error: 'captcha' }, headers);
+
+  const issue = buildIssue(input);
+  if (issue.error) return json(400, { error: issue.error }, headers);
+
+  const gh = await fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/issues`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${env.ISSUE_TOKEN}`,
+      Accept: 'application/vnd.github+json',
+      'User-Agent': 'pokenow-report-worker',
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+    body: JSON.stringify({ title: issue.title, body: issue.body, labels: issue.labels }),
+  });
+  if (!gh.ok) {
+    console.error('github issue failed', gh.status, (await gh.text().catch(() => '')).slice(0, 300));
+    return json(502, { error: 'github' }, headers);
+  }
+  return json(201, { ok: true }, headers);
+}

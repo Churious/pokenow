@@ -235,7 +235,7 @@ export interface Messages {
   report: {
     translationTitle: string;
     hotspotTitle: string;
-    /** Public-issue and privacy notice shown at the top of the form. */
+    /** Public-issue and privacy notice shown next to the send button. */
     publicNote: string;
     language: string;
     current: string;
@@ -243,14 +243,12 @@ export interface Messages {
     notes: string;
     city: string;
     spot: string;
-    country: string;
-    region: string;
     coords: string;
-    coordsHint: string;
     source: string;
     sourceHint: string;
     note: string;
-    optional: string;
+    /** Reveals the optional note field. */
+    addNote: string;
     send: string;
     sending: string;
     sentTitle: string;
