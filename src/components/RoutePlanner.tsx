@@ -29,7 +29,7 @@ export function RoutePlanner({
         : travel.origin.label;
 
   return (
-    <section aria-labelledby="route-title" className="border-b border-rule py-6">
+    <section aria-labelledby="route-title" className="border-b border-rule pb-6">
       <h2 id="route-title" className="semi-condensed text-lg font-bold text-ink">
         {t.route.title}
       </h2>

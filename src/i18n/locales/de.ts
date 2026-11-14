@@ -170,5 +170,12 @@ export const de: Messages = {
     error: 'Der Eventkalender konnte nicht geladen werden. Sieh dir die offiziellen News an.',
     empty: 'Keine Events in den nächsten zwei Wochen.',
   },
-
+  tabs: {
+    label: 'Bereiche',
+    spots: 'Spots',
+    route: 'Route',
+    events: 'Events',
+    map: 'Karte',
+    guide: 'Anleitung',
+  },
 };

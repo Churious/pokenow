@@ -169,5 +169,12 @@ export const zhTW: Messages = {
     error: '無法載入活動日程，請查看官方消息。',
     empty: '未來兩週沒有活動。',
   },
-
+  tabs: {
+    label: '分頁',
+    spots: '地點',
+    route: '巡迴路線',
+    events: '活動',
+    map: '地圖',
+    guide: '指南',
+  },
 };

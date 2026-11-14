@@ -170,5 +170,12 @@ export const it: Messages = {
     error: 'Impossibile caricare il calendario. Controlla le notizie ufficiali.',
     empty: 'Nessun evento nelle prossime due settimane.',
   },
-
+  tabs: {
+    label: 'Sezioni',
+    spots: 'Posti',
+    route: 'Percorso',
+    events: 'Eventi',
+    map: 'Mappa',
+    guide: 'Guida',
+  },
 };

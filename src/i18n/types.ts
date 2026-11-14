@@ -221,4 +221,13 @@ export interface Messages {
     error: string;
     empty: string;
   };
+
+  tabs: {
+    label: string;
+    spots: string;
+    route: string;
+    events: string;
+    map: string;
+    guide: string;
+  };
 }

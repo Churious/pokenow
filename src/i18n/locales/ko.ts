@@ -169,5 +169,12 @@ export const ko: Messages = {
     error: '이벤트 일정을 불러오지 못했습니다. 공식 소식을 확인해 주세요.',
     empty: '앞으로 2주간 예정된 이벤트가 없습니다.',
   },
-
+  tabs: {
+    label: '섹션',
+    spots: '성지',
+    route: '순회 경로',
+    events: '이벤트',
+    map: '지도',
+    guide: '가이드',
+  },
 };

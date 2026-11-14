@@ -28,7 +28,7 @@ the surrounding style (2 spaces, single quotes, ~120-column lines).
 src/
 ├── main.tsx                 tiny entry: picks the language, loads bootstrap + dictionary in parallel
 ├── bootstrap.tsx            React mount (preloaded from the HTML by vite.config.ts)
-├── App.tsx                  shell: home vs. spot page, ranking, list order
+├── App.tsx                  shell: home (hero + tabs) vs. spot page, ranking, list order
 ├── data/
 │   ├── hotspots.ts          the dataset — most data PRs only touch this
 │   ├── communities.ts       free community directory
@@ -106,6 +106,9 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   every zone; with `Z` one global instant. `hooks/useGoEvents.ts` caches the last good copy for 30 min
   (`pokenow:events`). Tests use a real-data fixture in `lib/__fixtures__/`.
   Weekly Raid Hour (Wed) and Spotlight Hour (Thu, since June 2026) are constants in `lib/scoring.ts`.
+- **Home tabs** — `components/TabBar.tsx` (WAI-ARIA tabs, sticky). Hero (BestSpot) and the phone
+  cooldown panel stay above the tabs; panels: spots (default), route (+ cooldown table), events, map
+  (phones only — the desktop sidebar has it), guide. The tab is in the URL hash (`#route`, …).
 - **Not-found page** — `scripts/site-pages.ts` emits `404.html` (noindex, `<base>` = site root,
   rewrites the URL to home) so old ids, typos and redirected links from the previous domain land
   on the app instead of GitHub's bare 404.
