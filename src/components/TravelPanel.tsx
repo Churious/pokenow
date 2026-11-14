@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Hotspot, TravelState } from '../types';
 import { secondsUntilFullyFree } from '../lib/scoring';
-import { formatDuration } from '../lib/time';
+import { useI18n } from '../i18n';
 
 interface Props {
   hotspots: readonly Hotspot[];
@@ -10,11 +10,7 @@ interface Props {
   now: Date;
 }
 
-const MODES: { value: TravelState['mode']; label: string }[] = [
-  { value: 'free', label: 'Ready' },
-  { value: 'cooldown', label: 'On cooldown' },
-  { value: 'softban', label: 'Soft-banned' },
-];
+const MODES = ['free', 'cooldown', 'softban'] as const satisfies readonly TravelState['mode'][];
 
 const AGO_PRESETS = [0, 15, 30, 60, 90];
 const CUSTOM = '__custom__';
@@ -35,6 +31,7 @@ function parseCoords(text: string): { lat: number; lng: number } | null {
  * (catch, spin, raid, gym…) every spot is ready again, so the panel shows that clock too.
  */
 export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
+  const { t, dur } = useI18n();
   const firstSpot = hotspots[0];
   const [customText, setCustomText] = useState('');
   const [customError, setCustomError] = useState<string | null>(null);
@@ -63,26 +60,25 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
   return (
     <section aria-labelledby="travel-title" className="border-y border-rule py-5">
       <h2 id="travel-title" className="semi-condensed text-lg font-bold text-ink">
-        Your cooldown
+        {t.travel.title}
       </h2>
-      <p className="mt-1 max-w-prose text-sm text-dim">
-        Tell PokeSpot where you last caught, spun or raided. Spots that are still on cooldown for you move down the list.
-      </p>
+      <p className="mt-1 max-w-prose text-sm text-dim">{t.travel.intro}</p>
 
-      <div role="radiogroup" aria-label="Cooldown status" className="mt-4 grid grid-cols-3 rounded-md ring-1 ring-rule">
+      <div role="radiogroup" aria-label={t.travel.statusLabel} className="mt-4 grid grid-cols-3 rounded-md ring-1 ring-rule">
         {MODES.map((m) => {
-          const on = travel.mode === m.value;
+          const on = travel.mode === m;
+          const label = m === 'free' ? t.travel.ready : m === 'cooldown' ? t.travel.cooldown : t.travel.softban;
           return (
             <button
-              key={m.value}
+              key={m}
               role="radio"
               aria-checked={on}
-              onClick={() => setMode(m.value)}
-              className={`h-11 px-2 text-sm font-semibold first:rounded-l-md last:rounded-r-md ${
-                on ? (m.value === 'softban' ? 'bg-hot text-night' : 'bg-ink text-night') : 'text-dim hover:text-ink'
+              onClick={() => setMode(m)}
+              className={`min-h-11 px-2 py-1 text-sm leading-tight font-semibold first:rounded-l-md last:rounded-r-md ${
+                on ? (m === 'softban' ? 'bg-hot text-night' : 'bg-ink text-night') : 'text-dim hover:text-ink'
               }`}
             >
-              {m.label}
+              {label}
             </button>
           );
         })}
@@ -91,7 +87,7 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
       {active && (
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <label className="block text-sm text-dim">
-            Last action at
+            {t.travel.lastActionAt}
             <select
               className={`${field} mt-1`}
               value={selectedSpot?.id ?? CUSTOM}
@@ -106,12 +102,12 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
                   {h.city}, {h.spot}
                 </option>
               ))}
-              <option value={CUSTOM}>Other place (enter coordinates)</option>
+              <option value={CUSTOM}>{t.travel.otherPlace}</option>
             </select>
           </label>
 
           <div className="text-sm text-dim">
-            <span id="ago-label">How long ago</span>
+            <span id="ago-label">{t.travel.howLongAgo}</span>
             <div role="group" aria-labelledby="ago-label" className="mt-1 flex flex-wrap gap-1.5">
               {AGO_PRESETS.map((m) => (
                 <button
@@ -119,7 +115,7 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
                   onClick={() => onChange({ ...active, lastActionAt: now.getTime() - m * 60000 })}
                   className="h-11 rounded-md px-3 text-ink ring-1 ring-rule hover:ring-dim"
                 >
-                  {m === 0 ? 'Just now' : `${m} min`}
+                  {m === 0 ? t.travel.justNow : t.travel.minutes(m)}
                 </button>
               ))}
             </div>
@@ -127,7 +123,7 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
 
           {!selectedSpot && (
             <label className="block text-sm text-dim sm:col-span-2">
-              Coordinates of your last action
+              {t.travel.coordsLabel}
               <div className="mt-1 flex gap-2">
                 <input
                   className={field}
@@ -142,12 +138,12 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
                 <button
                   onClick={() => {
                     const c = parseCoords(customText);
-                    if (!c) return setCustomError('Use “latitude, longitude”, for example 37.5665, 126.9780.');
+                    if (!c) return setCustomError(t.travel.coordsError);
                     onChange({ ...active, origin: { ...c, label: 'your last spot' } });
                   }}
                   className="h-11 shrink-0 rounded-md bg-ink px-4 font-semibold text-night"
                 >
-                  Set
+                  {t.travel.set}
                 </button>
               </div>
               {customError && <span className="mt-1 block text-hot">{customError}</span>}
@@ -155,26 +151,22 @@ export function TravelPanel({ hotspots, travel, onChange, now }: Props) {
           )}
 
           <p className="text-sm text-ink sm:col-span-2">
-            {freeIn > 0 ? (
-              <>
-                Last action {minutesAgo === 0 ? 'just now' : `${minutesAgo} min ago`} in {active.origin.label}. Every
-                spot is ready in <strong className="text-gold">{formatDuration(freeIn)}</strong>.
-              </>
-            ) : (
-              <>Two hours have passed since your last action, so every spot is ready.</>
-            )}
+            {freeIn > 0
+              ? t.travel.summary(
+                  t.travel.minAgo(minutesAgo),
+                  active.origin.label === 'your last spot' ? t.travel.yourLastSpot : active.origin.label,
+                  dur(freeIn),
+                )
+              : t.travel.allReady}
           </p>
 
           {travel.mode === 'softban' && (
             <div className="rounded-md bg-hot/10 p-3 text-sm text-ink ring-1 ring-hot/40 sm:col-span-2">
-              <p className="font-semibold text-hot">While soft-banned</p>
+              <p className="font-semibold text-hot">{t.travel.softbanTitle}</p>
               <ul className="mt-1 list-disc space-y-1 pl-5 text-ink/90">
-                <li>Stop catching and spinning until the wait for your next spot has passed. Retrying doesn’t lift it.</li>
-                <li>Pick a spot with a short wait below, or wait out the two-hour clock above.</li>
-                <li>
-                  Set “Last action at” to where your last <em>successful</em> action happened, not where you got
-                  soft-banned.
-                </li>
+                <li>{t.travel.softban1}</li>
+                <li>{t.travel.softban2}</li>
+                <li>{t.travel.softban3}</li>
               </ul>
             </div>
           )}

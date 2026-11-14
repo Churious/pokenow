@@ -3,6 +3,7 @@ import { Check, Copy } from 'lucide-react';
 import type { Hotspot } from '../types';
 import { formatCoords } from '../lib/geo';
 import { useToast } from './Toast';
+import { useI18n } from '../i18n';
 
 /** Copies text, falling back to a hidden textarea for older / non-secure contexts. */
 async function copyText(text: string): Promise<boolean> {
@@ -39,6 +40,7 @@ interface Props {
 /** The Copy coords button used on the recommendation and every list row. */
 export function CopyCoordsButton({ hotspot, tone = 'quiet' }: Props) {
   const toast = useToast();
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
   const coords = formatCoords(hotspot);
 
@@ -46,10 +48,10 @@ export function CopyCoordsButton({ hotspot, tone = 'quiet' }: Props) {
     const ok = await copyText(coords);
     if (ok) {
       setCopied(true);
-      toast.show(`Copied ${hotspot.city}: ${coords}`);
+      toast.show(t.copy.toast(hotspot.city, coords));
       window.setTimeout(() => setCopied(false), 1500);
     } else {
-      toast.show('Couldn’t copy. Long-press the coordinates to copy them.');
+      toast.show(t.copy.failed);
     }
   };
 
@@ -66,11 +68,11 @@ export function CopyCoordsButton({ hotspot, tone = 'quiet' }: Props) {
     <button
       type="button"
       onClick={onClick}
-      aria-label={`Copy coordinates for ${hotspot.city}, ${hotspot.spot}: ${coords}`}
+      aria-label={t.copy.aria(`${hotspot.city}, ${hotspot.spot}`, coords)}
       className={`inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-semibold active:translate-y-px ${look}`}
     >
       {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" aria-hidden />}
-      {copied ? 'Copied' : 'Copy coords'}
+      {copied ? t.copy.copied : t.copy.button}
     </button>
   );
 }

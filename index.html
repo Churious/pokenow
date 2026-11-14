@@ -9,10 +9,11 @@
       content="PokeSpot finds the best Pokémon GO raid hotspot right now — live local times, Raid Hour status and one-click coordinates for 15+ global hotspots."
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <title>PokeSpot — Best Raid Spot Now</title>
     <!--
-      Google AdSense: the script is injected at runtime by src/components/AdBanner.tsx
-      only when VITE_ADSENSE_CLIENT is set, so local/dev builds never request ads.
+      Google AdSense: the loader + account meta tag are added at build time by the
+      adsense() plugin in vite.config.ts, only when VITE_ADSENSE_CLIENT is set.
     -->
   </head>
   <body class="bg-[#0B1120]">

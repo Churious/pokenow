@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { CONFIG } from '../config';
+import { useI18n } from '../i18n';
 
 /**
  * Google AdSense slot.
@@ -53,6 +54,7 @@ export function AdBanner({ slot, variant = 'display', layoutKey, className = '',
   const client = CONFIG.adsense.client;
   const enabled = Boolean(client && slot);
   const pushed = useRef(false);
+  const { t } = useI18n();
 
   useEffect(() => {
     if (!enabled || pushed.current) return;
@@ -73,9 +75,9 @@ export function AdBanner({ slot, variant = 'display', layoutKey, className = '',
         : { 'data-ad-format': 'auto', 'data-full-width-responsive': 'true' };
 
   return (
-    <aside aria-label="Advertisement" className={`w-full ${className}`}>
+    <aside aria-label={t.ads.label} className={`w-full ${className}`}>
       {!hideLabel && (
-        <p className="mb-1 text-xs text-faint">Advertisement</p>
+        <p className="mb-1 text-xs text-faint">{t.ads.label}</p>
       )}
       <div className={`flex w-full items-center justify-center overflow-hidden ${RESERVED_HEIGHT[variant]}`}>
         {enabled ? (
