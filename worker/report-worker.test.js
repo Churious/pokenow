@@ -88,4 +88,15 @@ describe('worker fetch', () => {
     expect(JSON.parse(gh[1].body).labels).toEqual(['hotspot-suggestion']);
     vi.unstubAllGlobals();
   });
+
+  it('answers with CORS headers even when something throws', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('dns'); }));
+    const r = await worker.fetch(req({ ...translation, turnstileToken: 'x' }), env);
+    expect(r.status).toBe(500);
+    expect(r.headers.get('Access-Control-Allow-Origin')).toBe('https://pokenow.cc');
+    expect(await r.json()).toEqual({ error: 'server' });
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+  });
 });
