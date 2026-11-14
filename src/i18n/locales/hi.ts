@@ -36,6 +36,7 @@ export const hi: Messages = {
     goldenIn: (d) => `गोल्डन आवर ${d} में`,
     opensIn: (d) => `${d} में शुरू`,
     details: (c) => `${c} का पेज खोलें`,
+    suggest: 'ठिकाना सुझाएँ',
   },
   route: {
     title: 'कूलडाउन मार्ग',

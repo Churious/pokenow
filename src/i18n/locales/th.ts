@@ -36,6 +36,7 @@ export const th: Messages = {
     goldenIn: (d) => `ช่วงเวลาทองในอีก ${d}`,
     opensIn: (d) => `เริ่มในอีก ${d}`,
     details: (c) => `เปิดหน้า ${c}`,
+    suggest: 'เสนอจุดใหม่',
   },
   route: {
     title: 'เส้นทางคูลดาวน์',

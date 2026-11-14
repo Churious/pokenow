@@ -34,6 +34,7 @@ export const zhTW: Messages = {
     goldenIn: (d) => `${d}後進入黃金時段`,
     opensIn: (d) => `${d}後開始`,
     details: (c) => `開啟${c}頁面`,
+    suggest: '推薦地點',
   },
   route: {
     title: '冷卻巡迴路線',

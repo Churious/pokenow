@@ -34,6 +34,7 @@ export const ja: Messages = {
     goldenIn: (d) => `ゴールデンアワーまで${d}`,
     opensIn: (d) => `${d}後に開始`,
     details: (c) => `${c}のページを開く`,
+    suggest: 'スポットを提案',
   },
   route: {
     title: 'クールダウン周回ルート',

@@ -62,6 +62,8 @@ export interface Messages {
     goldenIn: (d: string) => string;
     opensIn: (d: string) => string;
     details: (city: string) => string;
+    /** Link to the GitHub issue form for suggesting a hotspot. */
+    suggest: string;
   };
 
   route: {

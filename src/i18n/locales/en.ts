@@ -34,6 +34,7 @@ export const en: Messages = {
     goldenIn: (d) => `Golden hour in ${d}`,
     opensIn: (d) => `Opens in ${d}`,
     details: (c) => `Open the ${c} page`,
+    suggest: 'Suggest a spot',
   },
   route: {
     title: 'Cooldown route',

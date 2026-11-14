@@ -36,6 +36,7 @@ export const tr: Messages = {
     goldenIn: (d) => `Altın saate ${d}`,
     opensIn: (d) => `${d} sonra başlıyor`,
     details: (c) => `${c} sayfasını aç`,
+    suggest: 'Durak öner',
   },
   route: {
     title: 'Bekleme rotası',
