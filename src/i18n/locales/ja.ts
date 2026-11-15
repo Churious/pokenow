@@ -240,6 +240,7 @@ export const ja: Messages = {
     busy: '今ロビー賑わい中',
     weather: '天候ブースト',
     tagRecorded: '1時間タグを登録しました',
+    tagRemoved: 'タグを取り消しました',
     tagCooldown: '最近タグ済みです（15分クールダウン）',
     copyReadyHint: 'コピー完了！すぐ参加可能（距離クールダウン注意）',
     copyWaitHint: (d) => `コピー完了！捕獲・レイドまであと ${d} 待機`,

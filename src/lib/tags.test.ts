@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { applyOptimisticTag, TAG_TTL_MS, tagsEndpointFrom } from './tags';
+import { applyOptimisticTag, removeOptimisticTag, TAG_TTL_MS, tagsEndpointFrom } from './tags';
 
 describe('tags helpers', () => {
   it('derives /tags endpoint from /report URL', () => {
@@ -22,5 +22,8 @@ describe('tags helpers', () => {
 
     const next2 = applyOptimisticTag(next1, 'seoul-city-hall', 'weather', now);
     expect(next2['seoul-city-hall']?.weather?.count).toBe(1);
+
+    const removed = removeOptimisticTag(next2, 'seoul-city-hall', 'weather', now);
+    expect(removed['seoul-city-hall']?.weather).toBeUndefined();
   });
 });

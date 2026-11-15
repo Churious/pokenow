@@ -41,7 +41,7 @@ export function SpotRow({
   pinned: boolean;
   onToggleFavorite: (id: string) => void;
   tagEntries?: Partial<Record<SpotTagKind, SpotTagEntry>>;
-  onVoteTag?: (spotId: string, tag: SpotTagKind) => Promise<'voted' | 'cooldown'>;
+  onVoteTag?: (spotId: string, tag: SpotTagKind) => Promise<'voted' | 'removed'>;
 }) {
   const { t, dur, num } = useI18n();
   const { hotspot, clock, status, plan } = scored;

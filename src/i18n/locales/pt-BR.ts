@@ -241,6 +241,7 @@ export const ptBR: Messages = {
     busy: 'Salas cheias',
     weather: 'Clima favorável',
     tagRecorded: 'Marcado por 1 hora',
+    tagRemoved: 'Marcação removida',
     tagCooldown: 'Já marcado há pouco (espera de 15 min)',
     copyReadyHint: 'Copiado! Pronto agora (cooldown de distância)',
     copyWaitHint: (d) => `Copiado! Aguarde ${d} antes de capturar ou fazer reide`,

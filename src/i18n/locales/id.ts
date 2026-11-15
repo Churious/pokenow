@@ -242,6 +242,7 @@ export const id: Messages = {
     busy: 'Lobi ramai',
     weather: 'Cuaca boost',
     tagRecorded: 'Ditandai selama 1 jam',
+    tagRemoved: 'Tanda dibatalkan',
     tagCooldown: 'Baru saja ditandai (jeda 15 mnt)',
     copyReadyHint: 'Disalin! Siap sekarang (cooldown jarak berlaku)',
     copyWaitHint: (d) => `Disalin! Tunggu ${d} sebelum menangkap atau raid`,

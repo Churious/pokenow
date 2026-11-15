@@ -241,6 +241,7 @@ export const es: Messages = {
     busy: 'Salas llenas',
     weather: 'Clima potenciado',
     tagRecorded: 'Etiquetado por 1 hora',
+    tagRemoved: 'Etiqueta eliminada',
     tagCooldown: 'Ya etiquetado hace poco (espera 15 min)',
     copyReadyHint: '¡Copiado! Listo ahora (aplica enfriamiento por distancia)',
     copyWaitHint: (d) => `¡Copiado! Espera ${d} antes de capturar o hacer incursión`,

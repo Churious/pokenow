@@ -156,5 +156,15 @@ describe('live spot tags', () => {
     expect(getRes.status).toBe(200);
     const all = await getRes.json();
     expect(all.tags['tokyo-harajuku'].busy.count).toBe(1);
+
+    const removeRes = await worker.fetch(
+      tagReq('POST', { spotId: 'tokyo-harajuku', tag: 'busy', action: 'remove' }, '10.0.0.1'),
+      env,
+    );
+    expect(removeRes.status).toBe(200);
+    expect(await removeRes.json()).toMatchObject({ ok: true, entry: null });
+
+    const afterRemove = await worker.fetch(tagReq('GET'), env);
+    expect((await afterRemove.json()).tags['tokyo-harajuku']).toBeUndefined();
   });
 });

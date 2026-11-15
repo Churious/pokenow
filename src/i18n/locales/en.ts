@@ -244,6 +244,7 @@ export const en: Messages = {
     busy: 'Lobbies filling',
     weather: 'Weather boost',
     tagRecorded: 'Tagged for 1 hour',
+    tagRemoved: 'Tag removed',
     tagCooldown: 'Already tagged recently (15m cooldown)',
     copyReadyHint: 'Copied! Ready to raid now (distance cooldown applies)',
     copyWaitHint: (d) => `Copied! Wait ${d} before catching or raiding`,

@@ -301,6 +301,7 @@ export interface Messages {
     busy: string;
     weather: string;
     tagRecorded: string;
+    tagRemoved: string;
     tagCooldown: string;
     copyReadyHint: string;
     copyWaitHint: (duration: string) => string;

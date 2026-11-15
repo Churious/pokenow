@@ -241,6 +241,7 @@ export const fr: Messages = {
     busy: 'Salons actifs',
     weather: 'Boost météo',
     tagRecorded: 'Signalé pour 1 heure',
+    tagRemoved: 'Signalement annulé',
     tagCooldown: 'Déjà signalé récemment (15 min d’attente)',
     copyReadyHint: 'Copié ! Prêt maintenant (cooldown de distance)',
     copyWaitHint: (d) => `Copié ! Attendre ${d} avant de capturer ou raider`,
