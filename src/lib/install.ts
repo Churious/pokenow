@@ -34,15 +34,24 @@ export function isIos(ua: string, platform: string, maxTouchPoints: number): boo
   return /iphone|ipad|ipod/i.test(ua) || (platform === 'MacIntel' && maxTouchPoints > 1);
 }
 
+/**
+ * Phones and tablets only: on a PC the note is skipped and the browser's own install button (address bar)
+ * stays available. iOS/iPadOS, or an Android user agent.
+ */
+export function isMobileDevice(ua: string, ios: boolean): boolean {
+  return ios || /android/i.test(ua);
+}
+
 export type InstallVariant = 'prompt' | 'manual' | 'none';
 
 /**
  * What the note can offer:
  *  - prompt: Chromium fired beforeinstallprompt, so the button opens its install dialog;
  *  - manual: iOS Safari has no install API, so show the Share-sheet steps instead;
- *  - none:   Firefox, desktop Safari and others cannot install it, so stay quiet.
+ *  - none:   PCs (any browser), and phones whose browser can't install it, e.g. Firefox: stay quiet.
  */
-export function installVariant(canPrompt: boolean, ios: boolean): InstallVariant {
+export function installVariant(canPrompt: boolean, ios: boolean, mobile = true): InstallVariant {
+  if (!mobile) return 'none';
   if (canPrompt) return 'prompt';
   return ios ? 'manual' : 'none';
 }

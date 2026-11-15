@@ -124,3 +124,13 @@ body {
     transform: none;
   }
 }
+
+/* Install bar: slides down from the top edge once. */
+@keyframes install-in {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: none;
+  }
+}
