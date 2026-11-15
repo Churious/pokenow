@@ -168,7 +168,7 @@ export default defineConfig(({ mode }) => {
           // Link-preview images are for other sites' crawlers, not for offline use.
           globIgnores: ['og/**'],
           navigateFallback: 'index.html',
-          navigateFallbackDenylist: [/privacy/, /ads\.txt$/, /sitemap\.xml$/, /robots\.txt$/],
+          navigateFallbackDenylist: [/privacy/, /ads\.txt$/, /sitemap\.xml$/, /robots\.txt$/, /naver.*\.html$/],
           cleanupOutdatedCaches: true,
         },
       }),
