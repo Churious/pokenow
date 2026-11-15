@@ -4,6 +4,7 @@ import {
   INSTALL_SNOOZE_MS,
   installVariant,
   isIos,
+  isMobileDevice,
   isStandalone,
   shouldShowInstallNote,
 } from './install';
@@ -45,5 +46,19 @@ describe('install environment', () => {
     expect(installVariant(true, true)).toBe('prompt');
     expect(installVariant(false, true)).toBe('manual');
     expect(installVariant(false, false)).toBe('none');
+  });
+});
+
+describe('phones only', () => {
+  it('treats iOS and Android as mobile, everything else as a PC', () => {
+    expect(isMobileDevice('Mozilla/5.0 (Linux; Android 15; Pixel 9)', false)).toBe(true);
+    expect(isMobileDevice('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)', true)).toBe(true);
+    expect(isMobileDevice('Mozilla/5.0 (X11; Linux x86_64) Chrome/156.0', false)).toBe(false);
+    expect(isMobileDevice('Mozilla/5.0 (Windows NT 10.0; Win64; x64)', false)).toBe(false);
+  });
+  it('never offers the note on a PC, even when the browser could install', () => {
+    expect(installVariant(true, false, false)).toBe('none');
+    expect(installVariant(true, false, true)).toBe('prompt');
+    expect(installVariant(false, true, true)).toBe('manual');
   });
 });

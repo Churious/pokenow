@@ -141,9 +141,10 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   <dialog> asks to allow ads (how-to for uBlock Origin / AdGuard); X / later / Esc / backdrop closes it and hides it
   for 7 days. The first visit without a blocker after one was seen shows a thank-you. No emoji in UI text (Linux
   without an emoji font shows boxes); use lucide icons. Never a wall.
-- **Install note** — `components/InstallNote.tsx` + `hooks/useInstallPrompt.ts` + `lib/install.ts`. A bottom card
-  offering to install the app: Chromium's `beforeinstallprompt` gives a one-tap Install, iOS Safari gets the
-  Share-sheet steps (it has no install API), and other browsers are not asked at all. Hidden in the installed
+- **Install note** — `components/InstallNote.tsx` + `hooks/useInstallPrompt.ts` + `lib/install.ts`. Phones and
+  tablets only (iOS/Android; PCs keep the browser's own install button and are never asked). A slim bar pinned to
+  the top edge (clear of the bottom anchor ad): Chromium's `beforeinstallprompt` gives a one-tap Install, iOS Safari
+  gets the Share-sheet steps (it has no install API), and other browsers are not asked at all. Hidden in the installed
   app, after an install, and for 30 days after “Not now”. Tests: `lib/install.test.ts`.
 - **AI issue review** — `.github/workflows/issue-review.yml` runs `scripts/review-issue.mjs` when a `translation` or
   `community-listing` issue opens (or via Run workflow + issue number). It sends the issue plus the relevant files

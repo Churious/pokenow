@@ -4,6 +4,7 @@ import {
   INSTALL_NOTE_KEY,
   installVariant,
   isIos,
+  isMobileDevice,
   isStandalone,
   shouldShowInstallNote,
   type InstallVariant,
@@ -44,7 +45,8 @@ export interface InstallOffer {
  * Captures Chromium's beforeinstallprompt event so components/InstallNote.tsx can open the real install
  * dialog later, and decides whether the note is worth showing at all: never inside the installed app,
  * never after an install, and not for a month after "Not now" (lib/install.ts).
- * iOS Safari gets the Share-sheet steps because it has no install API. The note waits 'delayMs' so it
+ * Phones and tablets only (PCs keep the browser's own install button). iOS Safari gets the Share-sheet steps
+ * because it has no install API. The note waits 'delayMs' so it
  * does not compete with the first paint or the ad-blocker note.
  */
 export function useInstallPrompt(delayMs = 8000): InstallOffer {
@@ -57,6 +59,8 @@ export function useInstallPrompt(delayMs = 8000): InstallOffer {
       window.matchMedia('(display-mode: standalone)').matches,
       (navigator as Navigator & { standalone?: boolean }).standalone,
     );
+    // PCs: no note, and beforeinstallprompt is left alone so the browser's own install button stays.
+    if (!isMobileDevice(navigator.userAgent, ios)) return;
     if (installed || !shouldShowInstallNote(read(), Date.now())) return;
 
     let timer: number | undefined;
