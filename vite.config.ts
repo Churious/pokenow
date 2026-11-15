@@ -143,7 +143,7 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: 'autoUpdate',
         injectRegister: 'script-defer',
-        includeAssets: ['favicon.svg', 'icons/apple-touch-icon.png'],
+        includeAssets: ['favicon.svg', 'favicon.ico', 'icons/favicon-96.png', 'icons/apple-touch-icon.png'],
         manifest: {
           id: './',
           name: 'PokeNow — Best Raid Spot Now',
