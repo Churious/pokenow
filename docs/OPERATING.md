@@ -28,3 +28,11 @@ Notes:
 ## Analytics (optional)
 
 Set one repository variable to count page views without cookies: `VITE_CF_ANALYTICS_TOKEN` (Cloudflare Web Analytics) or `VITE_GOATCOUNTER_CODE` (GoatCounter; its hosted free tier is for non-commercial sites).
+
+## Leaving your own visits out of analytics
+
+Open `https://pokenow.cc/?notrack` once in each browser you use; a short note confirms it, and that browser
+stops loading the analytics script (stored in `localStorage` as `pokenow:no-analytics`). `?track` turns it back
+on. Clearing site data resets it. This only works when the site injects the beacon itself
+(`VITE_CF_ANALYTICS_TOKEN`); if Cloudflare's automatic setup also injects a beacon at the edge, turn that off.
+

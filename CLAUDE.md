@@ -88,7 +88,8 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   keep wording neutral and keep the fan-made disclaimer. Never claim to show Gym/PokéStop locations.
 - **Browser-only state.** `pokenow:travel`, `pokenow:favorites`, `pokenow:lang`, `pokenow:events` (feed
   cache), `pokenow:support-note` (when the ad-blocker note was closed), `pokenow:support-asked` (a blocker was seen;
-  next visit without one says thanks), `pokenow:install-note` (closed, or `done` once installed) live in
+  next visit without one says thanks), `pokenow:install-note` (closed, or `done` once installed), `pokenow:no-analytics` (set by
+  `?notrack`, cleared by `?track`: this browser sends no analytics, for the owner's own visits) live in
   localStorage and are never sent anywhere. Don't add a backend for a feature that doesn't need one.
 - **Static hosting.** `base: './'`, relative hrefs, all pages share one bundle. Don't hard-code the
   domain; `VITE_SITE_URL` drives canonical/OG URLs at build time.
