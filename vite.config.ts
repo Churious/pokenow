@@ -56,31 +56,45 @@ function adsense(client: string): Plugin {
  *  - VITE_CF_ANALYTICS_TOKEN → Cloudflare Web Analytics beacon
  *  - VITE_GOATCOUNTER_CODE   → GoatCounter (hosted free tier is for non-commercial sites)
  */
+/**
+ * Analytics loaders, injected only when a token is configured. They are added by a tiny inline script instead
+ * of plain <script src> tags so the site owner can leave their own visits out:
+ *   https://pokenow.cc/?notrack  → this browser stops sending page views (localStorage pokenow:no-analytics)
+ *   https://pokenow.cc/?track    → counts again
+ * A short note confirms the switch. data-cfasync=false keeps Cloudflare Rocket Loader from rewriting it.
+ */
 function analytics(cfToken: string, goatCode: string): Plugin {
   const safe = (v: string) => /^[A-Za-z0-9_-]{1,64}$/.test(v);
   return {
     name: 'pokenow-analytics',
     transformIndexHtml() {
-      const tags = [];
+      const loaders: string[] = [];
       if (cfToken && safe(cfToken)) {
-        tags.push({
-          tag: 'script',
-          attrs: {
-            defer: true,
-            src: 'https://static.cloudflareinsights.com/beacon.min.js',
-            'data-cf-beacon': JSON.stringify({ token: cfToken }),
-          },
-          injectTo: 'body' as const,
-        });
+        loaders.push(
+          `add('https://static.cloudflareinsights.com/beacon.min.js','data-cf-beacon',${JSON.stringify(
+            JSON.stringify({ token: cfToken }),
+          )},true)`,
+        );
       }
       if (goatCode && safe(goatCode)) {
-        tags.push({
-          tag: 'script',
-          attrs: { async: true, src: 'https://gc.zgo.at/count.js', 'data-goatcounter': `https://${goatCode}.goatcounter.com/count` },
-          injectTo: 'body' as const,
-        });
+        loaders.push(
+          `add('https://gc.zgo.at/count.js','data-goatcounter',${JSON.stringify(`https://${goatCode}.goatcounter.com/count`)},false)`,
+        );
       }
-      return tags;
+      if (!loaders.length) return [];
+      const code =
+        `(function(){var K='pokenow:no-analytics',q=location.search,off=false,note='';` +
+        `try{if(/[?&]notrack(=|&|$)/.test(q)){localStorage.setItem(K,'1');note='Analytics off in this browser';}` +
+        `else if(/[?&]track(=|&|$)/.test(q)){localStorage.removeItem(K);note='Analytics on again';}` +
+        `off=localStorage.getItem(K)==='1';}catch(e){}` +
+        `if(note){var n=document.createElement('div');n.textContent=note;n.style.cssText='position:fixed;left:50%;top:12px;` +
+        `transform:translateX(-50%);z-index:2147483647;background:#111;color:#fff;font:13px system-ui;padding:8px 12px;` +
+        `border-radius:6px';document.body.appendChild(n);setTimeout(function(){n.remove()},4000);}` +
+        `if(off)return;function add(src,attr,val,isDefer){var s=document.createElement('script');s.src=src;` +
+        `if(isDefer)s.defer=true;else s.async=true;s.setAttribute(attr,val);document.body.appendChild(s);}` +
+        loaders.join(';') +
+        `})();`;
+      return [{ tag: 'script', attrs: { 'data-cfasync': 'false' }, children: code, injectTo: 'body' as const }];
     },
   };
 }
