@@ -41,11 +41,12 @@ export const ko: Messages = {
     intro: '앞으로 몇 곳을 어떤 순서로 돌지 쿨다운까지 계산해 보여 줍니다. A, 대기, B, 대기, C 순서로요.',
     empty: '지금은 짤 수 있는 경로가 없습니다. 도착할 수 있는 시점에 레이드 시간대가 열려 있는 성지가 없습니다. 위의 추천 성지부터 시작하세요.',
     arrive: (time) => `현지 시각 ${time} 도착`,
+    until: (time, length) => `${time}까지 플레이 (${length})`,
     leg: (from, distance, wait) => `${from} → ${distance}, ${wait} 대기`,
     noWait: '대기 없음',
     summary: (stops, total, distance) => `${stops}곳 · 총 ${total} · ${distance}`,
-    note: (dwell) =>
-      `대기 시간은 커뮤니티 쿨다운 표를 더 안전한 쪽으로 올림한 값이며, 각 성지에서 약 ${dwell} 플레이한다고 가정합니다. 이동 전에 각 성지의 현지 시각을 확인하세요.`,
+    note:
+      '각 성지는 그 시간대를 끝까지 플레이한다고 가정합니다. 레이드 아워가 끝나는 현지 19:00까지(그 뒤에 도착하면 20:00까지) 머문 뒤, 커뮤니티 쿨다운 표를 안전한 쪽으로 올림한 시간만큼 기다려 다음 성지로 이동합니다. 이동 전에 각 성지의 현지 시각을 확인하세요.',
   },
   travel: {
     title: '내 쿨다운',

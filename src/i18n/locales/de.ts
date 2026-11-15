@@ -41,11 +41,12 @@ export const de: Messages = {
     intro: 'Die nächsten Stopps in Spielreihenfolge, samt Cooldown für jede Etappe: A → warten → B → warten → C.',
     empty: 'Gerade passt keine Route: Wenn du ankommen könntest, ist bei keinem Spot das Raid-Fenster offen. Beginne mit der Empfehlung oben.',
     arrive: (time) => `Ankunft ${time} Ortszeit`,
+    until: (time, length) => `Spielen bis ${time} (${length})`,
     leg: (from, distance, wait) => `${from} → ${distance}, ${wait} warten`,
     noWait: 'keine Wartezeit',
     summary: (stops, total, distance) => `${stops} Stopps · ${total} · ${distance} insgesamt`,
-    note: (dwell) =>
-      `Wartezeiten stammen aus der Community-Cooldown-Tabelle und sind aufgerundet; pro Stopp sind etwa ${dwell} Spielzeit angenommen. Prüfe vor dem Weiterziehen die Uhr am Stopp.`,
+    note:
+      'Jeder Stopp wird ausgespielt: durch die Raid-Stunde (bis 19:00 Ortszeit) oder bis 20:00, wenn du danach ankommst. Danach wartet die nächste Etappe den Community-Cooldown ab, aufgerundet. Prüfe vor dem Weiterziehen die Uhr am Stopp.',
   },
   travel: {
     title: 'Deine Abklingzeit',

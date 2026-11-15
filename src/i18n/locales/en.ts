@@ -43,12 +43,13 @@ export const en: Messages = {
     empty:
       'No usable route right now: no spot has a raid window open when you could arrive. The recommendation above is still the best place to start.',
     arrive: (time) => `Arrive ${time} local`,
+    until: (time, length) => `Play until ${time} (${length})`,
     leg: (from, distance, wait) => `${from} → ${distance}, wait ${wait}`,
     noWait: 'no wait',
     summary: (stops, total, distance) =>
       `${stops} ${stops === 1 ? 'stop' : 'stops'} · ${total} · ${distance} total`,
-    note: (dwell) =>
-      `Waits come from the community cooldown table and assume about ${dwell} at each stop. Check the clock at each stop before moving.`,
+    note:
+      'Each stop is played until its window is used up: through the Raid Hour (until 19:00 local), or until 20:00 if you arrive after it. The next leg then waits the community cooldown, rounded to the safer side. Check the clock at each stop before moving.',
   },
   travel: {
     title: 'Your cooldown',

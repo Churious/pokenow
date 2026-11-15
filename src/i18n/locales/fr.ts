@@ -41,11 +41,12 @@ export const fr: Messages = {
     intro: 'Les prochains arrêts dans l’ordre de jeu, temps de recharge compris : A → attente → B → attente → C.',
     empty: 'Aucun itinéraire utilisable pour l’instant : à l’heure où vous pourriez arriver, aucune fenêtre de raid n’est ouverte. Commencez par la recommandation ci-dessus.',
     arrive: (time) => `Arrivée ${time} heure locale`,
+    until: (time, length) => `Jouer jusqu’à ${time} (${length})`,
     leg: (from, distance, wait) => `${from} → ${distance}, ${wait} d’attente`,
     noWait: 'sans attente',
     summary: (stops, total, distance) => `${stops} arrêts · ${total} · ${distance} au total`,
-    note: (dwell) =>
-      `Les attentes viennent du tableau communautaire et sont arrondies à la hausse ; comptez environ ${dwell} de jeu par arrêt. Vérifiez l’heure locale avant de repartir.`,
+    note:
+      'Chaque arrêt est joué jusqu’au bout de sa plage : pendant l’Heure de Raids (jusqu’à 19:00 heure locale), ou jusqu’à 20:00 si vous arrivez après. L’étape suivante attend ensuite le cooldown communautaire, arrondi à la hausse. Vérifiez l’heure locale avant de repartir.',
   },
   travel: {
     title: 'Votre temps de recharge',

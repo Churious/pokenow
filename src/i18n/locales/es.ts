@@ -41,11 +41,12 @@ export const es: Messages = {
     intro: 'Las próximas paradas en el orden de juego, con el cooldown de cada tramo: A → espera → B → espera → C.',
     empty: 'No hay una ruta disponible ahora: a la hora a la que podrías llegar, ninguna parada tiene la ventana de incursiones abierta. Empieza por la recomendación de arriba.',
     arrive: (time) => `Llegada ${time} hora local`,
+    until: (time, length) => `Jugar hasta las ${time} (${length})`,
     leg: (from, distance, wait) => `${from} → ${distance}, ${wait} de espera`,
     noWait: 'sin espera',
     summary: (stops, total, distance) => `${stops} paradas · ${total} · ${distance} en total`,
-    note: (dwell) =>
-      `Las esperas vienen de la tabla de cooldown de la comunidad y se redondean al alza; se suponen unos ${dwell} de juego en cada parada. Comprueba la hora local antes de moverte.`,
+    note:
+      'Cada parada se juega hasta agotar su franja: durante la Hora de Incursiones (hasta las 19:00 locales) o hasta las 20:00 si llegas después. El siguiente tramo espera el cooldown de la comunidad, redondeado al alza. Comprueba la hora local antes de moverte.',
   },
   travel: {
     title: 'Tu tiempo de espera',

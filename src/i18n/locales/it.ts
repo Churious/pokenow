@@ -41,11 +41,12 @@ export const it: Messages = {
     intro: 'Le prossime tappe nell’ordine di gioco, cooldown incluso: A → attesa → B → attesa → C.',
     empty: 'Nessun percorso utilizzabile ora: quando potresti arrivare, nessuna tappa ha la finestra raid aperta. Inizia dal consiglio qui sopra.',
     arrive: (time) => `Arrivo ${time} ora locale`,
+    until: (time, length) => `Gioca fino alle ${time} (${length})`,
     leg: (from, distance, wait) => `${from} → ${distance}, ${wait} di attesa`,
     noWait: 'nessuna attesa',
     summary: (stops, total, distance) => `${stops} tappe · ${total} · ${distance} in totale`,
-    note: (dwell) =>
-      `Le attese vengono dalla tabella cooldown della community e sono arrotondate per eccesso; si prevedono circa ${dwell} di gioco a ogni tappa. Controlla l’orologio locale prima di spostarti.`,
+    note:
+      'Ogni tappa si gioca fino in fondo: per tutta l’Ora dei Raid (fino alle 19:00 locali), o fino alle 20:00 se arrivi dopo. La tappa successiva aspetta poi il cooldown della community, arrotondato per eccesso. Controlla l’orologio locale prima di spostarti.',
   },
   travel: {
     title: 'Il tuo tempo di ricarica',

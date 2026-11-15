@@ -41,11 +41,12 @@ export const ptBR: Messages = {
     intro: 'As próximas paradas na ordem de jogo, com o cooldown de cada trecho: A → espera → B → espera → C.',
     empty: 'Nenhuma rota utilizável agora: na hora em que você poderia chegar, nenhuma parada está com a janela de raids aberta. Comece pela recomendação acima.',
     arrive: (time) => `Chegada ${time} no horário local`,
+    until: (time, length) => `Jogar até ${time} (${length})`,
     leg: (from, distance, wait) => `${from} → ${distance}, ${wait} de espera`,
     noWait: 'sem espera',
     summary: (stops, total, distance) => `${stops} paradas · ${total} · ${distance} no total`,
-    note: (dwell) =>
-      `As esperas vêm da tabela de cooldown da comunidade e são arredondadas para cima; considere cerca de ${dwell} de jogo em cada parada. Confira o relógio local antes de se mover.`,
+    note:
+      'Cada parada é jogada até o fim da janela: durante a Hora da Reide (até 19:00 local) ou até 20:00 se você chegar depois. O próximo trecho espera o cooldown da comunidade, arredondado para cima. Confira o relógio local antes de se mover.',
   },
   travel: {
     title: 'Seu tempo de recarga',
