@@ -1,14 +1,14 @@
 import type { EventCalendar, ScoredHotspot, TravelState } from '../types';
-import { formatClockShort } from '../lib/time';
+import { formatClockShort, getLocalClock } from '../lib/time';
 import { spotHref } from '../lib/routes';
-import { planRoute, STOP_DWELL_SECONDS } from '../lib/planner';
+import { planRoute } from '../lib/planner';
 import { useI18n } from '../i18n';
 import { StatusMark } from './StatusBadge';
 
 /**
  * "A → wait → B → wait → C" for the next few hours.
  * The route is derived from the same ranked list as the recommendation, so the
- * first stop always agrees with the hero card. See `lib/planner.ts` for the rules.
+ * first stop is the nearest Raid Hour (usually the hero card's spot). See `lib/planner.ts` for the rules.
  */
 export function RoutePlanner({
   ranked,
@@ -46,13 +46,8 @@ export function RoutePlanner({
               const from = i === 0 ? origin : route.stops[i - 1].hotspot.city;
               const showLeg = from !== null && (i > 0 || stop.waitSeconds > 0);
               return (
-                <li
-                  key={stop.hotspot.id}
-                  className="grid grid-cols-[1.5rem_minmax(0,1fr)] gap-x-3 py-3"
-                >
-                  <span className="semi-condensed pt-1 text-right text-sm text-faint tabular-nums">
-                    {i + 1}
-                  </span>
+                <li key={stop.hotspot.id} className="grid grid-cols-[1.5rem_minmax(0,1fr)] gap-x-3 py-3">
+                  <span className="semi-condensed pt-1 text-right text-sm text-faint tabular-nums">{i + 1}</span>
                   <div className="min-w-0">
                     <p className="flex flex-wrap items-baseline gap-x-2">
                       <a
@@ -67,7 +62,12 @@ export function RoutePlanner({
                     <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm">
                       <StatusMark scored={stop.atArrival} />
                       <span className="text-dim">{t.route.arrive(formatClockShort(stop.atArrival.clock))}</span>
-                      <span className="text-dim">{t.list.endsIn(dur(stop.atArrival.secondsLeftInWindow))}</span>
+                      <span className="text-dim">
+                        {t.route.until(
+                          formatClockShort(getLocalClock(stop.leaveAt, stop.hotspot.timeZone)),
+                          dur((stop.leaveAt.getTime() - stop.arriveAt.getTime()) / 1000),
+                        )}
+                      </span>
                     </p>
                     {showLeg && from && (
                       <p className="mt-1 text-sm text-dim">
@@ -90,9 +90,7 @@ export function RoutePlanner({
               `${num(route.totalDistanceKm)} ${t.units.km}`,
             )}
           </p>
-          <p className="mt-1 max-w-prose text-xs text-faint">
-            {t.route.note(t.travel.minutes(STOP_DWELL_SECONDS / 60))}
-          </p>
+          <p className="mt-1 max-w-prose text-xs text-faint">{t.route.note}</p>
         </>
       )}
     </section>

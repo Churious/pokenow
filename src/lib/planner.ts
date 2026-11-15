@@ -1,23 +1,27 @@
 /**
- * Cooldown route planner.
+ * Cooldown route planner ("Raid Hour chase").
  *
  * `scoring.ts` answers "where should I play right now?". This module answers the
  * follow-up question: "in what order should I play the next few spots?".
  *
- * Each leg is delayed by the cooldown for the distance flown, measured from the
- * *previous* stop: the player acts there, then has to wait before acting at the
- * next one. The result is the A → wait → B → wait → C plan that distance + cooldown
- * tables alone don't give you.
+ * The plan follows how players actually chase raid windows: play a spot for its whole
+ * window, then wait out the cooldown and move to a spot whose Raid Hour is just
+ * starting — typically two to three time zones further west.
  *
  * Assumptions (kept explicit because they drive the output):
- *  - The first stop is the current recommendation (`ranked[0]`), as long as it
- *    will be inside a raid window on arrival. Its wait is the remaining cooldown
- *    already computed by `scoring.ts`.
- *  - A stop lasts `STOP_DWELL_SECONDS` (or until its window closes, if sooner).
- *    The last action is assumed to happen at the end of that stay, which makes
- *    every following wait slightly conservative.
- *  - Later stops are only added if they arrive inside a golden/peak window with
- *    at least `MIN_USABLE_SECONDS` left, within `ROUTE_HORIZON_SECONDS`.
+ *  - The first stop is the reachable spot (with the player's remaining cooldown
+ *    from `scoring.ts`) whose Raid Hour is over soonest — usually the hero
+ *    recommendation, but at 17:55 in Seoul it is Seoul rather than a peak spot
+ *    whose Raid Hour is six hours away.
+ *  - A stop lasts until its window is used up (`leaveTimeFor`): a golden-hour
+ *    stop until 19:00 local; a peak stop reached before 18:00 stays through that
+ *    day's golden hour (until 19:00); a peak stop reached after 19:00 until the
+ *    peak ends at 20:00. The last action is assumed at the end of that stay.
+ *  - Each following leg waits `cooldown(distance)` from the previous stop.
+ *  - Later stops must arrive inside a golden/peak window with at least
+ *    `MIN_USABLE_SECONDS` left, within `ROUTE_HORIZON_SECONDS`. A stop that still
+ *    gets a Raid Hour beats one that doesn't; among those, the Raid Hour that is
+ *    over soonest wins (`isBetterStop`).
  *  - A spot is never repeated.
  *
  * Pure functions only — no React, no globals — so the route is unit-testable and
@@ -27,13 +31,10 @@
 import type { EventCalendar, Hotspot, ScoredHotspot, Tier } from '../types';
 import { suggestedCooldownMinutes } from '../data/cooldowns';
 import { distanceKm } from './geo';
-import { MIN_USABLE_SECONDS, scoreHotspot } from './scoring';
+import { MIN_USABLE_SECONDS, scoreHotspot, WINDOWS } from './scoring';
 
-/** Assumed time spent at each stop (a raid plus catches/spins around it). */
-export const STOP_DWELL_SECONDS = 30 * 60;
-
-/** Never plan more than a short session ahead. */
-export const ROUTE_HORIZON_SECONDS = 6 * 60 * 60;
+/** Long enough for a chain of Raid Hours: ~1 h of play + up to 2 h of cooldown per hop. */
+export const ROUTE_HORIZON_SECONDS = 12 * 60 * 60;
 
 /** Default number of stops in a route. */
 export const MAX_ROUTE_STOPS = 3;
@@ -67,7 +68,6 @@ export interface Route {
 
 export interface PlanOptions {
   maxStops?: number;
-  dwellSeconds?: number;
   horizonSeconds?: number;
   /** Real Raid Hour / Spotlight Hour dates for the labels at each stop. */
   calendar?: EventCalendar;
@@ -75,9 +75,21 @@ export interface PlanOptions {
 
 const emptyRoute = (): Route => ({ stops: [], totalSeconds: 0, totalDistanceKm: 0 });
 
-function leaveTime(arriveAt: Date, secondsLeftInWindow: number, dwellSeconds: number): Date {
-  const playSeconds = Math.min(dwellSeconds, Math.max(0, secondsLeftInWindow));
-  return new Date(arriveAt.getTime() + playSeconds * 1000);
+/**
+ * When the player leaves a stop: once its window is used up. Golden hour → its end (19:00 local).
+ * Peak before 18:00 → stay through that day's golden hour (19:00). Peak after 19:00 → the peak's end (20:00).
+ */
+export function leaveTimeFor(arriveAt: Date, atArrival: ScoredHotspot): Date {
+  const sod = atArrival.clock.secondsOfDay;
+  let staySeconds: number;
+  if (atArrival.tier === 'golden' || atArrival.tier === 'upcoming') {
+    staySeconds = atArrival.secondsLeftInWindow;
+  } else if (sod < WINDOWS.golden.start) {
+    staySeconds = WINDOWS.golden.end - sod;
+  } else {
+    staySeconds = atArrival.secondsLeftInWindow;
+  }
+  return new Date(arriveAt.getTime() + Math.max(0, staySeconds) * 1000);
 }
 
 /**
@@ -87,26 +99,29 @@ function leaveTime(arriveAt: Date, secondsLeftInWindow: number, dwellSeconds: nu
  */
 export function planRoute(ranked: readonly ScoredHotspot[], now: Date, options: PlanOptions = {}): Route {
   const maxStops = options.maxStops ?? MAX_ROUTE_STOPS;
-  const dwellSeconds = options.dwellSeconds ?? STOP_DWELL_SECONDS;
   const horizonSeconds = options.horizonSeconds ?? ROUTE_HORIZON_SECONDS;
   if (maxStops <= 0) return emptyRoute();
 
-  // The recommendation is the first stop unless it is still outside every window.
-  const first = ranked.find((s) => s.plan.arrivalTier !== 'upcoming');
+  // First stop: the spot (with the player's current cooldown) whose Raid Hour is used up soonest, so the chase
+  // starts with the nearest Raid Hour instead of a peak spot whose Raid Hour is hours away.
+  let first: RouteStop | null = null;
+  for (const candidate of ranked) {
+    if (candidate.plan.arrivalTier === 'upcoming') continue;
+    const arriveAt = new Date(now.getTime() + candidate.plan.waitSeconds * 1000);
+    const atArrival = scoreHotspot(candidate.hotspot, arriveAt, undefined, options.calendar);
+    if (atArrival.tier === 'upcoming') continue;
+    const stop: RouteStop = {
+      hotspot: candidate.hotspot,
+      atArrival,
+      arriveAt,
+      leaveAt: leaveTimeFor(arriveAt, atArrival),
+      distanceKm: candidate.plan.distanceKm,
+      waitSeconds: candidate.plan.waitSeconds,
+    };
+    if (!first || isBetterStop(stop, first)) first = stop;
+  }
   if (!first) return emptyRoute();
-
-  const firstArriveAt = new Date(now.getTime() + first.plan.waitSeconds * 1000);
-  const firstLive = scoreHotspot(first.hotspot, firstArriveAt, undefined, options.calendar);
-  const stops: RouteStop[] = [
-    {
-      hotspot: first.hotspot,
-      atArrival: firstLive,
-      arriveAt: firstArriveAt,
-      leaveAt: leaveTime(firstArriveAt, firstLive.secondsLeftInWindow, dwellSeconds),
-      distanceKm: first.plan.distanceKm,
-      waitSeconds: first.plan.waitSeconds,
-    },
-  ];
+  const stops: RouteStop[] = [first];
   const used = new Set([first.hotspot.id]);
 
   while (stops.length < maxStops) {
@@ -114,7 +129,6 @@ export function planRoute(ranked: readonly ScoredHotspot[], now: Date, options: 
     // The last cooldown-triggering action is assumed to happen when leaving the previous stop.
     const cursor = previous.leaveAt;
     let best: RouteStop | null = null;
-    let bestWaitSeconds = 0;
 
     for (const candidate of ranked) {
       if (used.has(candidate.hotspot.id)) continue;
@@ -132,14 +146,11 @@ export function planRoute(ranked: readonly ScoredHotspot[], now: Date, options: 
         hotspot: candidate.hotspot,
         atArrival,
         arriveAt,
-        leaveAt: leaveTime(arriveAt, atArrival.secondsLeftInWindow, dwellSeconds),
+        leaveAt: leaveTimeFor(arriveAt, atArrival),
         distanceKm: km,
         waitSeconds,
       };
-      if (!best || isBetterStop(stop, best, waitSeconds, bestWaitSeconds)) {
-        best = stop;
-        bestWaitSeconds = waitSeconds;
-      }
+      if (!best || isBetterStop(stop, best)) best = stop;
     }
 
     if (!best) break;
@@ -155,23 +166,46 @@ export function planRoute(ranked: readonly ScoredHotspot[], now: Date, options: 
   };
 }
 
+/** Seconds of Raid Hour (golden hour) the stop gets: the rest of it, a full hour if it comes later that day, or 0. */
+function goldenSecondsAt(stop: RouteStop): number {
+  const { tier, secondsLeftInWindow, clock } = stop.atArrival;
+  if (tier === 'golden') return secondsLeftInWindow;
+  if (tier === 'peak' && clock.secondsOfDay < WINDOWS.golden.start) return WINDOWS.golden.end - WINDOWS.golden.start;
+  return 0;
+}
+
 /**
- * The next stop: shorter wait wins (in 10-minute buckets), then golden before
- * peak, then the earlier arrival, then the longer remaining window, then the
- * shorter leg and finally the id for stable renders.
+ * The better stop for a Raid Hour chase:
+ *  1. one that still gets a usable Raid Hour beats one that doesn't;
+ *  2. the Raid Hour that is over sooner (10-minute buckets) — the chain can move on earlier;
+ *  3. more Raid Hour minutes;
+ *  4. golden on arrival before peak; then the shorter wait (10-minute buckets), the earlier arrival, the shorter
+ *     leg and finally the id for stable renders.
  */
-function isBetterStop(a: RouteStop, b: RouteStop, waitA: number, waitB: number): boolean {
-  const bucketDiff = Math.ceil(waitA / WAIT_BUCKET_SECONDS) - Math.ceil(waitB / WAIT_BUCKET_SECONDS);
-  if (bucketDiff !== 0) return bucketDiff < 0;
+function isBetterStop(a: RouteStop, b: RouteStop): boolean {
+  const goldA = goldenSecondsAt(a);
+  const goldB = goldenSecondsAt(b);
+  const hasA = goldA >= MIN_USABLE_SECONDS;
+  const hasB = goldB >= MIN_USABLE_SECONDS;
+  if (hasA !== hasB) return hasA;
+
+  if (hasA) {
+    const endDiff =
+      Math.floor(a.leaveAt.getTime() / 1000 / WAIT_BUCKET_SECONDS) -
+      Math.floor(b.leaveAt.getTime() / 1000 / WAIT_BUCKET_SECONDS);
+    if (endDiff !== 0) return endDiff < 0;
+    const goldDiff = Math.ceil(goldA / WAIT_BUCKET_SECONDS) - Math.ceil(goldB / WAIT_BUCKET_SECONDS);
+    if (goldDiff !== 0) return goldDiff > 0;
+  }
 
   const tierA = TIER_RANK[a.atArrival.tier];
   const tierB = TIER_RANK[b.atArrival.tier];
   if (tierA !== tierB) return tierA < tierB;
 
+  const bucketDiff = Math.ceil(a.waitSeconds / WAIT_BUCKET_SECONDS) - Math.ceil(b.waitSeconds / WAIT_BUCKET_SECONDS);
+  if (bucketDiff !== 0) return bucketDiff < 0;
+
   if (a.arriveAt.getTime() !== b.arriveAt.getTime()) return a.arriveAt < b.arriveAt;
-  if (a.atArrival.secondsLeftInWindow !== b.atArrival.secondsLeftInWindow) {
-    return a.atArrival.secondsLeftInWindow > b.atArrival.secondsLeftInWindow;
-  }
   const kmA = a.distanceKm ?? 0;
   const kmB = b.distanceKm ?? 0;
   if (kmA !== kmB) return kmA < kmB;

@@ -43,11 +43,12 @@ export const id: Messages = {
     intro: 'Urutan beberapa tempat berikutnya lengkap dengan cooldown tiap bagian: A → tunggu → B → tunggu → C.',
     empty: 'Belum ada rute yang bisa dipakai: saat kamu bisa tiba, tidak ada tempat yang jendela raidnya masih terbuka. Mulai dari rekomendasi di atas.',
     arrive: (time) => `Tiba ${time} waktu setempat`,
+    until: (time, length) => `Main sampai ${time} (${length})`,
     leg: (from, distance, wait) => `${from} → ${distance}, tunggu ${wait}`,
     noWait: 'tanpa tunggu',
     summary: (stops, total, distance) => `${stops} tempat · total ${total} · ${distance}`,
-    note: (dwell) =>
-      `Waktu tunggu diambil dari tabel cooldown komunitas dan dibulatkan ke sisi aman, dengan asumsi sekitar ${dwell} bermain di tiap tempat. Periksa jam setempat sebelum berpindah.`,
+    note:
+      'Setiap tempat dimainkan sampai jendelanya habis: sepanjang Raid Hour (sampai 19:00 waktu setempat), atau sampai 20:00 jika tiba setelahnya. Perjalanan berikutnya menunggu cooldown komunitas yang dibulatkan ke sisi aman. Periksa jam setempat sebelum berpindah.',
   },
   travel: {
     title: 'Cooldown kamu',

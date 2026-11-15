@@ -41,11 +41,12 @@ export const zhTW: Messages = {
     intro: '依冷卻時間排出接下來幾站的順序：A → 等待 → B → 等待 → C。',
     empty: '目前排不出可用路線：在你能抵達的時間，沒有地點的團體戰時段還開著。請先從上方的推薦地點開始。',
     arrive: (time) => `當地 ${time} 抵達`,
+    until: (time, length) => `玩到 ${time}（${length}）`,
     leg: (from, distance, wait) => `${from} → ${distance}，等待 ${wait}`,
     noWait: '無需等待',
     summary: (stops, total, distance) => `${stops} 個地點 · 共 ${total} · ${distance}`,
-    note: (dwell) =>
-      `等待時間採社群冷卻表的保守值，並假設每個地點遊玩約 ${dwell}。移動前請確認各當地時間。`,
+    note:
+      '每個地點都假設玩到時段結束：待到團體戰時間結束的當地 19:00（若在那之後抵達則到 20:00），再依社群冷卻表的保守值等待後前往下一站。移動前請確認各當地時間。',
   },
   travel: {
     title: '我的冷卻時間',

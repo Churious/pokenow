@@ -71,11 +71,13 @@ export interface Messages {
     intro: string;
     empty: string;
     arrive: (time: string) => string;
+    /** How long the stop is played: local leave time and duration. */
+    until: (time: string, length: string) => string;
     /** "From Busan → 325 km, wait 1h 04m" */
     leg: (from: string, distance: string, wait: string) => string;
     noWait: string;
     summary: (stops: number, total: string, distance: string) => string;
-    note: (dwell: string) => string;
+    note: string;
   };
 
   travel: {

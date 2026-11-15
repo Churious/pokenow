@@ -41,7 +41,8 @@ browser. It is **source-available, not open source**: see [License](#license).
 - **Best spot now**: every spot ranked live by its local time (18:00 Raid Hour / Spotlight Hour window first, then the
   11:00–20:00 peak), re-checked every second.
 - **Cooldown-aware**: tell it where and when you last played and it ranks spots by when you can safely play there, and
-  plans the next few stops as A → wait → B → wait → C.
+  plans the next few stops as A → wait → B → wait → C: play each Raid Hour to the end, wait out the
+  cooldown, and move to where the next one is starting.
 - **Event schedule**: Raid Hours, Spotlight Hours, Community Days and current raid bosses in your local time, from the
   community-run Leek Duck calendar.
 - **A page per spot** with a live clock, countdowns, map links and a share button; pinned favourites; 14 languages.

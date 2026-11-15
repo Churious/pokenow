@@ -43,11 +43,12 @@ export const tr: Messages = {
     intro: 'Sıradaki durakların bekleme süreleriyle birlikte oynama sırası: A → bekle → B → bekle → C.',
     empty: 'Şu anda kullanılabilir rota yok: varabileceğin saatte hiçbir durağın raid penceresi açık değil. Yukarıdaki öneriyle başla.',
     arrive: (time) => `Yerel ${time} varış`,
+    until: (time, length) => `${time}’e kadar oyna (${length})`,
     leg: (from, distance, wait) => `${from} → ${distance}, ${wait} bekle`,
     noWait: 'bekleme yok',
     summary: (stops, total, distance) => `${stops} durak · toplam ${total} · ${distance}`,
-    note: (dwell) =>
-      `Bekleme süreleri topluluk bekleme tablosundan gelir ve güvenli tarafa yuvarlanır; her durakta yaklaşık ${dwell} oynandığı varsayılır. Yola çıkmadan her durağın yerel saatini kontrol et.`,
+    note:
+      'Her durak penceresi bitene kadar oynanır: Raid Hour boyunca (yerel 19:00’a kadar) ya da sonrasında varırsan 20:00’ye kadar. Sonraki etap topluluk bekleme süresini güvenli tarafa yuvarlanmış olarak bekler. Yola çıkmadan her durağın yerel saatini kontrol et.',
   },
   travel: {
     title: 'Bekleme süren',

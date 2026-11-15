@@ -101,10 +101,11 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
 
 ## Feature map (added Nov 2026)
 
-- **Cooldown route** — `lib/planner.ts`, `components/RoutePlanner.tsx`. First stop = current
-  recommendation; each stop lasts 30 min or until its window closes; later legs wait
-  `cooldown(distance)` measured from the previous stop; only golden/peak arrivals with 15+ min left,
-  max 3 stops, 6 h horizon. Tests: `lib/planner.test.ts`.
+- **Cooldown route** (Raid Hour chase) — `lib/planner.ts`, `components/RoutePlanner.tsx`. First stop = the reachable spot
+  whose Raid Hour is over soonest (usually the hero pick); each stop is played until its window is used up (`leaveTimeFor`: golden → 19:00; peak before
+  18:00 → through that day's golden hour, 19:00; peak after 19:00 → 20:00); later legs wait `cooldown(distance)`
+  from the previous stop; only golden/peak arrivals with 15+ min left; a stop with a Raid Hour still ahead beats one
+  without, then the Raid Hour that ends soonest; max 3 stops, 12 h horizon. Tests: `lib/planner.test.ts`.
 - **Pinned spots** — `lib/favorites.ts`, `hooks/useFavorites.ts`, `components/FavoriteButton.tsx`.
   Pinned rows float to the top while keeping their real rank; ordering is stable (`pinFirst`).
   Tests: `lib/favorites.test.ts`.
