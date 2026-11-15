@@ -237,4 +237,14 @@ export const de: Messages = {
     later: 'Später',
     close: 'Schließen',
   },
+  livePulse: {
+    busy: 'Lobbys voll',
+    weather: 'Wetter-Boost',
+    tagRecorded: 'Für 1 Stunde markiert',
+    tagCooldown: 'Kürzlich schon markiert (15 Min. Pause)',
+    copyReadyHint: 'Kopiert! Sofort bereit (Distanz-Cooldown beachten)',
+    copyWaitHint: (d) => `Kopiert! Noch ${d} warten vor Fang/Raid`,
+    todayBadge: (k) => `Heute: ${k}`,
+    liveNowBadge: (k) => `Jetzt aktiv: ${k}`,
+  },
 };

@@ -126,3 +126,35 @@ describe('community listings', () => {
     expect(buildIssue({ ...community, url: 'not a link' }).error).toBe('bad_url');
   });
 });
+
+describe('live spot tags', () => {
+  const env = { ALLOWED_ORIGINS: 'https://pokenow.cc' };
+  const tagReq = (method, body, ip = '1.2.3.4') =>
+    new Request('https://w.example/tags', {
+      method,
+      headers: {
+        Origin: 'https://pokenow.cc',
+        'CF-Connecting-IP': ip,
+        ...(body ? { 'Content-Type': 'application/json' } : {}),
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+
+  it('rejects invalid spotId or tag and records valid votes with 15m IP cooldown', async () => {
+    const bad = await worker.fetch(tagReq('POST', { spotId: 'BAD!', tag: 'busy' }), env);
+    expect(bad.status).toBe(400);
+
+    const ok1 = await worker.fetch(tagReq('POST', { spotId: 'tokyo-harajuku', tag: 'busy' }, '10.0.0.1'), env);
+    expect(ok1.status).toBe(200);
+    const body1 = await ok1.json();
+    expect(body1.entry.count).toBe(1);
+
+    const repeat = await worker.fetch(tagReq('POST', { spotId: 'tokyo-harajuku', tag: 'busy' }, '10.0.0.1'), env);
+    expect(repeat.status).toBe(429);
+
+    const getRes = await worker.fetch(tagReq('GET'), env);
+    expect(getRes.status).toBe(200);
+    const all = await getRes.json();
+    expect(all.tags['tokyo-harajuku'].busy.count).toBe(1);
+  });
+});

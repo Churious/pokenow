@@ -237,4 +237,14 @@ export const it: Messages = {
     later: 'Più tardi',
     close: 'Chiudi',
   },
+  livePulse: {
+    busy: 'Lobby piene',
+    weather: 'Meteo boost',
+    tagRecorded: 'Segnalato per 1 ora',
+    tagCooldown: 'Già segnalato di recente (15 min di attesa)',
+    copyReadyHint: 'Copiato! Pronto ora (si applica il cooldown)',
+    copyWaitHint: (d) => `Copiato! Attendi ${d} prima di catturare o fare raid`,
+    todayBadge: (k) => `Oggi: ${k}`,
+    liveNowBadge: (k) => `In corso: ${k}`,
+  },
 };

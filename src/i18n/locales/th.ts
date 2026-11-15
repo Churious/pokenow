@@ -238,4 +238,14 @@ export const th: Messages = {
     later: 'ไว้ทีหลัง',
     close: 'ปิด',
   },
+  livePulse: {
+    busy: 'ห้องเต็มไว',
+    weather: 'บูสต์อากาศ',
+    tagRecorded: 'แท็กสถานะ 1 ชั่วโมงแล้ว',
+    tagCooldown: 'เพิ่งแท็กไปเมื่อสักครู่ (รอ 15 นาที)',
+    copyReadyHint: 'คัดลอกแล้ว! พร้อมลุยทันที (ขึ้นกับคูลดาวน์ระยะทาง)',
+    copyWaitHint: (d) => `คัดลอกแล้ว! รอ ${d} ก่อนจับหรือตีบอส`,
+    todayBadge: (k) => `วันนี้: ${k}`,
+    liveNowBadge: (k) => `กำลังจัด: ${k}`,
+  },
 };

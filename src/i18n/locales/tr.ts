@@ -238,4 +238,14 @@ export const tr: Messages = {
     later: 'Sonra',
     close: 'Kapat',
   },
+  livePulse: {
+    busy: 'Lobiler dolu',
+    weather: 'Hava desteği',
+    tagRecorded: '1 saatliğine etiketlendi',
+    tagCooldown: 'Az önce etiketlendi (15 dk bekleme)',
+    copyReadyHint: 'Kopyalandı! Şimdi hazır (mesafe beklemesi geçerli)',
+    copyWaitHint: (d) => `Kopyalandı! Yakalama/akın öncesi ${d} bekle`,
+    todayBadge: (k) => `Bugün: ${k}`,
+    liveNowBadge: (k) => `Şu an aktif: ${k}`,
+  },
 };

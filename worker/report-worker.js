@@ -199,12 +199,71 @@ function cors(origin, env) {
   return allowed.includes(origin)
     ? {
         'Access-Control-Allow-Origin': origin,
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Max-Age': '86400',
         Vary: 'Origin',
       }
     : null;
+}
+
+const TAG_TTL_SECONDS = 3600; // 1 hour
+const TAG_VOTE_COOLDOWN_SECONDS = 900; // 15 minutes per IP + spot + tag
+const VALID_TAGS = new Set(['busy', 'weather']);
+const SPOT_ID_RE = /^[a-z0-9-]{2,50}$/;
+const TAGS_INDEX_KEY = 'spot-tags:v1';
+const memTags = new Map();
+const memVotes = new Map();
+
+function pruneExpiredTags(rawTags, now = Date.now()) {
+  const cutoff = now - TAG_TTL_SECONDS * 1000;
+  const out = {};
+  for (const [spotId, entry] of Object.entries(rawTags || {})) {
+    if (!entry || typeof entry !== 'object') continue;
+    const next = {};
+    for (const key of ['busy', 'weather']) {
+      const item = entry[key];
+      if (item && typeof item.count === 'number' && item.count > 0 && typeof item.updatedAt === 'number' && item.updatedAt > cutoff) {
+        next[key] = { count: item.count, updatedAt: item.updatedAt };
+      }
+    }
+    if (next.busy || next.weather) out[spotId] = next;
+  }
+  return out;
+}
+
+async function readAllTags(env, now = Date.now()) {
+  if (env?.SPOT_TAGS) {
+    const stored = await env.SPOT_TAGS.get(TAGS_INDEX_KEY, 'json').catch(() => null);
+    return pruneExpiredTags(stored || {}, now);
+  }
+  const obj = {};
+  for (const [k, v] of memTags.entries()) obj[k] = v;
+  return pruneExpiredTags(obj, now);
+}
+
+async function writeAllTags(env, tags) {
+  if (env?.SPOT_TAGS) {
+    await env.SPOT_TAGS.put(TAGS_INDEX_KEY, JSON.stringify(tags), { expirationTtl: TAG_TTL_SECONDS });
+    return;
+  }
+  memTags.clear();
+  for (const [k, v] of Object.entries(tags)) memTags.set(k, v);
+}
+
+async function canVoteTag(env, ip, spotId, tag, now = Date.now()) {
+  if (!ip) return true;
+  const voteKey = `vote:${ip}:${spotId}:${tag}`;
+  if (env?.SPOT_TAGS) {
+    const exists = await env.SPOT_TAGS.get(voteKey);
+    if (exists) return false;
+    await env.SPOT_TAGS.put(voteKey, '1', { expirationTtl: TAG_VOTE_COOLDOWN_SECONDS });
+    return true;
+  }
+  const exp = memVotes.get(voteKey);
+  if (exp && exp > now) return false;
+  memVotes.set(voteKey, now + TAG_VOTE_COOLDOWN_SECONDS * 1000);
+  return true;
 }
 
 const json = (status, data, headers = {}) =>
@@ -245,6 +304,44 @@ export default {
 
 async function handle(request, env, origin, headers) {
   const url = new URL(request.url);
+  if (url.pathname === '/tags') {
+    if (!headers) {
+      console.warn('origin not allowed', origin || '(none)');
+      return json(403, { error: 'origin' });
+    }
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
+    if (request.method === 'GET') {
+      const tags = await readAllTags(env);
+      return json(200, { tags }, { ...headers, 'Cache-Control': 'public, max-age=15' });
+    }
+    if (request.method === 'POST') {
+      let body;
+      try {
+        body = await request.json();
+      } catch {
+        return json(400, { error: 'bad_request' }, headers);
+      }
+      const spotId = str(body?.spotId);
+      const tag = str(body?.tag);
+      if (!SPOT_ID_RE.test(spotId) || !VALID_TAGS.has(tag)) {
+        return json(400, { error: 'bad_request' }, headers);
+      }
+      const ip = request.headers.get('CF-Connecting-IP') || '';
+      const allowed = await canVoteTag(env, ip, spotId, tag);
+      if (!allowed) return json(429, { error: 'cooldown' }, headers);
+
+      const now = Date.now();
+      const all = await readAllTags(env, now);
+      const current = all[spotId] || {};
+      const prevCount = current[tag]?.count ?? 0;
+      const entry = { count: prevCount + 1, updatedAt: now };
+      all[spotId] = { ...current, [tag]: entry };
+      await writeAllTags(env, all);
+      return json(200, { ok: true, spotId, tag, entry }, headers);
+    }
+    return json(405, { error: 'method' }, headers);
+  }
+
   if (url.pathname !== '/report') return json(404, { error: 'not_found' });
   if (!headers) {
     console.warn('origin not allowed', origin || '(none)');
