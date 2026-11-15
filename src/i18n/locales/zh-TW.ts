@@ -264,4 +264,18 @@ export const zhTW: Messages = {
       notConfigured: '授權伺服器尚未設定。',
     },
   },
+  proFeatures: {
+    alertsOn: '通知已開啟',
+    alertsOff: '通知',
+    alertsDenied: '瀏覽器通知已被封鎖',
+    cooldownDoneTitle: 'PokeNow: 冷卻時間結束',
+    cooldownDoneBody: '現在可以在目標地點開始遊玩。',
+    goldenSoonTitle: (city) => `${city}: 18:00 黃金時段倒數 10 分鐘`,
+    goldenSoonBody: '當地 18:00 即將開始。',
+    timeShift: '時間預覽',
+    timeShiftNow: '即時',
+    timeShiftPlus: (h) => `+${h}小時`,
+    savePreset: '儲存預設',
+    presetsLabel: '已儲存據點',
+  },
 };

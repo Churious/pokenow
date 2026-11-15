@@ -266,4 +266,18 @@ export const hi: Messages = {
       notConfigured: 'लाइसेंस सर्वर अभी कॉन्फ़िगर नहीं है।',
     },
   },
+  proFeatures: {
+    alertsOn: 'अलर्ट चालू',
+    alertsOff: 'अलर्ट',
+    alertsDenied: 'ब्राउज़र सूचनाएँ अवरुद्ध हैं',
+    cooldownDoneTitle: 'PokeNow: कूलडाउन पूरा',
+    cooldownDoneBody: 'अब आप अपने लक्ष्य स्थान पर खेल सकते हैं।',
+    goldenSoonTitle: (city) => `${city}: 18:00 गोल्डन ऑवर 10 मिनट में`,
+    goldenSoonBody: 'स्थानीय 18:00 जल्द ही शुरू होगा।',
+    timeShift: 'समय पूर्वावलोकन',
+    timeShiftNow: 'लाइव',
+    timeShiftPlus: (h) => `+${h}घं`,
+    savePreset: 'प्रीसेट सहेजें',
+    presetsLabel: 'सहेजे गए स्थान',
+  },
 };

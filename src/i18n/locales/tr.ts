@@ -266,4 +266,18 @@ export const tr: Messages = {
       notConfigured: 'Lisans sunucusu henüz yapılandırılmadı.',
     },
   },
+  proFeatures: {
+    alertsOn: 'Uyarılar açık',
+    alertsOff: 'Uyarılar',
+    alertsDenied: 'Tarayıcı bildirimleri engellendi',
+    cooldownDoneTitle: 'PokeNow: Bekleme süresi doldu',
+    cooldownDoneBody: 'Hedef noktada oynamaya hazırsınız.',
+    goldenSoonTitle: (city) => `${city}: Altın Saat <10 dk içinde`,
+    goldenSoonBody: 'Yerel saat 18:00 başlamak üzere.',
+    timeShift: 'Zaman önizleme',
+    timeShiftNow: 'Canlı',
+    timeShiftPlus: (h) => `+${h}sa`,
+    savePreset: 'Kaydet',
+    presetsLabel: 'Kayıtlı yerler',
+  },
 };

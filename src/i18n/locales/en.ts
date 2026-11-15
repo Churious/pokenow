@@ -268,4 +268,18 @@ export const en: Messages = {
       notConfigured: 'License server is not configured yet.',
     },
   },
+  proFeatures: {
+    alertsOn: 'Alerts on',
+    alertsOff: 'Alerts',
+    alertsDenied: 'Browser notifications blocked',
+    cooldownDoneTitle: 'PokeNow: Cooldown complete',
+    cooldownDoneBody: 'You are ready to play at your target spot.',
+    goldenSoonTitle: (city) => `${city}: Golden Hour in <10 min`,
+    goldenSoonBody: '18:00 local time is about to start.',
+    timeShift: 'Time-shift',
+    timeShiftNow: 'Live',
+    timeShiftPlus: (h) => `+${h}h`,
+    savePreset: 'Save preset',
+    presetsLabel: 'Saved spots',
+  },
 };

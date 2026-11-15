@@ -320,4 +320,19 @@ export interface Messages {
       notConfigured: string;
     };
   };
+
+  proFeatures: {
+    alertsOn: string;
+    alertsOff: string;
+    alertsDenied: string;
+    cooldownDoneTitle: string;
+    cooldownDoneBody: string;
+    goldenSoonTitle: (city: string) => string;
+    goldenSoonBody: string;
+    timeShift: string;
+    timeShiftNow: string;
+    timeShiftPlus: (h: number) => string;
+    savePreset: string;
+    presetsLabel: string;
+  };
 }

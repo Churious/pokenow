@@ -264,4 +264,18 @@ export const ja: Messages = {
       notConfigured: 'ライセンスサーバーがまだ設定されていません。',
     },
   },
+  proFeatures: {
+    alertsOn: '通知オン',
+    alertsOff: '通知',
+    alertsDenied: 'ブラウザの通知がブロックされています',
+    cooldownDoneTitle: 'PokeNow: クールダウン完了',
+    cooldownDoneBody: '次のスポットですぐにプレイできます。',
+    goldenSoonTitle: (city) => `${city}: 18時ゴールデンアワー10分前`,
+    goldenSoonBody: 'まもなく現地18:00が始まります。',
+    timeShift: 'タイムシフト',
+    timeShiftNow: '現在',
+    timeShiftPlus: (h) => `+${h}時間`,
+    savePreset: 'プリセット保存',
+    presetsLabel: '保存済み拠点',
+  },
 };
