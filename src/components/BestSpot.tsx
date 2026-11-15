@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { ScoredHotspot, TravelState } from '../types';
 import { formatClock, getUtcOffsetLabel } from '../lib/time';
 import { formatCoords } from '../lib/geo';
@@ -6,7 +7,7 @@ import { useI18n } from '../i18n';
 import type { Messages } from '../i18n/types';
 import { CopyCoordsButton } from './CopyCoordsButton';
 import { StatusMark, eventName } from './StatusBadge';
-import { Dial } from './Dial';
+import { Dial, type DialVariant } from './Dial';
 
 function arrivalSentence(s: ScoredHotspot, t: Messages, dur: (n: number) => string): string {
   const { plan } = s;
@@ -24,9 +25,16 @@ function arrivalSentence(s: ScoredHotspot, t: Messages, dur: (n: number) => stri
   return t.best.allQuiet(dur(s.plan.secondsUntilUsable));
 }
 
+const DIAL_VARIANTS: Array<{ id: DialVariant; label: string }> = [
+  { id: 'radar', label: 'Radar' },
+  { id: 'arc', label: 'Peak Arc' },
+  { id: 'classic', label: 'Classic' },
+];
+
 /** The recommendation: the 24-hour dial plus the best spot's details. */
 export function BestSpot({ ranked, now, travel }: { ranked: ScoredHotspot[]; now: Date; travel: TravelState }) {
   const { t, dur, num, weekday } = useI18n();
+  const [dialVariant, setDialVariant] = useState<DialVariant>('radar');
   const best = ranked[0];
   if (!best) return null;
   const { hotspot, clock } = best;
@@ -43,8 +51,29 @@ export function BestSpot({ ranked, now, travel }: { ranked: ScoredHotspot[]; now
       className="relative py-5 md:grid md:grid-cols-[340px_1fr] md:items-center md:gap-10 md:py-6 xl:grid-cols-[380px_1fr] xl:py-10"
     >
       {/* Phones: a small dial beside the name so the answer and the tabs fit the first screen. */}
-      <div className="absolute top-5 right-0 w-[6.5rem] rounded-full bg-deck p-1 sm:w-36 md:static md:mx-auto md:w-full md:max-w-[340px] md:p-2 xl:max-w-[380px]">
-        <Dial ranked={ranked} bestId={hotspot.id} label={t.best.dialLabel} />
+      <div className="absolute top-5 right-0 flex flex-col items-center gap-2 md:static md:mx-auto md:w-full md:max-w-[340px] xl:max-w-[380px]">
+        <div className="w-[6.5rem] rounded-full bg-deck p-1 sm:w-36 md:w-full md:p-2">
+          <Dial ranked={ranked} bestId={hotspot.id} label={t.best.dialLabel} variant={dialVariant} />
+        </div>
+        <div
+          className="hidden rounded-full border border-rule bg-deck p-0.5 text-[11px] md:inline-flex"
+          role="group"
+          aria-label="Clock design preview"
+        >
+          {DIAL_VARIANTS.map((v) => (
+            <button
+              key={v.id}
+              type="button"
+              onClick={() => setDialVariant(v.id)}
+              aria-pressed={dialVariant === v.id}
+              className={`rounded-full px-2.5 py-0.5 font-medium transition ${
+                dialVariant === v.id ? 'bg-rule text-ink' : 'text-dim hover:text-ink'
+              }`}
+            >
+              {v.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="min-w-0">
@@ -83,6 +112,28 @@ export function BestSpot({ ranked, now, travel }: { ranked: ScoredHotspot[]; now
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <code className="font-sans text-lg font-semibold text-ink select-all">{formatCoords(hotspot)}</code>
           <CopyCoordsButton hotspot={hotspot} tone="primary" />
+        </div>
+
+        <div className="mt-4 md:hidden">
+          <div
+            className="inline-flex rounded-full border border-rule bg-deck p-0.5 text-[11px]"
+            role="group"
+            aria-label="Clock design preview"
+          >
+            {DIAL_VARIANTS.map((v) => (
+              <button
+                key={v.id}
+                type="button"
+                onClick={() => setDialVariant(v.id)}
+                aria-pressed={dialVariant === v.id}
+                className={`rounded-full px-2.5 py-0.5 font-medium transition ${
+                  dialVariant === v.id ? 'bg-rule text-ink' : 'text-dim hover:text-ink'
+                }`}
+              >
+                {v.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </section>
