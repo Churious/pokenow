@@ -319,7 +319,7 @@ describe('platform detection for store links', () => {
   });
 });
 
-import { communitiesFor, type Community } from '../data/communities';
+import { allCommunities, communitiesFor, type Community } from '../data/communities';
 
 describe('community directory', () => {
   const base = { platform: 'discord' as const, url: 'https://example.com', languages: ['en'], checkedAt: '2026-11-15' };
@@ -331,5 +331,8 @@ describe('community directory', () => {
     expect(communitiesFor('busan-seomyeon', list).map((c) => c.id)).toEqual(['busan', 'global']);
     expect(communitiesFor('tokyo-shinjuku', list).map((c) => c.id)).toEqual(['global']);
     expect(communitiesFor(null, list).map((c) => c.id)).toEqual(['global']);
+  });
+  it('lists global communities first, then local ones for the full directory', () => {
+    expect(allCommunities([list[1], list[0]]).map((c) => c.id)).toEqual(['global', 'busan']);
   });
 });

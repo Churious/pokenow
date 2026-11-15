@@ -12,7 +12,7 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Map as MapIcon, Plus } from 'lucide-react';
 
 import { HOTSPOTS } from './data/hotspots';
 import { rankHotspots } from './lib/scoring';
@@ -43,6 +43,7 @@ import { LazyMap } from './components/LazyMap';
 import { AdBanner } from './components/AdBanner';
 import { StickyAnchorAd } from './components/StickyAnchorAd';
 import { SupportNote } from './components/SupportNote';
+import { InstallNote } from './components/InstallNote';
 import { CooldownGuide } from './components/CooldownGuide';
 import { HowItWorks } from './components/HowItWorks';
 import { Footer } from './components/Footer';
@@ -53,7 +54,7 @@ const FILTERS: RegionFilter[] = ['All', 'Asia-Pacific', 'Europe & Middle East', 
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
-const HOME_TABS = ['spots', 'route', 'events', 'map', 'guide'] as const;
+const HOME_TABS = ['spots', 'route', 'events', 'communities', 'guide'] as const;
 type HomeTab = (typeof HOME_TABS)[number];
 const tabFromHash = (): HomeTab => {
   const h = window.location.hash.slice(1);
@@ -69,6 +70,7 @@ export default function App() {
   const [spot] = useState(() => currentSpot());
   const isLarge = useMediaQuery(MQ.lg);
   const [tab, setTab] = useState<HomeTab>(tabFromHash);
+  const [showMapMobile, setShowMapMobile] = useState(() => window.location.hash === '#map');
 
   // The tab lives in the URL hash (#route, #events, …) so it survives reloads and can be shared.
   const selectTab = (next: HomeTab) => {
@@ -76,14 +78,17 @@ export default function App() {
     history.replaceState(null, '', next === 'spots' ? location.pathname + location.search : `#${next}`);
   };
   useEffect(() => {
-    const onHash = () => setTab(tabFromHash());
+    const onHash = () => {
+      if (window.location.hash === '#map') {
+        setTab('spots');
+        setShowMapMobile(true);
+      } else {
+        setTab(tabFromHash());
+      }
+    };
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
-  // The map tab only exists on phones; on desktop the sidebar shows the map.
-  useEffect(() => {
-    if (isLarge && tab === 'map') setTab('spots');
-  }, [isLarge, tab]);
 
   // Desktop-only sticky 300×250 unit (the mobile anchor is the sticky unit on phones).
   const sidebarAd = isLarge ? (
@@ -170,8 +175,7 @@ export default function App() {
                   { key: 'spots', label: t.tabs.spots },
                   { key: 'route', label: t.tabs.route },
                   { key: 'events', label: t.tabs.events },
-                  // The desktop sidebar already shows the map and communities.
-                  { key: 'map', label: t.tabs.map, className: 'lg:hidden' },
+                  { key: 'communities', label: t.tabs.communities },
                   { key: 'guide', label: t.tabs.guide },
                 ]}
               />
@@ -179,12 +183,6 @@ export default function App() {
               <div id={`panel-${tab}`} role="tabpanel" aria-labelledby={`tab-${tab}`} className="pt-6">
                 {tab === 'spots' && (
                   <>
-                    <AdBanner
-                      slot={CONFIG.adsense.slots.inFeed}
-                      variant="in-feed"
-                      layoutKey={CONFIG.adsense.inFeedLayoutKey}
-                      className="mb-8"
-                    />
                     <section aria-labelledby="all-spots-title">
                       <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-rule pb-3">
                         <div className="min-w-0">
@@ -193,7 +191,7 @@ export default function App() {
                           </h2>
                           {favorites.length > 0 && <p className="mt-1 text-xs text-faint">{t.favorites.hint}</p>}
                         </div>
-                        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                           <div role="group" aria-label={t.list.regionFilter} className="flex gap-2 overflow-x-auto p-px">
                             {FILTERS.map((f) => {
                               const on = region === f;
@@ -212,6 +210,17 @@ export default function App() {
                               );
                             })}
                           </div>
+                          <button
+                            type="button"
+                            aria-pressed={showMapMobile}
+                            onClick={() => setShowMapMobile((v) => !v)}
+                            className={`inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full px-3 text-sm whitespace-nowrap lg:hidden ${
+                              showMapMobile ? 'bg-ink font-semibold text-night' : 'text-dim ring-1 ring-rule hover:text-ink'
+                            }`}
+                          >
+                            <MapIcon className="size-3.5" aria-hidden />
+                            {t.map.title}
+                          </button>
                           <ReportLink
                             kind="hotspot"
                             className="inline-flex h-9 items-center gap-1.5 text-sm font-medium whitespace-nowrap text-dim underline underline-offset-4 hover:text-ink"
@@ -222,8 +231,14 @@ export default function App() {
                         </div>
                       </div>
 
+                      {showMapMobile && !isLarge && (
+                        <div className="mt-4">
+                          <LazyMap spots={ranked} bestId={ranked[0]?.hotspot.id} heightClass="h-80 md:h-96" />
+                        </div>
+                      )}
+
                       <ul className="md:grid md:grid-cols-2 md:gap-x-10 xl:grid-cols-[1.25rem_minmax(8rem,1fr)_auto_minmax(11rem,1.2fr)_auto] xl:gap-x-5">
-                        {ordered.map(({ scored, rank }) => (
+                        {ordered.slice(0, 4).map(({ scored, rank }) => (
                           <SpotRow
                             key={scored.hotspot.id}
                             scored={scored}
@@ -234,6 +249,28 @@ export default function App() {
                           />
                         ))}
                       </ul>
+
+                      <AdBanner
+                        slot={CONFIG.adsense.slots.inFeed}
+                        variant="in-feed"
+                        layoutKey={CONFIG.adsense.inFeedLayoutKey}
+                        className="my-6"
+                      />
+
+                      {ordered.length > 4 && (
+                        <ul className="md:grid md:grid-cols-2 md:gap-x-10 xl:grid-cols-[1.25rem_minmax(8rem,1fr)_auto_minmax(11rem,1.2fr)_auto] xl:gap-x-5">
+                          {ordered.slice(4).map(({ scored, rank }) => (
+                            <SpotRow
+                              key={scored.hotspot.id}
+                              scored={scored}
+                              rank={rank}
+                              now={now}
+                              pinned={pinned.has(scored.hotspot.id)}
+                              onToggleFavorite={toggleFavorite}
+                            />
+                          ))}
+                        </ul>
+                      )}
                     </section>
                   </>
                 )}
@@ -241,25 +278,37 @@ export default function App() {
                 {tab === 'route' && (
                   <div className="space-y-10">
                     <RoutePlanner ranked={ranked} now={now} travel={travel} calendar={calendar} />
+                    <AdBanner
+                      slot={CONFIG.adsense.slots.inFeed}
+                      variant="in-feed"
+                      layoutKey={CONFIG.adsense.inFeedLayoutKey}
+                    />
                     <CooldownGuide />
                   </div>
                 )}
 
-                {tab === 'events' && <EventSchedule now={now} feed={feed} />}
+                {tab === 'events' && (
+                  <>
+                    <EventSchedule now={now} feed={feed} />
+                    <AdBanner
+                      slot={CONFIG.adsense.slots.inFeed}
+                      variant="in-feed"
+                      layoutKey={CONFIG.adsense.inFeedLayoutKey}
+                      className="mt-8"
+                    />
+                  </>
+                )}
 
-                {tab === 'map' && (
-                  <div className="space-y-10">
-                    <section aria-labelledby="map-title">
-                      <h2 id="map-title" className="semi-condensed text-lg font-bold text-ink">
-                        {t.map.title}
-                      </h2>
-                      <p className="mt-1 text-sm text-dim">{t.map.intro}</p>
-                      <div className="mt-3">
-                        <LazyMap spots={ranked} bestId={ranked[0]?.hotspot.id} heightClass="h-96 md:h-[30rem]" />
-                      </div>
-                    </section>
-                    <CommunityList hotspotId={null} compact />
-                  </div>
+                {tab === 'communities' && (
+                  <>
+                    <CommunityList hotspotId={null} showAll />
+                    <AdBanner
+                      slot={CONFIG.adsense.slots.inFeed}
+                      variant="in-feed"
+                      layoutKey={CONFIG.adsense.inFeedLayoutKey}
+                      className="mt-8"
+                    />
+                  </>
                 )}
 
                 {tab === 'guide' && (
@@ -286,7 +335,7 @@ export default function App() {
                     <LazyMap spots={ranked} bestId={ranked[0]?.hotspot.id} heightClass="h-64" />
                   </div>
                 </section>
-                <CommunityList hotspotId={null} compact />
+                <CommunityList hotspotId={null} compact maxItems={3} onViewAll={() => selectTab('communities')} />
                 {sidebarAd}
               </aside>
             )}
@@ -298,6 +347,7 @@ export default function App() {
 
       <StickyAnchorAd />
       <SupportNote />
+      <InstallNote />
       </ReportProvider>
     </ToastProvider>
   );

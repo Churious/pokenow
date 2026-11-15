@@ -175,7 +175,7 @@ export const zhTW: Messages = {
     spots: '地點',
     route: '巡迴路線',
     events: '活動',
-    map: '地圖',
+    communities: '社群',
     guide: '指南',
   },
   report: {
@@ -226,5 +226,13 @@ export const zhTW: Messages = {
       adguard: 'AdGuard：點擊圖示 → 關閉此網站的保護',
       other: '其他：把 pokenow.cc 加入允許清單',
     },
+  },
+  install: {
+    title: '把 PokeNow 安裝成 App',
+    body: '加到主畫面後會以全螢幕開啟，一點就開，沒有網路時介面也能打開。',
+    iosBody: '點一下分享按鈕，再選「加入主畫面」，就會像 App 一樣全螢幕開啟。',
+    install: '安裝',
+    later: '稍後',
+    close: '關閉',
   },
 };

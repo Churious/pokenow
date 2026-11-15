@@ -177,7 +177,7 @@ export const id: Messages = {
     spots: 'Tempat',
     route: 'Rute',
     events: 'Event',
-    map: 'Peta',
+    communities: 'Komunitas',
     guide: 'Panduan',
   },
   report: {
@@ -228,5 +228,13 @@ export const id: Messages = {
       adguard: 'AdGuard: klik ikonnya → matikan perlindungan untuk situs ini',
       other: 'Lainnya: tambahkan pokenow.cc ke daftar yang diizinkan',
     },
+  },
+  install: {
+    title: 'Pasang PokeNow sebagai aplikasi',
+    body: 'Tambahkan ke layar utama: layar penuh, sekali ketuk, dan halaman tetap terbuka saat offline.',
+    iosBody: 'Ketuk tombol “Bagikan”, lalu pilih “Tambahkan ke Layar Utama”. Terbuka layar penuh seperti aplikasi.',
+    install: 'Pasang',
+    later: 'Nanti',
+    close: 'Tutup',
   },
 };

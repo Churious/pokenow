@@ -175,7 +175,7 @@ export const ko: Messages = {
     spots: '성지',
     route: '순회 경로',
     events: '이벤트',
-    map: '지도',
+    communities: '커뮤니티',
     guide: '가이드',
   },
   report: {
@@ -226,5 +226,13 @@ export const ko: Messages = {
       adguard: 'AdGuard: 아이콘 클릭 → 이 사이트 보호 끄기',
       other: '그 밖의 차단기: 허용 목록에 pokenow.cc 추가',
     },
+  },
+  install: {
+    title: 'PokeNow 앱으로 설치',
+    body: '홈 화면에 추가하면 전체 화면으로 열리고, 한 번에 실행되고, 인터넷이 없어도 화면이 열려요.',
+    iosBody: '공유 버튼을 누른 뒤 “홈 화면에 추가”를 선택하세요. 앱처럼 전체 화면으로 열려요.',
+    install: '설치',
+    later: '다음에',
+    close: '닫기',
   },
 };
