@@ -29,6 +29,7 @@ import { useI18n } from './i18n';
 import type { Region } from './types';
 
 import { ToastProvider } from './components/Toast';
+import { ProProvider } from './hooks/usePro';
 import { Logo } from './components/Logo';
 import { LanguagePicker } from './components/LanguagePicker';
 import { BestSpot } from './components/BestSpot';
@@ -126,6 +127,7 @@ export default function App() {
   }, [spot, t]);
 
   return (
+    <ProProvider>
     <ToastProvider>
       <ReportProvider>
       <header className="border-b border-rule">
@@ -350,5 +352,6 @@ export default function App() {
       <InstallNote />
       </ReportProvider>
     </ToastProvider>
+    </ProProvider>
   );
 }

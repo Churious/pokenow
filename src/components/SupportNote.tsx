@@ -3,6 +3,7 @@ import { Heart, X } from 'lucide-react';
 import { CONFIG } from '../config';
 import { useI18n } from '../i18n';
 import { useAdBlocked } from '../hooks/useAdBlocked';
+import { usePro } from '../hooks/usePro';
 import { SUPPORT_NOTE_KEY, WAS_BLOCKED_KEY, isBlocked, supportOutcome, type SupportOutcome } from '../lib/adblock';
 
 function read(key: string): string | null {
@@ -29,6 +30,7 @@ function write(key: string, value: string | null) {
  * Class names avoid "ad" words so cosmetic filters don't hide the card itself.
  */
 export function SupportNote() {
+  const { isPro } = usePro();
   const { t } = useI18n();
   const signals = useAdBlocked(400);
   const blocked = isBlocked(signals);
@@ -39,7 +41,7 @@ export function SupportNote() {
 
   // Decide once the check has finished.
   useEffect(() => {
-    if (!signals) return;
+    if (isPro || !signals) return;
     const outcome = supportOutcome(blocked, read(WAS_BLOCKED_KEY) === '1', read(SUPPORT_NOTE_KEY), Date.now());
     if (blocked) write(WAS_BLOCKED_KEY, '1');
     if (outcome === 'thanks') write(WAS_BLOCKED_KEY, null);

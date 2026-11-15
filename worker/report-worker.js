@@ -19,6 +19,8 @@
  * See worker/README.md for setup.
  */
 
+import { handleLicenseRequest } from './license.js';
+
 export const LIMITS = { short: 120, long: 1000 };
 
 const LOCALES = ['en', 'fr', 'de', 'it', 'es', 'es-419', 'pt-BR', 'tr', 'id', 'ko', 'ja', 'zh-TW', 'th', 'hi'];
@@ -245,7 +247,9 @@ export default {
 
 async function handle(request, env, origin, headers) {
   const url = new URL(request.url);
-  if (url.pathname !== '/report') return json(404, { error: 'not_found' });
+  const isReport = url.pathname === '/report';
+  const isLicense = url.pathname.startsWith('/license/');
+  if (!isReport && !isLicense) return json(404, { error: 'not_found' });
   if (!headers) {
     console.warn('origin not allowed', origin || '(none)');
     return json(403, { error: 'origin' });
@@ -253,6 +257,10 @@ async function handle(request, env, origin, headers) {
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
   if (request.method !== 'POST') return json(405, { error: 'method' }, headers);
   if (Number(request.headers.get('Content-Length') || 0) > 16_000) return json(413, { error: 'too_long' }, headers);
+
+  if (isLicense) {
+    return handleLicenseRequest(request, env, headers, { verifyTurnstile });
+  }
 
   let input;
   try {
