@@ -240,4 +240,14 @@ export const en: Messages = {
     later: 'Not now',
     close: 'Close',
   },
+  livePulse: {
+    busy: 'Lobbies filling',
+    weather: 'Weather boost',
+    tagRecorded: 'Tagged for 1 hour',
+    tagCooldown: 'Already tagged recently (15m cooldown)',
+    copyReadyHint: 'Copied! Ready to raid now (distance cooldown applies)',
+    copyWaitHint: (d) => `Copied! Wait ${d} before catching or raiding`,
+    todayBadge: (k) => `Today: ${k}`,
+    liveNowBadge: (k) => `Live now: ${k}`,
+  },
 };

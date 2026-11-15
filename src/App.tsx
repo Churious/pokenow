@@ -12,7 +12,7 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
-import { Map as MapIcon, Plus } from 'lucide-react';
+import { Map as MapIcon, Plus, Sparkles } from 'lucide-react';
 
 import { HOTSPOTS } from './data/hotspots';
 import { rankHotspots } from './lib/scoring';
@@ -22,7 +22,9 @@ import { useNow } from './hooks/useNow';
 import { useTravelState } from './hooks/useTravelState';
 import { useFavorites } from './hooks/useFavorites';
 import { useGoEvents } from './hooks/useGoEvents';
-import { calendarFrom } from './lib/schedule';
+import { useSpotTags } from './hooks/useSpotTags';
+import { calendarFrom, eventStatuses } from './lib/schedule';
+import { pickTodaySpecialEvent } from './lib/specialEvent';
 import { MQ, useMediaQuery } from './hooks/useMediaQuery';
 import { CONFIG } from './config';
 import { useI18n } from './i18n';
@@ -101,6 +103,18 @@ export default function App() {
   const feed = useGoEvents();
   const feedEvents = feed.status === 'ready' ? feed.events : null;
   const calendar = useMemo(() => (feedEvents ? (calendarFrom(feedEvents) ?? undefined) : undefined), [feedEvents]);
+  const visitorZone = useMemo(() => {
+    try {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+    } catch {
+      return 'UTC';
+    }
+  }, []);
+  const todaySpecial = useMemo(
+    () => (feedEvents ? pickTodaySpecialEvent(eventStatuses(feedEvents, now, visitorZone)) : null),
+    [feedEvents, now, visitorZone],
+  );
+  const { tags, vote: voteTag } = useSpotTags();
 
   // Re-rank every tick; 15–100 spots is far below a millisecond.
   const ranked = useMemo(() => rankHotspots(HOTSPOTS, now, travel, calendar), [now, travel, calendar]);
@@ -162,7 +176,33 @@ export default function App() {
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_22rem]">
             {/* Main column */}
             <div className="min-w-0">
-              <BestSpot ranked={ranked} now={now} travel={travel} />
+              {todaySpecial && (
+                <button
+                  type="button"
+                  onClick={() => selectTab('events')}
+                  className="mt-2 inline-flex max-w-full items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-semibold text-gold hover:border-gold"
+                >
+                  <Sparkles className="size-3.5 shrink-0" aria-hidden />
+                  <span className="truncate">
+                    {todaySpecial.phase === 'live'
+                      ? t.livePulse.liveNowBadge(
+                          todaySpecial.kind === 'community-day'
+                            ? t.schedule.kinds.communityDay
+                            : todaySpecial.kind === 'raid-day'
+                              ? t.schedule.kinds.raidDay
+                              : todaySpecial.name,
+                        )
+                      : t.livePulse.todayBadge(
+                          todaySpecial.kind === 'community-day'
+                            ? t.schedule.kinds.communityDay
+                            : todaySpecial.kind === 'raid-day'
+                              ? t.schedule.kinds.raidDay
+                              : todaySpecial.name,
+                        )}
+                  </span>
+                </button>
+              )}
+              <BestSpot ranked={ranked} now={now} travel={travel} tags={tags} onVoteTag={voteTag} />
 
               {/* On desktop the cooldown panel lives in the sidebar. */}
               <TravelPanel hotspots={HOTSPOTS} travel={travel} onChange={setTravel} now={now} className="lg:hidden" />
@@ -246,6 +286,8 @@ export default function App() {
                             now={now}
                             pinned={pinned.has(scored.hotspot.id)}
                             onToggleFavorite={toggleFavorite}
+                            tagEntries={tags[scored.hotspot.id]}
+                            onVoteTag={voteTag}
                           />
                         ))}
                       </ul>

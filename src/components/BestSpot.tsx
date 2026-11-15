@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import type { ScoredHotspot, TravelState } from '../types';
+import type { SpotTagKind, SpotTagsMap } from '../lib/tags';
 import { formatClock, getUtcOffsetLabel } from '../lib/time';
 import { formatCoords } from '../lib/geo';
 import { spotHref } from '../lib/routes';
@@ -7,6 +9,7 @@ import type { Messages } from '../i18n/types';
 import { CopyCoordsButton } from './CopyCoordsButton';
 import { StatusMark, eventName } from './StatusBadge';
 import { Dial } from './Dial';
+import { SpotTagBar } from './SpotTagBar';
 
 function arrivalSentence(s: ScoredHotspot, t: Messages, dur: (n: number) => string): string {
   const { plan } = s;
@@ -25,8 +28,21 @@ function arrivalSentence(s: ScoredHotspot, t: Messages, dur: (n: number) => stri
 }
 
 /** The recommendation: the 24-hour dial plus the best spot's details. */
-export function BestSpot({ ranked, now, travel }: { ranked: ScoredHotspot[]; now: Date; travel: TravelState }) {
+export function BestSpot({
+  ranked,
+  now,
+  travel,
+  tags,
+  onVoteTag,
+}: {
+  ranked: ScoredHotspot[];
+  now: Date;
+  travel: TravelState;
+  tags?: SpotTagsMap;
+  onVoteTag?: (spotId: string, tag: SpotTagKind) => Promise<'voted' | 'cooldown'>;
+}) {
   const { t, dur, num, weekday } = useI18n();
+  const [showCopyHint, setShowCopyHint] = useState(false);
   const best = ranked[0];
   if (!best) return null;
   const { hotspot, clock } = best;
@@ -37,13 +53,18 @@ export function BestSpot({ ranked, now, travel }: { ranked: ScoredHotspot[]; now
         ? t.travel.yourLastSpot
         : travel.origin.label;
 
+  const handleCopied = () => {
+    setShowCopyHint(true);
+    window.setTimeout(() => setShowCopyHint(false), 5000);
+  };
+
   return (
     <section
       aria-labelledby="best-title"
-      className="relative py-5 md:grid md:grid-cols-[340px_1fr] md:items-center md:gap-10 md:py-6 xl:grid-cols-[380px_1fr] xl:py-10"
+      className="relative py-3 md:grid md:grid-cols-[340px_1fr] md:items-center md:gap-10 md:py-6 xl:grid-cols-[380px_1fr] xl:py-10"
     >
       {/* Phones: a small dial beside the name so the answer and the tabs fit the first screen. */}
-      <div className="absolute top-5 right-0 w-[6.5rem] rounded-full bg-deck p-1 sm:w-36 md:static md:mx-auto md:w-full md:max-w-[340px] md:p-2 xl:max-w-[380px]">
+      <div className="absolute top-3 right-0 w-[6.25rem] rounded-full bg-deck p-1 sm:w-36 md:static md:mx-auto md:w-full md:max-w-[340px] md:p-2 xl:max-w-[380px]">
         <Dial ranked={ranked} bestId={hotspot.id} label={t.best.dialLabel} />
       </div>
 
@@ -80,10 +101,24 @@ export function BestSpot({ ranked, now, travel }: { ranked: ScoredHotspot[]; now
 
         <p className="mt-3 max-w-prose text-ink">{arrivalSentence(best, t, dur)}</p>
 
-        <div className="mt-5 flex flex-wrap items-center gap-3">
+        <div className="mt-4 flex flex-wrap items-center gap-3 md:mt-5">
           <code className="font-sans text-lg font-semibold text-ink select-all">{formatCoords(hotspot)}</code>
-          <CopyCoordsButton hotspot={hotspot} tone="primary" />
+          <CopyCoordsButton hotspot={hotspot} tone="primary" fullWidthMobile onCopied={handleCopied} />
         </div>
+
+        {showCopyHint && (
+          <p className={`mt-2 text-xs font-medium ${best.plan.waitSeconds > 0 ? 'text-gold' : 'text-peak'}`}>
+            {best.plan.waitSeconds > 0
+              ? t.livePulse.copyWaitHint(dur(best.plan.waitSeconds))
+              : t.livePulse.copyReadyHint}
+          </p>
+        )}
+
+        {onVoteTag && (
+          <div className="mt-3">
+            <SpotTagBar spotId={hotspot.id} entries={tags?.[hotspot.id]} onVote={onVoteTag} />
+          </div>
+        )}
       </div>
     </section>
   );

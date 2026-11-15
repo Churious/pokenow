@@ -236,4 +236,14 @@ export const ko: Messages = {
     later: '다음에',
     close: '닫기',
   },
+  livePulse: {
+    busy: '지금 방 잘 참',
+    weather: '날씨 부스트',
+    tagRecorded: '1시간 상태 태그가 등록됐습니다',
+    tagCooldown: '방금 이미 태그했습니다 (15분 쿨다운)',
+    copyReadyHint: '복사됨! 바로 이동 가능 (거리 쿨다운 확인)',
+    copyWaitHint: (d) => `복사됨! 포획·레이드 전 ${d} 대기`,
+    todayBadge: (k) => `오늘 ${k}`,
+    liveNowBadge: (k) => `지금 진행 중: ${k}`,
+  },
 };

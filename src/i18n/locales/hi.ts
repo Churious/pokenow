@@ -238,4 +238,14 @@ export const hi: Messages = {
     later: 'अभी नहीं',
     close: 'बंद करें',
   },
+  livePulse: {
+    busy: 'लॉबी भरी है',
+    weather: 'मौसम बूस्ट',
+    tagRecorded: '1 घंटे के लिए टैग किया गया',
+    tagCooldown: 'अभी टैग किया जा चुका है (15 मिनट प्रतीक्षा)',
+    copyReadyHint: 'कॉपी हो गया! अभी तैयार (दूरी कूलडाउन लागू)',
+    copyWaitHint: (d) => `कॉपी हो गया! पकड़ने या रेड से पहले ${d} प्रतीक्षा करें`,
+    todayBadge: (k) => `आज: ${k}`,
+    liveNowBadge: (k) => `अभी लाइव: ${k}`,
+  },
 };

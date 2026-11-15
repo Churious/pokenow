@@ -1,4 +1,5 @@
 import type { ScoredHotspot } from '../types';
+import type { SpotTagEntry, SpotTagKind } from '../lib/tags';
 import { formatClock, getUtcOffsetLabel } from '../lib/time';
 import { formatCoords } from '../lib/geo';
 import { spotHref } from '../lib/routes';
@@ -7,6 +8,7 @@ import type { Messages } from '../i18n/types';
 import { CopyCoordsButton } from './CopyCoordsButton';
 import { FavoriteButton } from './FavoriteButton';
 import { StatusMark } from './StatusBadge';
+import { SpotTagBar } from './SpotTagBar';
 
 function timingNote(s: ScoredHotspot, t: Messages, dur: (n: number) => string): string {
   if (s.plan.waitSeconds > 0) return t.list.wait(dur(s.plan.waitSeconds));
@@ -30,12 +32,16 @@ export function SpotRow({
   now,
   pinned,
   onToggleFavorite,
+  tagEntries,
+  onVoteTag,
 }: {
   scored: ScoredHotspot;
   rank: number;
   now: Date;
   pinned: boolean;
   onToggleFavorite: (id: string) => void;
+  tagEntries?: Partial<Record<SpotTagKind, SpotTagEntry>>;
+  onVoteTag?: (spotId: string, tag: SpotTagKind) => Promise<'voted' | 'cooldown'>;
 }) {
   const { t, dur, num } = useI18n();
   const { hotspot, clock, status, plan } = scored;
@@ -89,6 +95,11 @@ export function SpotRow({
             </span>
           )}
         </span>
+        {onVoteTag && (
+          <div className="mt-1 w-full">
+            <SpotTagBar spotId={hotspot.id} entries={tagEntries} onVote={onVoteTag} compact />
+          </div>
+        )}
       </div>
 
       <div className="col-start-2 col-end-4 flex items-center justify-between gap-3 xl:col-auto xl:justify-end">

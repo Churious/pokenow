@@ -236,4 +236,14 @@ export const ja: Messages = {
     later: 'あとで',
     close: '閉じる',
   },
+  livePulse: {
+    busy: '今ロビー賑わい中',
+    weather: '天候ブースト',
+    tagRecorded: '1時間タグを登録しました',
+    tagCooldown: '最近タグ済みです（15分クールダウン）',
+    copyReadyHint: 'コピー完了！すぐ参加可能（距離クールダウン注意）',
+    copyWaitHint: (d) => `コピー完了！捕獲・レイドまであと ${d} 待機`,
+    todayBadge: (k) => `本日: ${k}`,
+    liveNowBadge: (k) => `開催中: ${k}`,
+  },
 };

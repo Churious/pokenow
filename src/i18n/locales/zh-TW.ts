@@ -236,4 +236,14 @@ export const zhTW: Messages = {
     later: '稍後',
     close: '關閉',
   },
+  livePulse: {
+    busy: '目前大廳人多',
+    weather: '天氣加成',
+    tagRecorded: '已標記 1 小時狀態',
+    tagCooldown: '剛才已標記過（15 分鐘冷卻）',
+    copyReadyHint: '已複製！可立即前往（注意距離冷卻）',
+    copyWaitHint: (d) => `已複製！捕捉或打團體戰前需等 ${d}`,
+    todayBadge: (k) => `今日：${k}`,
+    liveNowBadge: (k) => `進行中：${k}`,
+  },
 };

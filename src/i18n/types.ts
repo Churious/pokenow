@@ -295,4 +295,16 @@ export interface Messages {
     later: string;
     close: string;
   };
+
+  /** Live crowd/weather tags, mobile copy cooldown hint, and today's special event badge. */
+  livePulse: {
+    busy: string;
+    weather: string;
+    tagRecorded: string;
+    tagCooldown: string;
+    copyReadyHint: string;
+    copyWaitHint: (duration: string) => string;
+    todayBadge: (kind: string) => string;
+    liveNowBadge: (kind: string) => string;
+  };
 }
