@@ -266,6 +266,16 @@ async function canVoteTag(env, ip, spotId, tag, now = Date.now()) {
   return true;
 }
 
+async function clearVoteTag(env, ip, spotId, tag) {
+  if (!ip) return;
+  const voteKey = `vote:${ip}:${spotId}:${tag}`;
+  if (env?.SPOT_TAGS) {
+    await env.SPOT_TAGS.delete(voteKey);
+    return;
+  }
+  memVotes.delete(voteKey);
+}
+
 const json = (status, data, headers = {}) =>
   new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json', ...headers } });
 
@@ -323,17 +333,34 @@ async function handle(request, env, origin, headers) {
       }
       const spotId = str(body?.spotId);
       const tag = str(body?.tag);
-      if (!SPOT_ID_RE.test(spotId) || !VALID_TAGS.has(tag)) {
+      const action = str(body?.action) || 'add';
+      if (!SPOT_ID_RE.test(spotId) || !VALID_TAGS.has(tag) || (action !== 'add' && action !== 'remove')) {
         return json(400, { error: 'bad_request' }, headers);
       }
       const ip = request.headers.get('CF-Connecting-IP') || '';
-      const allowed = await canVoteTag(env, ip, spotId, tag);
-      if (!allowed) return json(429, { error: 'cooldown' }, headers);
-
       const now = Date.now();
       const all = await readAllTags(env, now);
       const current = all[spotId] || {};
       const prevCount = current[tag]?.count ?? 0;
+
+      if (action === 'remove') {
+        await clearVoteTag(env, ip, spotId, tag);
+        const nextCount = Math.max(0, prevCount - 1);
+        const nextSpot = { ...current };
+        if (nextCount > 0) {
+          nextSpot[tag] = { count: nextCount, updatedAt: current[tag]?.updatedAt ?? now };
+        } else {
+          delete nextSpot[tag];
+        }
+        if (nextSpot.busy || nextSpot.weather) all[spotId] = nextSpot;
+        else delete all[spotId];
+        await writeAllTags(env, all);
+        return json(200, { ok: true, spotId, tag, entry: nextCount > 0 ? nextSpot[tag] : null }, headers);
+      }
+
+      const allowed = await canVoteTag(env, ip, spotId, tag, now);
+      if (!allowed) return json(429, { error: 'cooldown' }, headers);
+
       const entry = { count: prevCount + 1, updatedAt: now };
       all[spotId] = { ...current, [tag]: entry };
       await writeAllTags(env, all);

@@ -2,9 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { CONFIG } from '../config';
 import {
   applyOptimisticTag,
-  canVoteLocally,
+  clearVotedLocally,
+  hasVotedLocally,
   markVotedLocally,
+  removeOptimisticTag,
   tagsEndpointFrom,
+  type SpotTagEntry,
   type SpotTagKind,
   type SpotTagsMap,
 } from '../lib/tags';
@@ -37,32 +40,37 @@ export function useSpotTags() {
   }, [endpoint]);
 
   const vote = useCallback(
-    async (spotId: string, tag: SpotTagKind): Promise<'voted' | 'cooldown'> => {
-      if (!canVoteLocally(spotId, tag)) return 'cooldown';
-      markVotedLocally(spotId, tag);
-      setTags((prev) => applyOptimisticTag(prev, spotId, tag));
+    async (spotId: string, tag: SpotTagKind): Promise<'voted' | 'removed'> => {
+      const removing = hasVotedLocally(spotId, tag);
+      if (removing) {
+        clearVotedLocally(spotId, tag);
+        setTags((prev) => removeOptimisticTag(prev, spotId, tag));
+      } else {
+        markVotedLocally(spotId, tag);
+        setTags((prev) => applyOptimisticTag(prev, spotId, tag));
+      }
 
       if (endpoint) {
         try {
           const res = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ spotId, tag }),
+            body: JSON.stringify({ spotId, tag, action: removing ? 'remove' : 'add' }),
           });
           if (res.ok) {
-            const data = (await res.json()) as { entry?: { count: number; updatedAt: number } };
-            if (data?.entry) {
-              setTags((prev) => ({
-                ...prev,
-                [spotId]: { ...(prev[spotId] ?? {}), [tag]: data.entry },
-              }));
-            }
+            const data = (await res.json()) as { entry?: SpotTagEntry | null };
+            setTags((prev) => {
+              const spot = { ...(prev[spotId] ?? {}) };
+              if (data?.entry) spot[tag] = data.entry;
+              else delete spot[tag];
+              return { ...prev, [spotId]: spot };
+            });
           }
         } catch {
-          // Keep optimistic local tag
+          // Keep optimistic local tag state
         }
       }
-      return 'voted';
+      return removing ? 'removed' : 'voted';
     },
     [endpoint],
   );

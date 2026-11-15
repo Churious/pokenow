@@ -242,6 +242,7 @@ export const tr: Messages = {
     busy: 'Lobiler dolu',
     weather: 'Hava desteği',
     tagRecorded: '1 saatliğine etiketlendi',
+    tagRemoved: 'Etiket kaldırıldı',
     tagCooldown: 'Az önce etiketlendi (15 dk bekleme)',
     copyReadyHint: 'Kopyalandı! Şimdi hazır (mesafe beklemesi geçerli)',
     copyWaitHint: (d) => `Kopyalandı! Yakalama/akın öncesi ${d} bekle`,

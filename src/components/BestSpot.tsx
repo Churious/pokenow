@@ -39,7 +39,7 @@ export function BestSpot({
   now: Date;
   travel: TravelState;
   tags?: SpotTagsMap;
-  onVoteTag?: (spotId: string, tag: SpotTagKind) => Promise<'voted' | 'cooldown'>;
+  onVoteTag?: (spotId: string, tag: SpotTagKind) => Promise<'voted' | 'removed'>;
 }) {
   const { t, dur, num, weekday } = useI18n();
   const [showCopyHint, setShowCopyHint] = useState(false);

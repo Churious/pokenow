@@ -241,6 +241,7 @@ export const it: Messages = {
     busy: 'Lobby piene',
     weather: 'Meteo boost',
     tagRecorded: 'Segnalato per 1 ora',
+    tagRemoved: 'Segnalazione rimossa',
     tagCooldown: 'Già segnalato di recente (15 min di attesa)',
     copyReadyHint: 'Copiato! Pronto ora (si applica il cooldown)',
     copyWaitHint: (d) => `Copiato! Attendi ${d} prima di catturare o fare raid`,

@@ -241,6 +241,7 @@ export const de: Messages = {
     busy: 'Lobbys voll',
     weather: 'Wetter-Boost',
     tagRecorded: 'Für 1 Stunde markiert',
+    tagRemoved: 'Markierung entfernt',
     tagCooldown: 'Kürzlich schon markiert (15 Min. Pause)',
     copyReadyHint: 'Kopiert! Sofort bereit (Distanz-Cooldown beachten)',
     copyWaitHint: (d) => `Kopiert! Noch ${d} warten vor Fang/Raid`,
