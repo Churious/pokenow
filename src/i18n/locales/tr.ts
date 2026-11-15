@@ -177,7 +177,7 @@ export const tr: Messages = {
     spots: 'Noktalar',
     route: 'Rota',
     events: 'Etkinlikler',
-    map: 'Harita',
+    communities: 'Topluluklar',
     guide: 'Rehber',
   },
   report: {
@@ -228,5 +228,13 @@ export const tr: Messages = {
       adguard: 'AdGuard: simgesine tıkla → bu sitede korumayı kapat',
       other: 'Diğerleri: pokenow.cc’yi izin listesine ekle',
     },
+  },
+  install: {
+    title: 'PokeNow’u uygulama olarak yükle',
+    body: 'Ana ekranına ekle: tam ekran, tek dokunuş ve sayfa çevrimdışıyken de açılır.',
+    iosBody: 'Paylaş düğmesine dokun ve “Ana Ekrana Ekle” seçeneğini seç. Uygulama gibi tam ekran açılır.',
+    install: 'Yükle',
+    later: 'Sonra',
+    close: 'Kapat',
   },
 };

@@ -175,7 +175,7 @@ export const ja: Messages = {
     spots: 'スポット',
     route: '巡回ルート',
     events: 'イベント',
-    map: 'マップ',
+    communities: 'コミュニティ',
     guide: 'ガイド',
   },
   report: {
@@ -226,5 +226,13 @@ export const ja: Messages = {
       adguard: 'AdGuard：アイコンをクリック → このサイトの保護をオフ',
       other: 'その他：許可リストに pokenow.cc を追加',
     },
+  },
+  install: {
+    title: 'PokeNow をアプリとして追加',
+    body: 'ホーム画面に追加すると、全画面で開いてワンタップで起動でき、オフラインでも画面が開きます。',
+    iosBody: '共有ボタンをタップして「ホーム画面に追加」を選んでください。アプリのように全画面で開きます。',
+    install: 'インストール',
+    later: 'あとで',
+    close: '閉じる',
   },
 };

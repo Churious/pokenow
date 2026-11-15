@@ -176,7 +176,7 @@ export const it: Messages = {
     spots: 'Posti',
     route: 'Percorso',
     events: 'Eventi',
-    map: 'Mappa',
+    communities: 'Community',
     guide: 'Guida',
   },
   report: {
@@ -227,5 +227,13 @@ export const it: Messages = {
       adguard: 'AdGuard: clic sull’icona → disattiva la protezione per questo sito',
       other: 'Altri: aggiungi pokenow.cc all’elenco consentiti',
     },
+  },
+  install: {
+    title: 'Installa PokeNow come app',
+    body: 'Aggiungilo alla schermata Home: a tutto schermo, a un tocco e la pagina si apre anche offline.',
+    iosBody: 'Tocca il pulsante «Condividi» e scegli «Aggiungi alla schermata Home». Si aprirà a tutto schermo come un’app.',
+    install: 'Installa',
+    later: 'Più tardi',
+    close: 'Chiudi',
   },
 };

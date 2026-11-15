@@ -176,7 +176,7 @@ export const de: Messages = {
     spots: 'Spots',
     route: 'Route',
     events: 'Events',
-    map: 'Karte',
+    communities: 'Communitys',
     guide: 'Anleitung',
   },
   report: {
@@ -227,5 +227,13 @@ export const de: Messages = {
       adguard: 'AdGuard: Symbol anklicken → Schutz für diese Website ausschalten',
       other: 'Andere: pokenow.cc zur Zulassungsliste hinzufügen',
     },
+  },
+  install: {
+    title: 'PokeNow als App installieren',
+    body: 'Zum Home-Bildschirm hinzufügen: Vollbild, ein Tipp entfernt, und die Seite öffnet auch offline.',
+    iosBody: 'Tippe auf „Teilen“ und dann auf „Zum Home-Bildschirm“. Sie öffnet dann im Vollbild wie eine App.',
+    install: 'Installieren',
+    later: 'Später',
+    close: 'Schließen',
   },
 };

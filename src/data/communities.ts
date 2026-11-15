@@ -43,3 +43,10 @@ export function communitiesFor(hotspotId: string | null, list: readonly Communit
   const global = list.filter((c) => c.hotspots.includes('*'));
   return [...local, ...global];
 }
+
+/** Full directory for the Communities tab (global first, then spot-specific). */
+export function allCommunities(list: readonly Community[] = COMMUNITIES): Community[] {
+  const global = list.filter((c) => c.hotspots.includes('*'));
+  const local = list.filter((c) => !c.hotspots.includes('*'));
+  return [...global, ...local];
+}

@@ -8,7 +8,9 @@ import { homeHref, spotHref } from '../lib/routes';
 import { RAID_HOUR_WEEKDAY, SPOTLIGHT_WEEKDAY } from '../lib/scoring';
 import { nextEventAt, type GoEvent } from '../lib/schedule';
 import { useI18n } from '../i18n';
+import { CONFIG } from '../config';
 import { campfireHref } from '../lib/platform';
+import { AdBanner } from './AdBanner';
 import { CopyCoordsButton } from './CopyCoordsButton';
 import { FavoriteButton } from './FavoriteButton';
 import { ShareSpotButton } from './ShareSpotButton';
@@ -118,6 +120,14 @@ export function SpotPage({
         </dl>
       </section>
 
+      {!sidebarAd && (
+        <AdBanner
+          slot={CONFIG.adsense.slots.inFeed}
+          variant="in-feed"
+          layoutKey={CONFIG.adsense.inFeedLayoutKey}
+          className="mt-8"
+        />
+      )}
 
       <section aria-labelledby="others-title" className="mt-10">
         <h2 id="others-title" className="semi-condensed text-lg font-bold text-ink">

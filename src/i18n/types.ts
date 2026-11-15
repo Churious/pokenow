@@ -228,7 +228,7 @@ export interface Messages {
     spots: string;
     route: string;
     events: string;
-    map: string;
+    communities: string;
     guide: string;
   };
 
@@ -280,5 +280,17 @@ export interface Messages {
     how: string;
     later: string;
     steps: { ublock: string; adguard: string; other: string };
+  };
+
+  /** Offer to install the app (components/InstallNote.tsx). */
+  install: {
+    title: string;
+    /** Chromium: one tap opens the browser's install dialog. */
+    body: string;
+    /** iOS Safari has no install API, so name the Share-sheet step. */
+    iosBody: string;
+    install: string;
+    later: string;
+    close: string;
   };
 }

@@ -179,7 +179,7 @@ export const en: Messages = {
     spots: 'Spots',
     route: 'Route',
     events: 'Events',
-    map: 'Map',
+    communities: 'Communities',
     guide: 'Guide',
   },
   report: {
@@ -230,5 +230,13 @@ export const en: Messages = {
       adguard: 'AdGuard: click its icon → turn off protection for this site',
       other: 'Others: add pokenow.cc to the allowlist',
     },
+  },
+  install: {
+    title: 'Install PokeNow',
+    body: 'Add it to your home screen: full screen, one tap away, and the page still opens offline.',
+    iosBody: 'Tap the Share button, then “Add to Home Screen”. It opens full screen, like an app.',
+    install: 'Install',
+    later: 'Not now',
+    close: 'Close',
   },
 };

@@ -43,12 +43,14 @@ src/
 │   ├── schedule.ts          event feed parsing + local-time state (upcoming / live / further west)
 │   ├── routes.ts            URL → spot, relative hrefs
 │   ├── clipboard.ts         copy fallback for Copy / Share
-│   └── github.ts            issue-form URLs
+│   ├── github.ts            issue-form URLs
+│   └── install.ts           install note: snooze + platform guesses
 ├── hooks/                   browser-only state
 │   ├── useNow.ts            1 s ticker aligned to the second
 │   ├── useTravelState.ts    last action place/time (localStorage)
 │   ├── useFavorites.ts      pinned spots (localStorage)
-│   └── useGoEvents.ts       community event feed, fetched + cached (localStorage)
+│   ├── useGoEvents.ts       community event feed, fetched + cached (localStorage)
+│   └── useInstallPrompt.ts  install prompt capture, note gating
 ├── i18n/
 │   ├── types.ts             Messages contract — every key is typed
 │   ├── load.ts              React-free: locale list, detection, lazy dictionary loading
@@ -86,7 +88,8 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   keep wording neutral and keep the fan-made disclaimer. Never claim to show Gym/PokéStop locations.
 - **Browser-only state.** `pokenow:travel`, `pokenow:favorites`, `pokenow:lang`, `pokenow:events` (feed
   cache), `pokenow:support-note` (when the ad-blocker note was closed), `pokenow:support-asked` (a blocker was seen;
-  next visit without one says thanks) live in localStorage and are never sent anywhere. Don't add a backend for a feature that doesn't need one.
+  next visit without one says thanks), `pokenow:install-note` (closed, or `done` once installed) live in
+  localStorage and are never sent anywhere. Don't add a backend for a feature that doesn't need one.
 - **Static hosting.** `base: './'`, relative hrefs, all pages share one bundle. Don't hard-code the
   domain; `VITE_SITE_URL` drives canonical/OG URLs at build time.
 - **Source-available, not open source.** License is PolyForm Noncommercial 1.0.0 (`LICENSE`, with a
@@ -138,6 +141,10 @@ pure logic lives in `lib/`; components render and call callbacks. `rankHotspots(
   <dialog> asks to allow ads (how-to for uBlock Origin / AdGuard); X / later / Esc / backdrop closes it and hides it
   for 7 days. The first visit without a blocker after one was seen shows a thank-you. No emoji in UI text (Linux
   without an emoji font shows boxes); use lucide icons. Never a wall.
+- **Install note** — `components/InstallNote.tsx` + `hooks/useInstallPrompt.ts` + `lib/install.ts`. A bottom card
+  offering to install the app: Chromium's `beforeinstallprompt` gives a one-tap Install, iOS Safari gets the
+  Share-sheet steps (it has no install API), and other browsers are not asked at all. Hidden in the installed
+  app, after an install, and for 30 days after “Not now”. Tests: `lib/install.test.ts`.
 - **AI issue review** — `.github/workflows/issue-review.yml` runs `scripts/review-issue.mjs` when a `translation` or
   `community-listing` issue opens (or via Run workflow + issue number). It sends the issue plus the relevant files
   (en + reported locale; or hotspots.ts + communities.ts) to Gemini and posts one Korean comment. The model gets no tools;

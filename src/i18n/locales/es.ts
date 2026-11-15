@@ -176,7 +176,7 @@ export const es: Messages = {
     spots: 'Sitios',
     route: 'Ruta',
     events: 'Eventos',
-    map: 'Mapa',
+    communities: 'Comunidades',
     guide: 'Guía',
   },
   report: {
@@ -227,5 +227,13 @@ export const es: Messages = {
       adguard: 'AdGuard: pulsa su icono → desactiva la protección en este sitio',
       other: 'Otros: añade pokenow.cc a la lista de permitidos',
     },
+  },
+  install: {
+    title: 'Instala PokeNow como app',
+    body: 'Añádelo a tu pantalla de inicio: pantalla completa, a un toque y la página se abre incluso sin conexión.',
+    iosBody: 'Toca el botón «Compartir» y elige «Añadir a pantalla de inicio». Se abrirá a pantalla completa como una app.',
+    install: 'Instalar',
+    later: 'Más tarde',
+    close: 'Cerrar',
   },
 };

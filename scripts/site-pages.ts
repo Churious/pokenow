@@ -48,7 +48,32 @@ function ogImageTags(m: PageMeta, siteUrl: string): string[] {
   ];
 }
 
-function applyMeta(html: string, m: PageMeta, siteUrl: string): string {
+function applyMeta(html: string, m: PageMeta, siteUrl: string, includeSiteSchema = false): string {
+  const schemaTags = includeSiteSchema
+    ? [
+        `<script type="application/ld+json">${JSON.stringify({
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'WebSite',
+              name: 'PokeNow',
+              alternateName: 'pokenow.cc',
+              url: siteUrl,
+            },
+            {
+              '@type': 'WebApplication',
+              name: 'PokeNow',
+              url: siteUrl,
+              description: m.description,
+              applicationCategory: 'GameApplication',
+              operatingSystem: 'Any',
+              isAccessibleForFree: true,
+            },
+          ],
+        }).replace(/</g, '\\u003c')}</script>`,
+      ]
+    : [];
+
   const head = [
     `<link rel="canonical" href="${esc(m.url)}" />`,
     `<meta property="og:type" content="website" />`,
@@ -57,6 +82,7 @@ function applyMeta(html: string, m: PageMeta, siteUrl: string): string {
     `<meta property="og:description" content="${esc(m.description)}" />`,
     `<meta property="og:url" content="${esc(m.url)}" />`,
     ...ogImageTags(m, siteUrl),
+    ...schemaTags,
     // The summary in #root is for crawlers and no-JS visitors. It is hidden by CSS
     // alone while the app loads — no inline script, because CDN optimisers such as
     // Cloudflare Rocket Loader defer inline scripts and the text then flashed on a
@@ -90,7 +116,7 @@ export function sitePages(siteUrl: string): Plugin {
       index.source = applyMeta(
         template,
         {
-          title: 'PokeNow — Best Raid Spot Now',
+          title: 'PokeNow — Pokémon GO Raid Hotspots & Live Raid Hour Times',
           description: homeDescription,
           url: base,
           ogImage: 'home.png',
@@ -102,6 +128,7 @@ export function sitePages(siteUrl: string): Plugin {
           ).join('')}</ul></main>`,
         },
         base,
+        true,
       );
 
       for (const h of HOTSPOTS) {

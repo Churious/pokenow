@@ -40,12 +40,18 @@ export function SpotRow({
   const { t, dur, num } = useI18n();
   const { hotspot, clock, status, plan } = scored;
   const timeColor = status === 'raid-hour' ? 'text-gold' : status === 'active' ? 'text-ink' : 'text-faint';
+  // Left rail (xl table only): emerald = peak window, gold = golden hour. Golden hour sits inside
+  // the peak window, so those rows show both: gold on the edge, emerald right behind it.
+  const rail =
+    status === 'raid-hour'
+      ? 'xl:shadow-[inset_2px_0_0_var(--color-gold),inset_4px_0_0_var(--color-peak)]'
+      : status === 'active'
+        ? 'xl:shadow-[inset_2px_0_0_var(--color-peak)]'
+        : '';
 
   return (
     <li
-      className={`grid grid-cols-[1.25rem_1fr_auto] gap-x-3 gap-y-2 border-b border-rule py-4 xl:col-span-full xl:grid-cols-subgrid xl:items-center xl:py-3 ${
-        status === 'raid-hour' ? 'xl:shadow-[inset_2px_0_0_var(--color-gold)]' : ''
-      }`}
+      className={`grid grid-cols-[1.25rem_1fr_auto] gap-x-3 gap-y-2 border-b border-rule py-4 xl:col-span-full xl:grid-cols-subgrid xl:items-center xl:py-3 ${rail}`}
     >
       <span className="semi-condensed pt-1.5 text-right text-sm text-faint tabular-nums xl:pt-0">{rank}</span>
 
