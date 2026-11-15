@@ -295,4 +295,29 @@ export interface Messages {
     later: string;
     close: string;
   };
+
+  pro: {
+    button: string;
+    activeBadge: string;
+    title: string;
+    subtitle: string;
+    benefits: readonly [string, string, string];
+    keyLabel: string;
+    keyPlaceholder: string;
+    activate: string;
+    activating: string;
+    deactivate: string;
+    deactivating: string;
+    buy: string;
+    deviceInfo: (hint: string, swaps: number) => string;
+    errors: {
+      invalid: string;
+      maxDevices: string;
+      swapLimit: string;
+      rateLimit: string;
+      captcha: string;
+      network: string;
+      notConfigured: string;
+    };
+  };
 }

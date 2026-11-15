@@ -4,6 +4,7 @@ import { AdBanner } from './AdBanner';
 import { CONFIG } from '../config';
 import { useI18n } from '../i18n';
 import { MQ, useMediaQuery } from '../hooks/useMediaQuery';
+import { usePro } from '../hooks/usePro';
 
 const STORAGE_KEY = 'pokenow:anchor-dismissed';
 
@@ -31,10 +32,11 @@ function readDismissed(): boolean {
  * the extra bottom padding and the close button.
  */
 export function StickyAnchorAd() {
+  const { isPro } = usePro();
   const [dismissed, setDismissed] = useState(readDismissed);
   const { t } = useI18n();
   const isDesktop = useMediaQuery(MQ.md);
-  const enabled = Boolean(CONFIG.adsense.client && CONFIG.adsense.slots.anchor);
+  const enabled = Boolean(!isPro && CONFIG.adsense.client && CONFIG.adsense.slots.anchor);
 
   // Reserve space at the bottom of the page so the anchor never covers content.
   useEffect(() => {

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { CONFIG } from '../config';
 import { useI18n } from '../i18n';
+import { usePro } from '../hooks/usePro';
 
 /**
  * Google AdSense slot.
@@ -54,8 +55,9 @@ const RESERVED_HEIGHT: Record<Variant, string> = {
 };
 
 export function AdBanner({ slot, variant = 'display', layoutKey, className = '', hideLabel }: Props) {
+  const { isPro } = usePro();
   const client = CONFIG.adsense.client;
-  const enabled = Boolean(client && slot);
+  const enabled = Boolean(!isPro && client && slot);
   const pushed = useRef(false);
   const { t } = useI18n();
 

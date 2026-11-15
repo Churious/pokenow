@@ -27,6 +27,10 @@ export const CONFIG = {
     url: (env.VITE_REPORT_URL || '').trim(),
     turnstileSiteKey: (env.VITE_TURNSTILE_SITEKEY || '').trim(),
   },
+  pro: {
+    checkoutUrl: (env.VITE_PRO_CHECKOUT_URL || '').trim(),
+    workerBase: ((u) => u.replace(/\/report\/?$/, ''))((env.VITE_REPORT_URL || '').trim()),
+  },
 } as const;
 
 export const REPORTS_ENABLED = Boolean(CONFIG.report.url && CONFIG.report.turnstileSiteKey);
