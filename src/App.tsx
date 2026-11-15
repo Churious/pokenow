@@ -12,7 +12,7 @@
  */
 
 import { useEffect, useMemo, useState } from 'react';
-import { Map as MapIcon, Plus } from 'lucide-react';
+import { Bell, Clock, Map as MapIcon, Plus } from 'lucide-react';
 
 import { HOTSPOTS } from './data/hotspots';
 import { rankHotspots } from './lib/scoring';
@@ -29,7 +29,9 @@ import { useI18n } from './i18n';
 import type { Region } from './types';
 
 import { ToastProvider } from './components/Toast';
-import { ProProvider } from './hooks/usePro';
+import { ProProvider, usePro } from './hooks/usePro';
+import { useProAlerts } from './hooks/useProAlerts';
+import { ProDialog } from './components/ProDialog';
 import { Logo } from './components/Logo';
 import { LanguagePicker } from './components/LanguagePicker';
 import { BestSpot } from './components/BestSpot';
@@ -63,8 +65,19 @@ const tabFromHash = (): HomeTab => {
 };
 
 export default function App() {
+  return (
+    <ProProvider>
+      <AppShell />
+    </ProProvider>
+  );
+}
+
+function AppShell() {
   const now = useNow();
   const { t } = useI18n();
+  const { isPro } = usePro();
+  const [proOpen, setProOpen] = useState(false);
+  const [offsetHours, setOffsetHours] = useState(0);
   const [travel, setTravel] = useTravelState();
   const { favorites, toggle: toggleFavorite } = useFavorites();
   const [region, setRegion] = useState<RegionFilter>('All');
@@ -72,6 +85,11 @@ export default function App() {
   const isLarge = useMediaQuery(MQ.lg);
   const [tab, setTab] = useState<HomeTab>(tabFromHash);
   const [showMapMobile, setShowMapMobile] = useState(() => window.location.hash === '#map');
+
+  const effectiveNow = useMemo(
+    () => (isPro && offsetHours > 0 ? new Date(now.getTime() + offsetHours * 3600_000) : now),
+    [now, isPro, offsetHours],
+  );
 
   // The tab lives in the URL hash (#route, #events, …) so it survives reloads and can be shared.
   const selectTab = (next: HomeTab) => {
@@ -104,7 +122,11 @@ export default function App() {
   const calendar = useMemo(() => (feedEvents ? (calendarFrom(feedEvents) ?? undefined) : undefined), [feedEvents]);
 
   // Re-rank every tick; 15–100 spots is far below a millisecond.
-  const ranked = useMemo(() => rankHotspots(HOTSPOTS, now, travel, calendar), [now, travel, calendar]);
+  const liveRanked = useMemo(() => rankHotspots(HOTSPOTS, now, travel, calendar), [now, travel, calendar]);
+  const ranked = useMemo(
+    () => (effectiveNow === now ? liveRanked : rankHotspots(HOTSPOTS, effectiveNow, travel, calendar)),
+    [liveRanked, effectiveNow, now, travel, calendar],
+  );
 
   const visible = useMemo(
     () =>
@@ -122,12 +144,13 @@ export default function App() {
     [visible, pinned],
   );
 
+  const { alertsEnabled, alertsDenied, toggleAlerts } = useProAlerts(isPro, liveRanked, travel, pinned, now);
+
   useEffect(() => {
     document.title = spot ? `${spot.city}, ${spot.spot} — PokeNow` : `PokeNow — ${t.best.now}`;
   }, [spot, t]);
 
   return (
-    <ProProvider>
     <ToastProvider>
       <ReportProvider>
       <header className="border-b border-rule">
@@ -136,6 +159,17 @@ export default function App() {
             <Logo />
           </a>
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => (isPro ? void toggleAlerts() : setProOpen(true))}
+              title={alertsDenied ? t.proFeatures.alertsDenied : undefined}
+              className={`inline-flex h-8 items-center gap-1.5 rounded-full px-2.5 text-xs font-medium ring-1 ${
+                alertsEnabled ? 'text-gold ring-gold/60' : 'text-dim ring-rule hover:text-ink'
+              }`}
+            >
+              <Bell className="size-3.5" aria-hidden />
+              <span className="hidden sm:inline">{alertsEnabled ? t.proFeatures.alertsOn : t.proFeatures.alertsOff}</span>
+            </button>
             <p className="hidden text-sm text-dim sm:block">
               <span className="font-semibold text-ink">
                 {pad(now.getUTCHours())}:{pad(now.getUTCMinutes())}:{pad(now.getUTCSeconds())}
@@ -164,7 +198,29 @@ export default function App() {
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-10 xl:grid-cols-[minmax(0,1fr)_22rem]">
             {/* Main column */}
             <div className="min-w-0">
-              <BestSpot ranked={ranked} now={now} travel={travel} />
+              <BestSpot ranked={ranked} now={effectiveNow} travel={travel} />
+
+              <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+                <span className="inline-flex items-center gap-1 text-dim">
+                  <Clock className="size-3.5" aria-hidden />
+                  {t.proFeatures.timeShift}:
+                </span>
+                {[0, 1, 2, 3, 6, 12].map((h) => {
+                  const active = (isPro ? offsetHours : 0) === h;
+                  return (
+                    <button
+                      key={h}
+                      type="button"
+                      onClick={() => (isPro || h === 0 ? setOffsetHours(h) : setProOpen(true))}
+                      className={`h-7 rounded-full px-2.5 whitespace-nowrap ${
+                        active ? 'bg-ink font-semibold text-night' : 'text-dim ring-1 ring-rule hover:text-ink'
+                      }`}
+                    >
+                      {h === 0 ? t.proFeatures.timeShiftNow : t.proFeatures.timeShiftPlus(h)}
+                    </button>
+                  );
+                })}
+              </div>
 
               {/* On desktop the cooldown panel lives in the sidebar. */}
               <TravelPanel hotspots={HOTSPOTS} travel={travel} onChange={setTravel} now={now} className="lg:hidden" />
@@ -245,7 +301,7 @@ export default function App() {
                             key={scored.hotspot.id}
                             scored={scored}
                             rank={rank}
-                            now={now}
+                            now={effectiveNow}
                             pinned={pinned.has(scored.hotspot.id)}
                             onToggleFavorite={toggleFavorite}
                           />
@@ -266,7 +322,7 @@ export default function App() {
                               key={scored.hotspot.id}
                               scored={scored}
                               rank={rank}
-                              now={now}
+                              now={effectiveNow}
                               pinned={pinned.has(scored.hotspot.id)}
                               onToggleFavorite={toggleFavorite}
                             />
@@ -279,7 +335,7 @@ export default function App() {
 
                 {tab === 'route' && (
                   <div className="space-y-10">
-                    <RoutePlanner ranked={ranked} now={now} travel={travel} calendar={calendar} />
+                    <RoutePlanner ranked={ranked} now={effectiveNow} travel={travel} calendar={calendar} />
                     <AdBanner
                       slot={CONFIG.adsense.slots.inFeed}
                       variant="in-feed"
@@ -350,8 +406,8 @@ export default function App() {
       <StickyAnchorAd />
       <SupportNote />
       <InstallNote />
+      <ProDialog open={proOpen} onClose={() => setProOpen(false)} />
       </ReportProvider>
     </ToastProvider>
-    </ProProvider>
   );
 }

@@ -1,6 +1,9 @@
 import { useId, useState } from 'react';
+import { Bookmark, X } from 'lucide-react';
 import type { Hotspot, TravelState } from '../types';
 import { secondsUntilFullyFree } from '../lib/scoring';
+import { addPreset, readPresets, removePreset, writePresets, type TravelPreset } from '../lib/presets';
+import { usePro } from '../hooks/usePro';
 import { useI18n } from '../i18n';
 
 interface Props {
@@ -33,11 +36,13 @@ function parseCoords(text: string): { lat: number; lng: number } | null {
  */
 export function TravelPanel({ hotspots, travel, onChange, now, className = '' }: Props) {
   const { t, dur } = useI18n();
+  const { isPro } = usePro();
   const uid = useId();
   const firstSpot = hotspots[0];
   const [customText, setCustomText] = useState('');
   const [customError, setCustomError] = useState<string | null>(null);
   const [pickingCustom, setPickingCustom] = useState(false);
+  const [presets, setPresets] = useState<TravelPreset[]>(() => readPresets());
 
   const setMode = (mode: TravelState['mode']) => {
     if (mode === 'free') return onChange({ mode: 'free' });
@@ -161,6 +166,52 @@ export function TravelPanel({ hotspots, travel, onChange, now, className = '' }:
                 )
               : t.travel.allReady}
           </p>
+
+          {isPro && (
+            <div className="flex flex-wrap items-center gap-2 @lg:col-span-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const label = active.origin.label === 'your last spot'
+                    ? `${active.origin.lat.toFixed(2)}, ${active.origin.lng.toFixed(2)}`
+                    : active.origin.label;
+                  const next = addPreset(presets, { label, lat: active.origin.lat, lng: active.origin.lng });
+                  writePresets(next);
+                  setPresets(next);
+                }}
+                className="inline-flex h-8 items-center gap-1 rounded-full px-2.5 text-xs font-medium text-gold ring-1 ring-gold/40 hover:ring-gold"
+              >
+                <Bookmark className="size-3" aria-hidden />
+                {t.proFeatures.savePreset}
+              </button>
+              {presets.map((p) => (
+                <span key={p.id} className="inline-flex h-8 items-center rounded-full bg-deck pl-2.5 pr-1 text-xs text-ink ring-1 ring-rule">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPickingCustom(false);
+                      onChange({ ...active, origin: { lat: p.lat, lng: p.lng, label: p.label } });
+                    }}
+                    className="hover:text-gold"
+                  >
+                    {p.label}
+                  </button>
+                  <button
+                    type="button"
+                    aria-label={p.label}
+                    onClick={() => {
+                      const next = removePreset(presets, p.id);
+                      writePresets(next);
+                      setPresets(next);
+                    }}
+                    className="ml-1 grid size-5 place-items-center rounded-full text-dim hover:text-ink"
+                  >
+                    <X className="size-3" aria-hidden />
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
 
           {travel.mode === 'softban' && (
             <div className="rounded-md bg-hot/10 p-3 text-sm text-ink ring-1 ring-hot/40 @lg:col-span-2">

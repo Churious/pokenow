@@ -265,4 +265,18 @@ export const ptBR: Messages = {
       notConfigured: 'Servidor de licenças ainda não configurado.',
     },
   },
+  proFeatures: {
+    alertsOn: 'Alertas ativos',
+    alertsOff: 'Alertas',
+    alertsDenied: 'Notificações bloqueadas no navegador',
+    cooldownDoneTitle: 'PokeNow: Cooldown concluído',
+    cooldownDoneBody: 'Você já pode jogar no seu destino.',
+    goldenSoonTitle: (city) => `${city}: Hora dourada em <10 min`,
+    goldenSoonBody: 'As 18:00 locais estão prestes a começar.',
+    timeShift: 'Prévia futura',
+    timeShiftNow: 'Agora',
+    timeShiftPlus: (h) => `+${h}h`,
+    savePreset: 'Salvar local',
+    presetsLabel: 'Locais salvos',
+  },
 };

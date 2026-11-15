@@ -265,4 +265,18 @@ export const de: Messages = {
       notConfigured: 'Lizenzserver ist noch nicht eingerichtet.',
     },
   },
+  proFeatures: {
+    alertsOn: 'Alarme an',
+    alertsOff: 'Alarme',
+    alertsDenied: 'Browser-Benachrichtigungen blockiert',
+    cooldownDoneTitle: 'PokeNow: Cooldown beendet',
+    cooldownDoneBody: 'Du bist bereit für deinen Ziel-Spot.',
+    goldenSoonTitle: (city) => `${city}: Golden Hour in <10 Min`,
+    goldenSoonBody: '18:00 Ortszeit beginnt gleich.',
+    timeShift: 'Zeitvorschau',
+    timeShiftNow: 'Live',
+    timeShiftPlus: (h) => `+${h}h`,
+    savePreset: 'Preset speichern',
+    presetsLabel: 'Gespeicherte Orte',
+  },
 };

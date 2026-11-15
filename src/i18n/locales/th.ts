@@ -266,4 +266,18 @@ export const th: Messages = {
       notConfigured: 'ยังไม่ได้ตั้งค่าเซิร์ฟเวอร์ลิขสิทธิ์',
     },
   },
+  proFeatures: {
+    alertsOn: 'เปิดแจ้งเตือนแล้ว',
+    alertsOff: 'แจ้งเตือน',
+    alertsDenied: 'เบราว์เซอร์บล็อกการแจ้งเตือนไว้',
+    cooldownDoneTitle: 'PokeNow: คูลดาวน์ครบแล้ว',
+    cooldownDoneBody: 'พร้อมเล่นที่จุดหมายของคุณแล้ว',
+    goldenSoonTitle: (city) => `${city}: Golden Hour ในอีก <10 นาที`,
+    goldenSoonBody: 'เวลาท้องถิ่น 18:00 กำลังจะเริ่มขึ้น',
+    timeShift: 'ดูเวลาล่วงหน้า',
+    timeShiftNow: 'ตอนนี้',
+    timeShiftPlus: (h) => `+${h}ชม.`,
+    savePreset: 'บันทึกจุดเริ่มต้น',
+    presetsLabel: 'จุดที่บันทึกไว้',
+  },
 };

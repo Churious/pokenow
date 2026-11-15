@@ -264,4 +264,18 @@ export const ko: Messages = {
       notConfigured: '라이선스 서버가 아직 설정되지 않았습니다.',
     },
   },
+  proFeatures: {
+    alertsOn: '알림 켜짐',
+    alertsOff: '알림',
+    alertsDenied: '브라우저 알림이 차단되었습니다',
+    cooldownDoneTitle: 'PokeNow: 쿨다운 완료',
+    cooldownDoneBody: '이제 다음 성지에서 바로 플레이할 수 있습니다.',
+    goldenSoonTitle: (city) => `${city}: 18시 골든 아워 10분 전`,
+    goldenSoonBody: '잠시 후 현지 18:00 집중 시간이 시작됩니다.',
+    timeShift: '타임 시프트',
+    timeShiftNow: '실시간',
+    timeShiftPlus: (h) => `+${h}시간`,
+    savePreset: '프리셋 저장',
+    presetsLabel: '저장된 거점',
+  },
 };

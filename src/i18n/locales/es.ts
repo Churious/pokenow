@@ -265,4 +265,18 @@ export const es: Messages = {
       notConfigured: 'El servidor de licencias aún no está configurado.',
     },
   },
+  proFeatures: {
+    alertsOn: 'Alertas activas',
+    alertsOff: 'Alertas',
+    alertsDenied: 'Notificaciones bloqueadas en el navegador',
+    cooldownDoneTitle: 'PokeNow: Cooldown completado',
+    cooldownDoneBody: 'Ya puedes jugar en tu destino.',
+    goldenSoonTitle: (city) => `${city}: Hora dorada en <10 min`,
+    goldenSoonBody: 'Las 18:00 locales están por comenzar.',
+    timeShift: 'Vista futura',
+    timeShiftNow: 'En vivo',
+    timeShiftPlus: (h) => `+${h}h`,
+    savePreset: 'Guardar lugar',
+    presetsLabel: 'Lugares guardados',
+  },
 };

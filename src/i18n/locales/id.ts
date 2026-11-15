@@ -266,4 +266,18 @@ export const id: Messages = {
       notConfigured: 'Server lisensi belum dikonfigurasi.',
     },
   },
+  proFeatures: {
+    alertsOn: 'Notifikasi aktif',
+    alertsOff: 'Notifikasi',
+    alertsDenied: 'Notifikasi browser diblokir',
+    cooldownDoneTitle: 'PokeNow: Cooldown selesai',
+    cooldownDoneBody: 'Anda siap bermain di lokasi tujuan.',
+    goldenSoonTitle: (city) => `${city}: Golden Hour <10 mnt lagi`,
+    goldenSoonBody: 'Pukul 18:00 waktu setempat segera dimulai.',
+    timeShift: 'Pratinjau waktu',
+    timeShiftNow: 'Langsung',
+    timeShiftPlus: (h) => `+${h}j`,
+    savePreset: 'Simpan preset',
+    presetsLabel: 'Lokasi tersimpan',
+  },
 };
